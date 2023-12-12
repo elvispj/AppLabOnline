@@ -1,0 +1,163 @@
+<div class="container">
+    <h1 class="my-5">Formulario de alta orden de estudio </h1>
+    <h6>
+        <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Seleccionar estudios
+        </a>
+    </h6>
+    
+    <div class="collapse" id="collapseExample">
+        <div class="row">
+            <hr>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            Lista de estudios
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <li *ngFor="let item of estudios; index as i">
+                            <input type="checkbox" [(ngModel)]="estudios[i].estudioid" checked="false" > {{item.estudionombre}}
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            Lista de estudios
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        body del card
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            Lista de estudios
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        body del card
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--*****************************-->
+        <!--*****************************-->
+        <!--
+
+    <div class="col-md-4">
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Lista de estudios
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="list-group" *ngFor="let item of estudios; index as i">
+            <label class="list-group-item">
+              <input class="form-check-input me-1" type="checkbox" [(ngModel)]="estudios[i].estudioid">
+              {{item.estudionombre}}
+            </label>
+        </div>
+        -->
+
+        <!--
+
+        <ul>
+            <li *ngFor="let item of estudios; index as i">
+                <input type="checkbox" [(ngModel)]="estudios[i].estudioid" checked="false" > {{item.estudionombre}}
+            </li>
+        </ul>
+
+        -->
+    <hr>
+    <form (ngSubmit)="altaOrdenEstudio()">
+        <div class="mb-3">
+            <label for="ordennombre" class="form-label">Nombre Paciente</label>
+            <input type="text" class="form-control" id="ordennombre" name="ordennombre" [(ngModel)]="ordenes.ordennombre">
+        </div>
+        <div class="mb-3">
+            <label for="ordenedad" class="form-label">Edad</label>
+            <input type="number" class="form-control" id="ordenedad" name="ordenedad" [(ngModel)]="ordenes.ordenedad">
+        </div>
+        <div class="mb-3">
+            <label for="ordentelefono" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="ordentelefono" name="ordentelefono" [(ngModel)]="ordenes.ordentelefono">
+        </div>
+        <div class="mb-3">
+            <label for="ordendireccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="ordendireccion" name="ordendireccion" [(ngModel)]="ordenes.ordendireccion">
+        </div>
+        <div class="mb-3">
+            <label for="ordenformaentrega" class="form-label">Forma de entrega</label>
+            <select class="form-select" id="ordenformaentrega" name="ordenformaentrega"  [(ngModel)]="ordenes.ordenformaentrega">
+                <option value="impreso">Impreso</option>
+                <option value="whatsapp">Whatsapp</option>
+                <option value="correo">Correo</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="ordencomoubico" class="form-label">Como nos ubico</label>
+            <input type="text" class="form-control" id="ordencomoubico" name="ordencomoubico" [(ngModel)]="ordenes.ordencomoubico">
+        </div>
+        <div class="mb-3">
+            <label for="ordenorigen" class="form-label">Origen</label>
+            <input type="text" class="form-control" id="ordenorigen" name="ordenorigen" [(ngModel)]="ordenes.ordenorigen">
+        </div>
+        <div class="mb-3">
+            <label for="ordendatosclinicos" class="form-label">Datos clinicos</label>
+            <textarea class="form-control" id="ordendatosclinicos" name="ordendatosclinicos" [(ngModel)]="ordenes.ordendatosclinicos" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="ordenimporte" class="form-label">Importe</label>
+            <input type="number" class="form-control" id="ordenimporte" name="ordenimporte" [(ngModel)]="ordenes.ordenimporte">
+        </div>
+        <div class="mb-3">
+            <label for="ordenimporteiva" class="form-label">Importe IVA</label>
+            <input type="number" class="form-control" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="ordenes.ordenimporteiva">
+        </div>
+        <div class="mb-3">
+            <label for="ordendescuento" class="form-label">Descuento</label>
+            <input type="number" class="form-control" id="ordendescuento" name="ordendescuento" [(ngModel)]="ordenes.ordendescuento">
+        </div>
+        <div class="mb-3">
+            <label for="ordenimportedescuento" class="form-label">Importe con descuento</label>
+            <input type="number" class="form-control" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="ordenes.ordenimportedescuento">
+        </div>
+        <div class="mb-3">
+            <label for="ordenimportetotal" class="form-label">Importe total</label>
+            <input type="number" class="form-control" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="ordenes.ordenimportetotal">
+        </div>
+        <div class="mb-3">
+            <label for="ordenformapago" class="form-label">Forma de pago</label>
+            <select class="form-select" id="ordenformapago" name="ordenformapago" [(ngModel)]="ordenes.ordenformapago">
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="ordencomentarios" class="form-label">Comentarios</label>
+            <textarea class="form-control" id="ordencomentarios" name="ordencomentarios" [(ngModel)]="ordenes.ordencomentarios" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+    </form>
+</div>
