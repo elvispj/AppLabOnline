@@ -19,7 +19,7 @@ export class OrdenesComponent implements OnInit {
   ordenes: Ordenes = new Ordenes();
   estudios: Estudios[] = [];
   tiposestudios: Tipoestudios[] = [];
-  //formulario: FormGroup;
+  //formulario: FormGroup; 
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 

@@ -1,12 +1,14 @@
 <div class="container">
     <h1 class="my-5">Formulario de alta orden de estudio </h1>
+
+    <!--
     <h6>
         <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             Seleccionar estudios
         </a>
     </h6>
     
-    <div class="collapse" id="collapseExample">
+    <div class="collapse" id="collapseExample"> 
         <div class="row">
             <hr>
             <div class="col-md-4">
@@ -49,7 +51,7 @@
             </div>
         </div>
     </div>
-        <!--*****************************-->
+        *****************************-->
         <!--*****************************-->
         <!--
 
@@ -88,6 +90,30 @@
         </ul>
 
         -->
+
+
+    
+        <div class="row" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Lista estudios
+                          </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body"> 
+                                <section class="results"> 
+                                    <app-view-estudios *ngFor="let tipoestudio of tiposestudios" [tipoestudio]="tipoestudio" [listaEstudios]="estudios"></app-view-estudios>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
     <hr>
     <form (ngSubmit)="altaOrdenEstudio()">
         <div class="mb-3">

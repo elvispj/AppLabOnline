@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EstudiosComponent } from './components/estudios/estudios.component';
 import { OrdenesComponent } from './components/ordenes/ordenes.component';
 import { InventarioComponent } from './components/inventario/inventario.component';
+import { ViewEstudiosComponent } from './components/view-estudios/view-estudios.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent },
@@ -25,7 +26,8 @@ const routes: Routes =[
     DashboardComponent,
     EstudiosComponent,
     OrdenesComponent,
-    InventarioComponent
+    InventarioComponent,
+    ViewEstudiosComponent
   ],
   imports: [
     BrowserModule,
