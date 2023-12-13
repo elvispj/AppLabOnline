@@ -1,3 +1,5 @@
+import { Estudios } from "./Estudios";
+
 export class Ordenes
 {
 	public ordenid: number=-1;
@@ -23,4 +25,5 @@ export class Ordenes
 	public ordencomoubico: string='';
 	public ordendatosclinicos: string='';
 	public ordenformapago:string='';
+	public estudios?: Estudios[];
 }

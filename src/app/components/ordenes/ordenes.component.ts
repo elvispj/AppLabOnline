@@ -8,6 +8,8 @@ import { EstudiosService } from 'src/app/services/estudios.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
+import { Doctores } from 'src/app/entity/Doctores';
+import { DoctoresService } from 'src/app/services/doctores.service';
 
 @Component({
   selector: 'app-ordenes',
@@ -19,37 +21,29 @@ export class OrdenesComponent implements OnInit {
   ordenes: Ordenes = new Ordenes();
   estudios: Estudios[] = [];
   tiposestudios: Tipoestudios[] = [];
-  //formulario: FormGroup; 
+  listaDoctores: Doctores[] = [];
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
     private estudiosService: EstudiosService,
-    private tipoestudiosService: TipoestudiosService){}
+    private tipoestudiosService: TipoestudiosService,
+    private doctoresService: DoctoresService){}
 
   ngOnInit(): void {
     this.estudiosService.getEstudios().subscribe(
-      res=>this.procesarListaEstudios(res)
+      res=>this.estudios=res
     )
-    console.log("Ya solicito info "+this.estudios.length);
+    console.log("Ya solicito lista de estudios "+this.estudios.length);
     
     this.tipoestudiosService.getAll().subscribe(
       res=>this.tiposestudios=res
     )
-    console.log("Ya solicito tiposestudios "+this.tiposestudios.length);
-      /*this.formulario = new FormGroup({
-        'nombre': new FormControl('', Validators.required),
-        'email': new FormControl('', [Validators.required, Validators.email]),
-        'direcciones': new FormArray([])
-      });*/
-  }
+    console.log("Ya solicito lista de tiposestudios "+this.tiposestudios.length);
 
-  procesarListaEstudios(lista:Estudios[]){
-    this.estudios=lista;
-    for(let i=0; i<lista.length; i++){
-      if(lista[i].tipoestudioid>0){
-
-      }
-    }
+    this.doctoresService.getAll().subscribe(
+      res=>this.listaDoctores = res
+    );
+    console.log("Ya solicito lista de doctores "+this.listaDoctores.length);
   }
 
   altaOrdenEstudio(){
@@ -60,6 +54,28 @@ export class OrdenesComponent implements OnInit {
       },
       err => console.error(err)
     )
+  }
+
+  procesarListaEstudios(lista:Estudios[]){
+    console.log("Procesa la lista de alumnos "+lista.length);
+    this.estudios=lista;
+    for(let i=0; i<this.estudios.length; i++){
+      if(this.estudios[i].tipoestudioid>0){
+        let tipoestudio: Tipoestudios = new Tipoestudios(this.estudios[i].tipoestudioid, 
+          true, '', '', null, null, -1);
+        this.addListTipoEstudio(tipoestudio);
+      }
+    }
+  }
+
+  addListTipoEstudio(tipoestudio:Tipoestudios){
+    for(let i=0; i<this.tiposestudios.length; i++){
+      if(this.tiposestudios[i].tipoestudioid==tipoestudio.tipoestudioid){
+        return false;
+      }
+    }
+    this.tiposestudios.push(tipoestudio);
+    return true;
   }
 }
  

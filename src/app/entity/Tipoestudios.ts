@@ -4,11 +4,11 @@ export class Tipoestudios
 	public tipoestudioactivo: boolean;
 	public tipoestudionombre: string;
 	public tipoestudiodescripcion: string;
-	public tipoestudiofechacreacion: Date;
-	public tipoestudiofechamodificacion: Date;
+	public tipoestudiofechacreacion: Date| null;
+	public tipoestudiofechamodificacion: Date| null;
 	public bitacoraid: number;
 
-	constructor (tipoestudioid_: number,tipoestudioactivo_: boolean,tipoestudionombre_: string,tipoestudiodescripcion_: string,tipoestudiofechacreacion_: Date,tipoestudiofechamodificacion_: Date,bitacoraid_: number)
+	constructor (tipoestudioid_: number,tipoestudioactivo_: boolean,tipoestudionombre_: string,tipoestudiodescripcion_: string,tipoestudiofechacreacion_: Date| null,tipoestudiofechamodificacion_: Date| null,bitacoraid_: number)
 	{
 		this.tipoestudioid = tipoestudioid_;
 		this.tipoestudioactivo = tipoestudioactivo_;
