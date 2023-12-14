@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Estudios } from '../entity/Estudios';
-import { Constantes } from '../entity/Constantes';
+import { Constantes } from '../utils/Constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,12 @@ export class EstudiosService {
   private httpheaders = new HttpHeaders();
 
   constructor(private http: HttpClient) { }
+
+  getAll(): Observable<Estudios[]>{
+    let serviceName='all';
+    console.log("Request list "+this.URL+"/"+serviceName);
+    return this.http.get<Estudios[]>(`${this.URL}/${serviceName}/`);
+  }
 
   getEstudios(): Observable<Estudios[]>{
     let params = new HttpParams();

@@ -30,8 +30,12 @@ export class OrdenesComponent implements OnInit {
     private doctoresService: DoctoresService){}
 
   ngOnInit(): void {
-    this.estudiosService.getEstudios().subscribe(
-      res=>this.estudios=res
+    this.estudiosService.getAll().subscribe(
+      res=>{
+        this.estudios=res,
+        console.log("Tamanio de la lista "+this.estudios.length),
+        console.log("Tamanio de la lista "+res.length)
+      }
     )
     console.log("Ya solicito lista de estudios "+this.estudios.length);
     

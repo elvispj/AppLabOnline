@@ -11,11 +11,11 @@ import { Tipoestudios } from 'src/app/entity/Tipoestudios';
       <p class="card-text">{{ tipoestudio.tipoestudioid}}, {{tipoestudio.tipoestudionombre }}</p>
 
       <ng-container *ngFor="let estudio of listaEstudios">
-        <ng-container *ngIf="tipoestudio.tipoestudioid==estudio.estudioid">
+        <ng-container *ngIf="tipoestudio.tipoestudioid==estudio.tipoestudioid">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" [checked]="false">
-            <label class="form-check-label" for="defaultCheck1">
-              {{estudio.estudioid}} {{estudio.estudionombre}}
+            <input class="form-check-input" name="estudioid" id="defaultCheck_{{estudio.estudioid}}" type="checkbox" [checked]="false">
+            <label class="form-check-label" for="defaultCheck_{{estudio.estudioid}}">
+              {{estudio.estudionombre}}
             </label>
           </div>
         </ng-container>

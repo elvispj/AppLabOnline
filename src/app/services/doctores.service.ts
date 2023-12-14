@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Constantes } from '../entity/Constantes';
+import { Constantes } from '../utils/Constantes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Doctores } from '../entity/Doctores';
 import { Observable } from 'rxjs';
