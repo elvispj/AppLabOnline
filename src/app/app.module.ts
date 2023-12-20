@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -10,9 +10,11 @@ import { EstudiosComponent } from './components/estudios/estudios.component';
 import { OrdenesComponent } from './components/ordenes/ordenes.component';
 import { InventarioComponent } from './components/inventario/inventario.component';
 import { ViewEstudiosComponent } from './components/view-estudios/view-estudios.component';
+import { AuthInterceptor } from './helpers/auth.interceptor';
+import { authGuard } from './helpers/auth.guard';
 
 const routes: Routes =[
-  { path: '', component:DashboardComponent },
+  { path: '', component:DashboardComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'estudios', component: EstudiosComponent },
   { path: 'inventario', component: InventarioComponent },
@@ -35,7 +37,9 @@ const routes: Routes =[
     RouterModule.forRoot(routes),
     FormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
