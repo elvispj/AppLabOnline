@@ -12,6 +12,7 @@ import { InventarioComponent } from './components/inventario/inventario.componen
 import { ViewEstudiosComponent } from './components/view-estudios/view-estudios.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { authGuard } from './helpers/auth.guard';
+import { NavComponent } from './components/nav/nav.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
@@ -29,7 +30,8 @@ const routes: Routes =[
     EstudiosComponent,
     OrdenesComponent,
     InventarioComponent,
-    ViewEstudiosComponent
+    ViewEstudiosComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
