@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent {
   creds: Credentials={
-    email:"",
+    username:"",
     password:""
   };
 
