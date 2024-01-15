@@ -14,16 +14,22 @@ export class OrdenesService {
 
   constructor(private http: HttpClient) { }
 
-  getAlumnos(): Observable<Ordenes[]>{
-    return this.http.get<Ordenes[]>(`${this.URL}/list`);
+  getOrdenes(): Observable<Ordenes[]>{
+    let serviceName='list';
+    console.log("Request  "+this.URL+"/"+serviceName);
+    return this.http.get<Ordenes[]>(`${this.URL}/${serviceName}/`);
   }
 
-  getAlumno(id:number): Observable<Ordenes>{
-    return this.http.get<Ordenes>(`${this.URL}/search/${id}`);
+  getOrden(id:number): Observable<Ordenes>{
+    let serviceName='search';
+    console.log("Request  "+this.URL+"/"+serviceName);
+    return this.http.get<Ordenes>(`${this.URL}/${serviceName}/${id}`);
   }
 
-  saveAlumno(ordenes:Ordenes) : Observable<Ordenes>{
-    return this.http.post<Ordenes>(`${this.URL}/save`, ordenes, {headers : this.httpheaders});
+  saveOrden(ordenes:Ordenes) : Observable<Ordenes>{
+    let serviceName='save';
+    console.log("Request  "+this.URL+"/"+serviceName);
+    return this.http.post<Ordenes>(`${this.URL}/${serviceName}`, ordenes, {headers : this.httpheaders});
   }
 
 }

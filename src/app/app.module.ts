@@ -13,6 +13,7 @@ import { ViewEstudiosComponent } from './components/view-estudios/view-estudios.
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { authGuard } from './helpers/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
+import { DataTablesModule } from "angular-datatables";
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
@@ -37,7 +38,8 @@ const routes: Routes =[
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true

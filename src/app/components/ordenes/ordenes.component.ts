@@ -52,7 +52,7 @@ export class OrdenesComponent implements OnInit {
 
   altaOrdenEstudio(){
     console.log("Llego >>"+this.ordenes.ordennombre);
-    this.ordenesService.saveAlumno(this.ordenes).subscribe(
+    this.ordenesService.saveOrden(this.ordenes).subscribe(
       res => {
         console.log(res)
       },
