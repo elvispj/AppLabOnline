@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Credentials } from 'src/app/entity/Credentials';
 import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,10 @@ export class LoginComponent {
     this.loginService.login(this.creds).subscribe(
       response => {
         this.router.navigate(['/']);
+      },
+      err =>{
+        console.log("Error en login "+err),
+        Swal.fire('Login faile',` El usuario o contraseña es incorrecto`, 'error')
       }
     )
   }

@@ -13,25 +13,35 @@ export class LoginService {
   constructor(private http:HttpClient) { }
 
   login(creds: Credentials){
+    console.log(">> "+JSON.stringify(creds));
     let serviceName='login';
     console.log("Request login "+this.URL+"/"+serviceName);
     
-    return this.http.post(`${this.URL}/${serviceName}`, creds, {
+    return this.http.post<any>(`${this.URL}/${serviceName}`, creds, {
       observe: 'response'
     }).pipe(map((response: HttpResponse<any>) => {
         const body = response.body;
         const headers = response.headers;
 
-        const bearerToken = headers.get('Automatizacion')!;
-        const token = bearerToken;// bearerToken.replace('Bearer', '');
+        console.log("Respuesta headers >> "+JSON.stringify(headers));
+        console.log("Respuesta body >> "+JSON.stringify(body));
 
-        localStorage.setItem('token', token);
+        const bearerToken = body.token;
+        if(bearerToken!=null){
+          const token = bearerToken.replace('Bearer', '');
 
+          sessionStorage.setItem("token", token);
+        }
         return body;
       }))
   }
 
   getToken(){
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
+
+  logout():void{
+    sessionStorage.removeItem("token");
+  }
+
 }
