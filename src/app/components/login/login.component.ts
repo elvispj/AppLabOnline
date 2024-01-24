@@ -28,7 +28,7 @@ export class LoginComponent {
       },
       err =>{
         console.log("Error en login "+err),
-        Swal.fire('Login faile',` El usuario o contraseña es incorrecto`, 'error')
+        Swal.fire('Login failed',` El usuario o contraseña es incorrecto`, 'error')
       }
     )
   }

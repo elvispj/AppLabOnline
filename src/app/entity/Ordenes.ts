@@ -8,6 +8,7 @@ export class Ordenes
 	public clienteid: number=-1;
 	public ordennombre: string='';
 	public ordenedad: number=-1;
+	public ordensexo: string='';
 	public ordentelefono: string='';
 	public ordendireccion: string='';
 	public ordenformaentrega: string='';

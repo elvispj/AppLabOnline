@@ -19,8 +19,8 @@ const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'estudios', component: EstudiosComponent, canActivate: [authGuard] },
-  { path: 'inventario', component: InventarioComponent },
-  { path: 'ordenes', component: OrdenesComponent },
+  { path: 'inventario', component: InventarioComponent, canActivate: [authGuard] },
+  { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

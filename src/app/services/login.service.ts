@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { Credentials } from '../entity/Credentials';
 import { Constantes } from '../utils/Constantes';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Constantes } from '../utils/Constantes';
 export class LoginService {
   URL: string = Constantes.URL_JWT_API();
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router:Router) { }
 
   login(creds: Credentials){
     console.log(">> "+JSON.stringify(creds));
@@ -42,6 +43,7 @@ export class LoginService {
 
   logout():void{
     sessionStorage.removeItem("token");
+    this.router.navigate(['/login']);
   }
 
 }

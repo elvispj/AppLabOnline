@@ -22,6 +22,9 @@ export class OrdenesComponent implements OnInit {
   estudios: Estudios[] = [];
   tiposestudios: Tipoestudios[] = [];
   listaDoctores: Doctores[] = [];
+  listaFormasEntrega: string[]=["Impreso","Whatsapp","Correo"];
+  listaComoUbico: string[]=["Solo","Clinica","Volantes","Facebook","Perifoneo"];
+  listaOrigen: string[]=["Laboratorio","Clinica","Referido"];
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
