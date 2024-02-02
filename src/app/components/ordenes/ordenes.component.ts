@@ -5,7 +5,7 @@ import { OrdenesService } from 'src/app/services/ordenes.service';
 import { createNgModule } from '@angular/core';
 import { Estudios } from 'src/app/entity/Estudios';
 import { EstudiosService } from 'src/app/services/estudios.service';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
 import { Doctores } from 'src/app/entity/Doctores';
@@ -51,6 +51,16 @@ export class OrdenesComponent implements OnInit {
       res=>this.listaDoctores = res
     );
     console.log("Ya solicito lista de doctores "+this.listaDoctores.length);
+  }
+  
+  onCategoriaPressed(newestudio: Estudios, isChecked: boolean) {
+    if (isChecked) {
+      this.ordenes.estudios.push(newestudio);
+    } else {
+      const index = this.ordenes.estudios.findIndex((estudio) => estudio.estudioid=newestudio.estudioid);
+      delete this.ordenes.estudios[index];
+    }
+    console.log("Lista actual estudios:" + this.ordenes.estudios as string);
   }
 
   altaOrdenEstudio(){
