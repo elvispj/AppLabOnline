@@ -14,6 +14,7 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
 import { authGuard } from './helpers/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
 import { DataTablesModule } from "angular-datatables";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
@@ -39,7 +40,8 @@ const routes: Routes =[
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgbModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true

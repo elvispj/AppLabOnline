@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ordenes } from 'src/app/entity/Ordenes';
 import { OrdenesService } from 'src/app/services/ordenes.service';
-import { createNgModule } from '@angular/core';
 import { Estudios } from 'src/app/entity/Estudios';
 import { EstudiosService } from 'src/app/services/estudios.service';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
 import { Doctores } from 'src/app/entity/Doctores';
 import { DoctoresService } from 'src/app/services/doctores.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ordenes',
@@ -17,7 +16,7 @@ import { DoctoresService } from 'src/app/services/doctores.service';
   styleUrls: ['./ordenes.component.css']
 })
 export class OrdenesComponent implements OnInit {
-
+  active = 1;
   ordenes: Ordenes = new Ordenes();
   estudios: Estudios[] = [];
   tiposestudios: Tipoestudios[] = [];
@@ -25,6 +24,8 @@ export class OrdenesComponent implements OnInit {
   listaFormasEntrega: string[]=["Impreso","Whatsapp","Correo"];
   listaComoUbico: string[]=["Solo","Clinica","Volantes","Facebook","Perifoneo"];
   listaOrigen: string[]=["Laboratorio","Clinica","Referido"];
+  listaOrdenes: Ordenes[]=[];
+  dtOptions: DataTables.Settings = {};
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
@@ -32,25 +33,51 @@ export class OrdenesComponent implements OnInit {
     private tipoestudiosService: TipoestudiosService,
     private doctoresService: DoctoresService){}
 
+
   ngOnInit(): void {
+    this.doCargaOrdenes();
+
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      pageLength: 5,
+      processing: true,
+      lengthMenu: [5 ,10, 25],
+      responsive: true
+    };
+    
     this.estudiosService.getAll().subscribe(
-      res=>{
-        this.estudios=res,
-        console.log("Tamanio de la lista "+this.estudios.length),
-        console.log("Tamanio de la lista "+res.length)
-      }
-    )
-    console.log("Ya solicito lista de estudios "+this.estudios.length);
+      res=>this.estudios=res
+    );
     
     this.tipoestudiosService.getAll().subscribe(
       res=>this.tiposestudios=res
-    )
-    console.log("Ya solicito lista de tiposestudios "+this.tiposestudios.length);
+    );
 
     this.doctoresService.getAll().subscribe(
       res=>this.listaDoctores = res
     );
-    console.log("Ya solicito lista de doctores "+this.listaDoctores.length);
+  }
+
+  doCargaOrdenes(){
+    this.ordenesService.getOrdenes().subscribe(
+      (res) => this.listaOrdenes = res
+    );
+  }
+
+  addEstudio(addEst:Estudios): void{
+    console.log("Add>> "+addEst.estudioid);
+    this.ordenes.estudios.push(addEst);
+    console.log("\t**** Lista completa >> \n"+JSON.stringify(this.ordenes.estudios));
+  }
+
+  delEstudio(delEst: Estudios): void{
+    console.log("Del>> "+delEst.estudioid);
+    const index = this.ordenes.estudios.findIndex((sarchEstudio) => sarchEstudio.estudioid=delEst.estudioid);
+    console.log("index >> "+index)
+      delete this.ordenes.estudios[index];
+      console.log("Estudio retirado");
+    
+    console.log("\t**** Lista completa >> \n"+JSON.stringify(this.ordenes.estudios));
   }
   
   onCategoriaPressed(newestudio: Estudios, isChecked: boolean) {
