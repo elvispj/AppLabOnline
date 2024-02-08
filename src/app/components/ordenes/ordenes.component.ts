@@ -9,6 +9,8 @@ import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
 import { Doctores } from 'src/app/entity/Doctores';
 import { DoctoresService } from 'src/app/services/doctores.service';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
+import { Ordendetalle } from 'src/app/entity/Ordendetalle';
 
 @Component({
   selector: 'app-ordenes',
@@ -35,7 +37,9 @@ export class OrdenesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.doCargaOrdenes();
+    this.ordenesService.getOrdenes().subscribe(
+      (res) => this.listaOrdenes = res
+    );
 
     this.dtOptions = {
       pagingType: "full_numbers",
@@ -58,46 +62,28 @@ export class OrdenesComponent implements OnInit {
     );
   }
 
-  doCargaOrdenes(){
-    this.ordenesService.getOrdenes().subscribe(
-      (res) => this.listaOrdenes = res
-    );
+  addEstudio(addOrdendetalle: Ordendetalle): void{
+    this.ordenes.ordenesdetalle.push(addOrdendetalle);
   }
 
-  addEstudio(addEst:Estudios): void{
-    console.log("Add>> "+addEst.estudioid);
-    this.ordenes.estudios.push(addEst);
-    console.log("\t**** Lista completa >> \n"+JSON.stringify(this.ordenes.estudios));
-  }
-
-  delEstudio(delEst: Estudios): void{
-    console.log("Del>> "+delEst.estudioid);
-    const index = this.ordenes.estudios.findIndex((sarchEstudio) => sarchEstudio.estudioid=delEst.estudioid);
-    console.log("index >> "+index)
-      delete this.ordenes.estudios[index];
-      console.log("Estudio retirado");
-    
-    console.log("\t**** Lista completa >> \n"+JSON.stringify(this.ordenes.estudios));
-  }
-  
-  onCategoriaPressed(newestudio: Estudios, isChecked: boolean) {
-    if (isChecked) {
-      this.ordenes.estudios.push(newestudio);
-    } else {
-      const index = this.ordenes.estudios.findIndex((estudio) => estudio.estudioid=newestudio.estudioid);
-      delete this.ordenes.estudios[index];
-    }
-    console.log("Lista actual estudios:" + this.ordenes.estudios as string);
+  delEstudio(delOrdentalle: Ordendetalle): void{
+    const index = this.ordenes.ordenesdetalle.findIndex((sarchEstudio) => sarchEstudio.estudioid===delOrdentalle.estudioid);
+    this.ordenes.ordenesdetalle.splice(index,1);
   }
 
   altaOrdenEstudio(){
-    console.log("Llego >>"+this.ordenes.ordennombre);
-    this.ordenesService.saveOrden(this.ordenes).subscribe(
-      res => {
-        console.log(res)
-      },
-      err => console.error(err)
-    )
+    console.log("Llego >>"+JSON.stringify(this.ordenes));
+    if(this.ordenes.ordenesdetalle==undefined || this.ordenes.ordenesdetalle==null || this.ordenes.ordenesdetalle.length<1){
+      Swal.fire('Alta de Orden',`No se logro dar de alta la orden porque no se selecciono ningun estudio.`, 'error')
+      return;
+    }else{
+      this.ordenesService.saveOrden(this.ordenes).subscribe(
+        res => {
+          console.log(res)
+        },
+        err => console.error(err)
+      );
+    }
   }
 
   procesarListaEstudios(lista:Estudios[]){

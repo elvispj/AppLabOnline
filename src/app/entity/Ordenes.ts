@@ -1,4 +1,5 @@
 import { Estudios } from "./Estudios";
+import { Ordendetalle } from "./Ordendetalle";
 
 export class Ordenes
 {
@@ -26,5 +27,5 @@ export class Ordenes
 	public ordencomoubico: string='';
 	public ordendatosclinicos: string='';
 	public ordenformapago:string='';
-	public estudios: Estudios[]=[];
+	public ordenesdetalle: Ordendetalle[]=[];
 }

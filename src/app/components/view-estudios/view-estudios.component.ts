@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Estudios } from 'src/app/entity/Estudios';
+import { Ordendetalle } from 'src/app/entity/Ordendetalle';
 import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 
 @Component({
@@ -14,25 +15,24 @@ export class ViewEstudiosComponent {
   @Output() delEstudiosEmitter: EventEmitter<any> = new EventEmitter();
 
   changed(evt: any, estudio: Estudios) {
+    let ordenesdetalle:Ordendetalle={
+      ordendetalleid: -1,
+      ordenid: -1,
+      estudioid: estudio.estudioid,
+      ordendetalleactivo: true,
+      ordendetallecosto: estudio.estudiocosto,
+      ordendetalledescuento: 0.0,
+      ordendetallecostofinal: 0.0,
+      ordendetallefechacreacion: new Date(),
+      ordendetallefechamodificacion: new Date(),
+      bitacoraid: -1,
+    };
     if(evt.target.checked){
-      console.log("Se agrega el id-"+estudio.estudioid);
-      this.addEstudiosEmitter.emit(estudio);
+      console.log("Se agrega el id-"+ordenesdetalle.estudioid);
+      this.addEstudiosEmitter.emit(ordenesdetalle);
     }else{
-      console.log("Se retira el id-"+estudio.estudioid);
-      this.delEstudiosEmitter.emit(estudio);
+      console.log("Se retira el id-"+ordenesdetalle.estudioid);
+      this.delEstudiosEmitter.emit(ordenesdetalle);
     }
-   /* 
-   const index = this.listaEstudios.findIndex((estudio) => estudio.estudioid=estudioid);
-    console.log("El index es >> "+index+" del total de la lista "+this.listaEstudios.length);
-    let newE:Estudios=this.listaEstudios[index];
-    
-    if(evt.target.checked){
-      this.listEst.push(this.listaEstudios[index]);
-      alert('Agregado');
-    }else{
-      delete this.listEst[index];
-      alert('Eliminardo ');
-    }*/
-//    this.estudiosEmitter.emit(this.listEst);
   }
 }
