@@ -18,20 +18,27 @@ export class EstudiosService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Estudios[]>{
+  getAll(dataTablesParameters:any): Observable<any[]>{
     let serviceName='all';
     console.log("Request list "+this.URL+"/"+serviceName);
-    return this.http.get<Estudios[]>(`${this.URL}/${serviceName}/`);
+    return this.http.post<any[]>(`${this.URL}/${serviceName}/`, dataTablesParameters);
   }
 
-  getEstudios(): Observable<Estudios[]>{
+  getEstudios(limit:number, offset:number): Observable<Estudios[]>{
+    let serviceName='list';
     let params = new HttpParams();
 
     // Begin assigning parameters
-    params = params.append('limit', 20);
-    params = params.append('offset', 0);
-    console.log("Ya vino por la info");
+    params = params.append('limit', limit);
+    params = params.append('offset', offset);
 
-    return this.http.get<Estudios[]>(`${this.URL}/list`, { params: params });
+    return this.http.get<Estudios[]>(`${this.URL}/${serviceName}`, { params: params });
+  }
+
+  save(estudio: Estudios): Observable<Estudios>{
+    let serviceName='save';
+    console.log("Request list "+this.URL+"/"+serviceName);
+
+    return this.http.post<Estudios>(`${this.URL}/${serviceName}`, estudio);
   }
 }

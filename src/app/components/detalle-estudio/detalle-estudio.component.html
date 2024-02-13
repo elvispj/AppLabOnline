@@ -1,0 +1,49 @@
+<hr>
+<div class="card border-primary mb-3 w-50 mx-auto" >
+    <div class="card-header text-center">Detalle estudio</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Actualizar estudio</h5>
+        <form>
+            <div class="form-group">
+                <label for="estudioid" class="form-label">Estudio ID</label>
+                <input type="number" class="form-control" id="estudioid" name="estudioid" [(ngModel)]="estudio.estudioid" disabled>
+            </div>
+            <div class="form-group">
+                <label for="tipoestudioid" class="form-label">Tipo Estudio ID</label>
+                <input type="number" class="form-control" id="tipoestudioid" name="tipoestudioid" [(ngModel)]="estudio.tipoestudioid" disabled>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="estudioactivo" name="estudioactivo" 
+                (click)="updEstatus($event)" [(ngModel)]="estudio.estudioactivo">
+                <label class="form-check-label" for="estudiocheck">Estatus </label>
+            </div>
+            <div class="form-group">
+                <label for="estudionombre" class="form-label">Estudio Nombre</label>
+                <input type="text" class="form-control" id="estudionombre" name="estudionombre" [(ngModel)]="estudio.estudionombre">
+            </div>
+            <div class="form-group">
+                <label for="estudiodescripcion" class="form-label">Estudio Descripcion</label>
+                <textarea class="form-control" id="estudiodescripcion" name="estudiodescripcion" rows="3" [(ngModel)]="estudio.estudiodescripcion"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="estudionombrecorto" class="form-label">Estudio Nombre Corto</label>
+                <input type="text" class="form-control" id="estudionombrecorto" name="estudionombrecorto" [(ngModel)]="estudio.estudionombrecorto">
+            </div>
+            <div class="form-group">
+                <label for="estudiocosto" class="form-label">Estudio Costo</label>
+                <input type="number" class="form-control" id="estudiocosto" name="estudiocosto" [(ngModel)]="estudio.estudiocosto">
+            </div>
+            <br>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary" (click)="updateEstudio()">Actualizar</button>
+        <button type="button" class="btn btn-danger" (click)="Cerrar()">Cerrar</button>
+    </div>
+</div>
+<div class="row">
+</div>
+
+

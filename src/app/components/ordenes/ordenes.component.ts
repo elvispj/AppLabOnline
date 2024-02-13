@@ -37,19 +37,39 @@ export class OrdenesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.ordenesService.getOrdenes().subscribe(
-      (res) => this.listaOrdenes = res
-    );
-
     this.dtOptions = {
       pagingType: "full_numbers",
-      pageLength: 5,
-      processing: true,
-      lengthMenu: [5 ,10, 25],
-      responsive: true
+      lengthMenu: [5,10,20,50],
+      ajax: (dataTablesParameters: any, callback) => {
+        console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
+        this.ordenesService.getOrdenes().subscribe(response => {
+          this.listaOrdenes = response;
+          let totalRecords = response.length;
+          let filteredRecords = response.length;
+          callback({
+            recordsTotal: totalRecords,
+            recordsFiltered: filteredRecords,
+            data: response
+          });
+        });
+      },
+      columns: [
+        {title:"Id", data: 'ordenid'},
+        {title:"Paciente", data: 'ordennombre'},
+        {title:"Importe Final", data: 'ordenimportetotal'},
+        {title:"Fecha", data: 'ordenfechacreacion'}
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        $('td', row).off('click');
+        $('td', row).on('click', () => {
+          //self.someClickHandler(data);
+        });
+        return row;
+      }
     };
     
-    this.estudiosService.getAll().subscribe(
+    this.estudiosService.getAll('').subscribe(
       res=>this.estudios=res
     );
     

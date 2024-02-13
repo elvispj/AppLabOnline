@@ -6,24 +6,7 @@
             <ng-template ngbNavContent>
                 <h1 class="my-5">Lista de ultimas ordenes</h1>
                 <hr>
-                <table datatable [dtOptions]="dtOptions" class="row-border hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Paciente</th>
-                            <th>Fecha</th>
-                            <th>Importe Final</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let orden of listaOrdenes">
-                            <td>{{orden.ordenid}}</td>
-                            <td>{{orden.ordennombre}}</td>
-                            <td>{{orden.ordenfechacreacion}}</td>
-                            <td>{{orden.ordenimportetotal}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
             </ng-template>
         </li>
         <li [ngbNavItem]="2">
@@ -66,7 +49,9 @@
                             <label for="doctorid" class="form-label">Doctor</label>
                             <select class="form-select" name="doctorid" id="doctorid" [(ngModel)]="ordenes.doctorid">
                                 <option value="">Seleccionar</option>
-                                <option *ngFor="let doctor of listaDoctores" [ngValue]="doctor.doctorid">{{doctor.doctornombre}}</option>
+                                <option *ngFor="let doctor of listaDoctores" [ngValue]="doctor.doctorid">
+                                    {{doctor.doctornombre}} {{doctor.doctorapellidopaterno}} {{doctor.doctorapellidomaterno}}
+                                </option>
                             </select>
                         </div>
                     </div>

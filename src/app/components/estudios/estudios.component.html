@@ -1,6 +1,19 @@
 <app-nav></app-nav>
-<p>estudios works!</p>
-<div class="row container-fluid">
-    <div class="col-md-12">
+<div class="container">
+    <div class="row">
+        <h2>Lista de estudios</h2>
+        <div class="col-md-12">
+            <app-detalle-estudio 
+                *ngIf="estudioSeleccionado" 
+                [estudio]="estudioSeleccionado"
+                (updEstudiosEmitter)="updateEstudio($event)">
+            </app-detalle-estudio>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
+        </div>
     </div>
 </div>

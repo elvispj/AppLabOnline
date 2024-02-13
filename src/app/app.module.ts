@@ -15,6 +15,7 @@ import { authGuard } from './helpers/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
 import { DataTablesModule } from "angular-datatables";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DetalleEstudioComponent } from './components/detalle-estudio/detalle-estudio.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
@@ -33,7 +34,8 @@ const routes: Routes =[
     OrdenesComponent,
     InventarioComponent,
     ViewEstudiosComponent,
-    NavComponent
+    NavComponent,
+    DetalleEstudioComponent
   ],
   imports: [
     BrowserModule,

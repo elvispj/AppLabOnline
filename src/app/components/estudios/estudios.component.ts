@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { Ordenes } from 'src/app/entity/Ordenes';
-import { OrdenesService } from 'src/app/services/ordenes.service';
+import { Estudios } from 'src/app/entity/Estudios';
+import { EstudiosService } from 'src/app/services/estudios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-estudios',
@@ -11,52 +11,74 @@ import { OrdenesService } from 'src/app/services/ordenes.service';
   styleUrls: ['./estudios.component.css']
 })
 export class EstudiosComponent implements OnInit {
+  dtOptions: DataTables.Settings = {};
+  estudioSeleccionado!: Estudios;
 
   constructor(private router: Router, 
     private activateRoute: ActivatedRoute, 
-    private ordenesService: OrdenesService,
-    private http: HttpClient){}
+    private estudiosService: EstudiosService,
+    private http: HttpClient
+    ){}
   
   ngOnInit(): void {
-    
-    /*
     this.dtOptions = {
       pagingType: "full_numbers",
       ajax: (dataTablesParameters: any, callback) => {
         console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
-        this.http.post<any>(this.ordenesService.getURLOrdenes(), JSON.stringify(dataTablesParameters))
-          .subscribe(response => {
-            console.log(" respuesta "+JSON.stringify(response));
-            callback({
-              recordsTotal: response.totalRecords,
-              recordsFiltered: response.filteredRecords,
-              data: JSON.parse(response.data)
-            });
+        this.estudiosService.getAll(dataTablesParameters).subscribe(response => {
+          let totalRecords = response.length;
+          let filteredRecords = response.length;
+          callback({
+            recordsTotal: totalRecords,
+            recordsFiltered: filteredRecords,
+            data: response
           });
+        });
       },
       columns: [
-        {title:"Id", data: 'ordenid'},
-        {title:"Nombre", data: 'ordennombre'},
-        {title:"Fecha", data: 'ordenfechacreacion'},
-        {title:"Importe total", data: 'ordenimportetotal'}
-      ], 
-    };*/
+        {title:"Id", data: 'estudioid'},
+        {title:"Nombre", data: 'estudionombre'},
+        {title:"Identificador", data: 'estudionombrecorto'},
+        {title:"Costo", data: 'estudiocosto'},
+        {title:"Fecha", data: 'estudiofechamodificacion'}
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        $('td', row).off('click');
+        $('td', row).on('click', () => {
+          self.someClickHandler(data);
+        });
+        return row;
+      }
+    };
+  }
+
+  someClickHandler(info: any): void {
+    this.estudioSeleccionado = info;
+    console.log("se dio click "+JSON.stringify(this.estudioSeleccionado));
+  }
+
+  updateEstudio(estudio: Estudios){
+    this.estudiosService.save(estudio).subscribe(res =>{
+      estudio = res;
+      Swal.fire('Actualizar Estudio',`Se actualizo el estudio de forma automatica`, 'success');
+    },
+    err =>{
+      console.log("Error >> "+err),
+      Swal.fire('Actualizar Estudio',`No se logro actualizar el estudio`, 'error')
+    });
   }
 }
 
-    /*
-
-    this.dtOptions = {
-      pagingType: "full_numbers",
-      serverSide: true,
-      responsive:true,
-      data: this.listaOrdenes,
-      columns: [
-        {title:"Id", data: 'ordenid'},
-        {title:"Nombre", data: 'ordennombre'},
-        {title:"Fecha", data: 'ordenfechacreacion'},
-        {title:"Importe total", data: 'ordenimportetotal'}
-      ]
-    };
-    
-    */
+/*
+this.http.post<any[]>(Constantes.URL_API()+'/estudios/all', JSON.stringify(dataTablesParameters))
+  .subscribe(response => {
+    console.log(" respuesta "+JSON.stringify(response));
+    let totalRecords = response.length;
+    let filteredRecords = response.length;
+    callback({
+      recordsTotal: totalRecords,
+      recordsFiltered: filteredRecords,
+      data: response
+    });
+});*/
