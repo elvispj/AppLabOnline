@@ -46,27 +46,34 @@ export class EstudiosComponent implements OnInit {
         const self = this;
         $('td', row).off('click');
         $('td', row).on('click', () => {
-          self.someClickHandler(data);
+          self.showDetalleEstudio(data);
         });
         return row;
       }
     };
   }
 
-  someClickHandler(info: any): void {
-    this.estudioSeleccionado = info;
-    console.log("se dio click "+JSON.stringify(this.estudioSeleccionado));
+  showDetalleEstudio(estudio: any): void {
+    this.estudioSeleccionado = estudio;
   }
 
   updateEstudio(estudio: Estudios){
-    this.estudiosService.save(estudio).subscribe(res =>{
-      estudio = res;
-      Swal.fire('Actualizar Estudio',`Se actualizo el estudio de forma automatica`, 'success');
-    },
-    err =>{
-      console.log("Error >> "+err),
-      Swal.fire('Actualizar Estudio',`No se logro actualizar el estudio`, 'error')
-    });
+    this.estudiosService.save(estudio).subscribe(
+      {
+        next: res => {
+          estudio = res;
+          Swal.fire('Actualizar Estudio',`Se actualizo el estudio de forma automatica`, 'success');
+          this.estudioSeleccionado=new Estudios();
+        },
+        error: err => {
+          console.log("Error >> "+err);
+          Swal.fire('Actualizar Estudio',`No se logro actualizar el estudio`, 'error');
+        }
+      });
+  }
+
+  closeDetalle():void{
+    this.estudioSeleccionado = new Estudios();
   }
 }
 

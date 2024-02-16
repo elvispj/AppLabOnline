@@ -9,6 +9,7 @@ import { Estudios } from 'src/app/entity/Estudios';
 export class DetalleEstudioComponent implements OnDestroy {
   @Input() estudio!: Estudios;
   @Output() updEstudiosEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() closeEmitter: EventEmitter<any> = new EventEmitter();
   
   updateEstudio(){
     console.log("Se actualiza el estudio "+JSON.stringify(this.estudio));
@@ -21,7 +22,7 @@ export class DetalleEstudioComponent implements OnDestroy {
   }
 
   Cerrar(){
-    this.ngOnDestroy();
+    this.closeEmitter.emit(true);
   }
 
   ngOnDestroy(): void {

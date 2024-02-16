@@ -6,7 +6,8 @@
             <app-detalle-estudio 
                 *ngIf="estudioSeleccionado" 
                 [estudio]="estudioSeleccionado"
-                (updEstudiosEmitter)="updateEstudio($event)">
+                (updEstudiosEmitter)="updateEstudio($event)"
+                (closeEmitter)="closeDetalle()">
             </app-detalle-estudio>
         </div>
     </div>
