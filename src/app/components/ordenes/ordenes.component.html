@@ -2,7 +2,7 @@
 <div class="container">
     <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
         <li [ngbNavItem]="1">
-            <button ngbNavLink>Ultimos ordenes agregadas</button>
+            <button ngbNavLink>Ultimas ordenes agregadas</button>
             <ng-template ngbNavContent>
                 <h1 class="my-5">Lista de ultimas ordenes</h1>
                 <hr>
@@ -82,39 +82,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <label for="ordenformapago" class="form-label">Forma de pago</label>
-                            <select class="form-select" id="ordenformapago" name="ordenformapago" [(ngModel)]="ordenes.ordenformapago">
-                                <option value="">Seleccionar</option>
-                                <option value="efectivo">Efectivo</option>
-                                <option value="tarjeta">Tarjeta</option>
-                                <option value="transferencia">Transferencia</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="ordenimporte" class="form-label">Importe</label>
-                            <input type="number" class="form-control" id="ordenimporte" name="ordenimporte" [(ngModel)]="ordenes.ordenimporte">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="ordendescuento" class="form-label">Descuento</label>
-                            <input type="number" class="form-control" id="ordendescuento" name="ordendescuento" [(ngModel)]="ordenes.ordendescuento">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="ordenimportedescuento" class="form-label">Importe con descuento</label>
-                            <input type="number" class="form-control" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="ordenes.ordenimportedescuento">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="ordenimporteiva" class="form-label">Importe IVA</label>
-                            <input type="number" class="form-control" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="ordenes.ordenimporteiva">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="ordenimportetotal" class="form-label">Importe total</label>
-                            <input type="number" class="form-control" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="ordenes.ordenimportetotal">
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-12">
                             <label for="ordencomentarios" class="form-label">Comentarios</label>
                             <textarea class="form-control" id="ordencomentarios" name="ordencomentarios" [(ngModel)]="ordenes.ordencomentarios" rows="3"></textarea>
@@ -147,7 +114,94 @@
                         </div>
                     </div>
                     <hr>
-                    <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    <!--<button type="submit" class="btn btn-primary btn-block">Guardar</button>-->
+                    <!-- ************************************* -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Procesar
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" 
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Confirmar alta de orden</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                <!-- *********** -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Lista de estudios</h3>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Costo</th>
+                                                        <th>Descuento</th>
+                                                        <th>Costo Final</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let det of ordenes.ordenesdetalle">
+                                                    <tr>
+                                                        <td>{{det.estudio.estudionombre}}</td>
+                                                        <td>{{det.ordendetallecosto}}</td>
+                                                        <td><input type="number" class="form-control" id="ordendetalledescuento_{{det.estudioid}}" 
+                                                            name="ordendetalledescuento_{{det.estudioid}}" (change)="updateCostoFinalEstudio($event,det)"></td>
+                                                        <td><input type="number" class="form-control" id="ordendetallecostofinal_{{det.estudioid}}" 
+                                                            name="ordendetallecostofinal_{{det.estudioid}}" disabled></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="ordenformapago" class="form-label">Forma de pago</label>
+                                            <select class="form-select" id="ordenformapago" name="ordenformapago" [(ngModel)]="ordenes.ordenformapago">
+                                                <option value="">Seleccionar</option>
+                                                <option value="efectivo">Efectivo</option>
+                                                <option value="tarjeta">Tarjeta</option>
+                                                <option value="transferencia">Transferencia</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ordenimporte" class="form-label">Importe</label>
+                                            <input type="number" class="form-control" id="ordenimporte" name="ordenimporte" [(ngModel)]="ordenes.ordenimporte" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="ordendescuento" class="form-label">Descuento</label>
+                                            <input type="number" class="form-control" id="ordendescuento" name="ordendescuento" [(ngModel)]="ordenes.ordendescuento" disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ordenimportedescuento" class="form-label">Importe con descuento</label>
+                                            <input type="number" class="form-control" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="ordenes.ordenimportedescuento" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="ordenimporteiva" class="form-label">Importe IVA</label>
+                                            <input type="number" class="form-control" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="ordenes.ordenimporteiva" disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ordenimportetotal" class="form-label">Importe total</label>
+                                            <input type="number" class="form-control" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="ordenes.ordenimportetotal" disabled>
+                                        </div>
+                                    </div>
+                                <!-- *********** -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- ************************************* -->
                 </form>
             </ng-template>
         </li>

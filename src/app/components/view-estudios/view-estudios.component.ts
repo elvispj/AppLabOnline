@@ -26,6 +26,7 @@ export class ViewEstudiosComponent {
       ordendetallefechacreacion: new Date(),
       ordendetallefechamodificacion: new Date(),
       bitacoraid: -1,
+      estudio: estudio
     };
     if(evt.target.checked){
       console.log("Se agrega el id-"+ordenesdetalle.estudioid);

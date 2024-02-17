@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ordenes } from 'src/app/entity/Ordenes';
 import { OrdenesService } from 'src/app/services/ordenes.service';
@@ -11,13 +11,16 @@ import { DoctoresService } from 'src/app/services/doctores.service';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Ordendetalle } from 'src/app/entity/Ordendetalle';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-ordenes',
   templateUrl: './ordenes.component.html',
   styleUrls: ['./ordenes.component.css']
 })
-export class OrdenesComponent implements OnInit {
+export class OrdenesComponent implements AfterViewInit, OnInit {
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement!: DataTableDirective;
   active = 1;
   ordenes: Ordenes = new Ordenes();
   estudios: Estudios[] = [];
@@ -28,6 +31,7 @@ export class OrdenesComponent implements OnInit {
   listaOrigen: string[]=["Laboratorio","Clinica","Referido"];
   listaOrdenes: Ordenes[]=[];
   dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
@@ -58,15 +62,7 @@ export class OrdenesComponent implements OnInit {
         {title:"Paciente", data: 'ordennombre'},
         {title:"Importe Final", data: 'ordenimportetotal'},
         {title:"Fecha", data: 'ordenfechacreacion'}
-      ],
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const self = this;
-        $('td', row).off('click');
-        $('td', row).on('click', () => {
-          //self.someClickHandler(data);
-        });
-        return row;
-      }
+      ]
     };
     
     this.estudiosService.getAll('').subscribe(
@@ -82,13 +78,50 @@ export class OrdenesComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next(this.dtOptions);
+    });
+  }
+
   addEstudio(addOrdendetalle: Ordendetalle): void{
     this.ordenes.ordenesdetalle.push(addOrdendetalle);
+    this.updateCostoFinalOrden();
   }
 
   delEstudio(delOrdentalle: Ordendetalle): void{
     const index = this.ordenes.ordenesdetalle.findIndex((sarchEstudio) => sarchEstudio.estudioid===delOrdentalle.estudioid);
     this.ordenes.ordenesdetalle.splice(index,1);
+    this.updateCostoFinalOrden();
+  }
+
+  updateCostoFinalOrden():void{
+    let promedioDescuentos=0.0;
+    let totalDescuentos=0.0;
+    this.ordenes.ordenimporte=0.0;
+    this.ordenes.ordenimportetotal=0.0;
+    this.ordenes.ordenesdetalle.forEach(obj=>{
+      totalDescuentos=totalDescuentos+(Number(obj.ordendetalledescuento)/100);
+      obj.ordendetallecostofinal=obj.ordendetallecosto - ((Number(obj.ordendetalledescuento)/100)*Number(obj.ordendetallecosto));
+      this.ordenes.ordenimporte=Number(this.ordenes.ordenimporte)+Number(obj.ordendetallecosto);
+      this.ordenes.ordenimportetotal=Number(this.ordenes.ordenimportetotal)+Number(obj.ordendetallecostofinal);
+    });
+    promedioDescuentos=totalDescuentos/this.ordenes.ordenesdetalle.length;
+    this.ordenes.ordendescuento=Number(isNaN(promedioDescuentos) ? promedioDescuentos : promedioDescuentos.toFixed(2));
+    this.ordenes.ordenimportedescuento=this.ordenes.ordenimporte-this.ordenes.ordenimportetotal;
+    this.ordenes.ordenimporteiva = Number(((this.ordenes.ordenimportetotal/1.16)*0.16).toFixed(2));
   }
 
   altaOrdenEstudio(){
@@ -97,17 +130,16 @@ export class OrdenesComponent implements OnInit {
       Swal.fire('Alta de Orden',`No se logro dar de alta la orden porque no se selecciono ningun estudio.`, 'error')
       return;
     }else{
-      this.ordenesService.saveOrden(this.ordenes).subscribe(
-        res => {
+      this.ordenesService.saveOrden(this.ordenes).subscribe({
+        next: res => {
           console.log(res)
         },
-        err => console.error(err)
-      );
+        error: err => console.error(err)
+      });
     }
   }
 
   procesarListaEstudios(lista:Estudios[]){
-    console.log("Procesa la lista de alumnos "+lista.length);
     this.estudios=lista;
     for(let i=0; i<this.estudios.length; i++){
       if(this.estudios[i].tipoestudioid>0){
@@ -126,6 +158,17 @@ export class OrdenesComponent implements OnInit {
     }
     this.tiposestudios.push(tipoestudio);
     return true;
+  }
+
+  updateCostoFinalEstudio(event:any, det:Ordendetalle){
+    let importeDescuento = Number(det.ordendetallecosto) * (Number(event.target.value)/100);
+    
+    const index = this.ordenes.ordenesdetalle.findIndex((sarchEstudio) => sarchEstudio.estudioid===det.estudioid);
+    this.ordenes.ordenesdetalle[index].ordendetalledescuento=importeDescuento;
+    this.ordenes.ordenesdetalle[index].ordendetallecostofinal=Number(this.ordenes.ordenesdetalle[index].ordendetallecosto) - importeDescuento;
+
+    $("#ordendetallecostofinal_"+det.estudioid).val(this.ordenes.ordenesdetalle[index].ordendetallecostofinal);
+    this.updateCostoFinalOrden();
   }
 }
  

@@ -4,7 +4,7 @@
         <h2>Lista de estudios</h2>
         <div class="col-md-12">
             <app-detalle-estudio 
-                *ngIf="estudioSeleccionado" 
+                *ngIf="estudioSeleccionado && estudioSeleccionado.estudioid>0" 
                 [estudio]="estudioSeleccionado"
                 (updEstudiosEmitter)="updateEstudio($event)"
                 (closeEmitter)="closeDetalle()">
@@ -14,7 +14,7 @@
     <hr>
     <div class="row">
         <div class="col-md-12">
-            <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
         </div>
     </div>
 </div>

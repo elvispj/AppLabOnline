@@ -6,7 +6,7 @@ import { Estudios } from 'src/app/entity/Estudios';
   templateUrl: './detalle-estudio.component.html',
   styleUrls: ['./detalle-estudio.component.css']
 })
-export class DetalleEstudioComponent implements OnDestroy {
+export class DetalleEstudioComponent {
   @Input() estudio!: Estudios;
   @Output() updEstudiosEmitter: EventEmitter<any> = new EventEmitter();
   @Output() closeEmitter: EventEmitter<any> = new EventEmitter();
@@ -23,9 +23,5 @@ export class DetalleEstudioComponent implements OnDestroy {
 
   Cerrar(){
     this.closeEmitter.emit(true);
-  }
-
-  ngOnDestroy(): void {
-    this.ngOnDestroy();
   }
 }

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 import { Estudios } from 'src/app/entity/Estudios';
 import { EstudiosService } from 'src/app/services/estudios.service';
 import Swal from 'sweetalert2';
@@ -10,8 +12,11 @@ import Swal from 'sweetalert2';
   templateUrl: './estudios.component.html',
   styleUrls: ['./estudios.component.css']
 })
-export class EstudiosComponent implements OnInit {
+export class EstudiosComponent implements AfterViewInit, OnInit {
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
   estudioSeleccionado!: Estudios;
 
   constructor(private router: Router, 
@@ -53,6 +58,24 @@ export class EstudiosComponent implements OnInit {
     };
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next(this.dtOptions);
+    });
+  }
+
   showDetalleEstudio(estudio: any): void {
     this.estudioSeleccionado = estudio;
   }
@@ -64,6 +87,7 @@ export class EstudiosComponent implements OnInit {
           estudio = res;
           Swal.fire('Actualizar Estudio',`Se actualizo el estudio de forma automatica`, 'success');
           this.estudioSeleccionado=new Estudios();
+          this.rerender();
         },
         error: err => {
           console.log("Error >> "+err);
