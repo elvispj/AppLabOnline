@@ -1,33 +1,36 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { Inventario } from 'src/app/entity/Inventario';
-import { InventarioService } from 'src/app/services/inventario.service';
+import { Compras } from 'src/app/entity/Compras';
+import { Tipoproducto } from 'src/app/entity/Tipoproducto';
+import { ComprasService } from 'src/app/services/compras.service';
+import { TipoproductosService } from 'src/app/services/tipoproductos.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-inventario',
-  templateUrl: './inventario.component.html',
-  styleUrls: ['./inventario.component.css']
+  selector: 'app-compras',
+  templateUrl: './compras.component.html',
+  styleUrls: ['./compras.component.css']
 })
-export class InventarioComponent implements AfterViewInit, OnInit {
+export class ComprasComponent {
   @ViewChild(DataTableDirective, {static: false})
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  listaInventario: Inventario[]=[];
+  listaCompras: Compras[]=[]
+  listaProductos: Tipoproducto[]=[];
 
-  constructor(private inventarioService: InventarioService){}
+  constructor(private comprasService: ComprasService,
+    private tipoproductoService: TipoproductosService){}
 
   ngOnInit(): void {
-    this.inventarioService.getAll('').subscribe({
+    this.tipoproductoService.getAll('').subscribe({
       next: lista => {
-        this.listaInventario=lista;
-        this.rerender();
+        this.listaProductos=lista;
       },
       error: err=>{
         console.log("Error >> "+err);
-        Swal.fire('Inventario','No se logro recuperar la informacion', 'error');
+        Swal.fire('Tipo Productos','No se logro recuperar la informacion', 'error');
       }
     });
 
@@ -36,7 +39,7 @@ export class InventarioComponent implements AfterViewInit, OnInit {
       lengthMenu: [5,10,20,50],
       ajax: (dataTablesParameters: any, callback) => {
         console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
-        this.inventarioService.getAll(dataTablesParameters).subscribe(response => {
+        this.comprasService.getAll(dataTablesParameters).subscribe(response => {
           let totalRecords = response.length;
           let filteredRecords = response.length;
           callback({
@@ -47,14 +50,13 @@ export class InventarioComponent implements AfterViewInit, OnInit {
         });
       },
       columns: [
-        {title:"Id", data: 'inventarioid'},
-        {title:"Compra", data: 'compraid'},
-        {title:"Nombre", data: 'tipoproductoid'},
-        {title:"Unidad", data: 'inventariounidad'},
-        {title:"Cantidad", data: 'inventariocantidadoriginal'},
-        {title:"Restante", data: 'inventariocantidadactual'},
-        {title:"Caducidad", data: 'inventariofechacaducidad'},
-        {title:"Fecha", data: 'inventariofechacreacion'}
+        {title:"Id", data: 'compraid'},
+        {title:"Proveedor", data: 'proveedorid'},
+        {title:"Nº articulos", data: 'compranumeroarticulos'},
+        {title:"Importe Neto", data: 'compraimporteneto'},
+        {title:"IVA", data: 'compraimporteiva'},
+        {title:"Importe Total", data: 'compraimportetotal'},
+        {title:"Fecha", data: 'comprafechacreacion'}
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
@@ -88,4 +90,5 @@ export class InventarioComponent implements AfterViewInit, OnInit {
   guardarCompra():void{
     console.log("Se guardara ");
   }
+
 }

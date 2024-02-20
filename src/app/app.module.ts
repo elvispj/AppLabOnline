@@ -16,6 +16,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { DataTablesModule } from "angular-datatables";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetalleEstudioComponent } from './components/detalle-estudio/detalle-estudio.component';
+import { ComprasComponent } from './components/compras/compras.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard] },
@@ -23,6 +24,7 @@ const routes: Routes =[
   { path: 'estudios', component: EstudiosComponent, canActivate: [authGuard] },
   { path: 'inventario', component: InventarioComponent, canActivate: [authGuard] },
   { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
+  { path: 'compras', component: ComprasComponent, canActivate: [authGuard] }
 ];
 
 @NgModule({
@@ -35,7 +37,8 @@ const routes: Routes =[
     InventarioComponent,
     ViewEstudiosComponent,
     NavComponent,
-    DetalleEstudioComponent
+    DetalleEstudioComponent,
+    ComprasComponent
   ],
   imports: [
     BrowserModule,

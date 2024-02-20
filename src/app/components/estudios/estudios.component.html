@@ -1,20 +1,57 @@
 <app-nav></app-nav>
+<br>
 <div class="container">
     <div class="row">
-        <h2>Lista de estudios</h2>
-        <div class="col-md-12">
-            <app-detalle-estudio 
-                *ngIf="estudioSeleccionado && estudioSeleccionado.estudioid>0" 
-                [estudio]="estudioSeleccionado"
-                (updEstudiosEmitter)="updateEstudio($event)"
-                (closeEmitter)="closeDetalle()">
-            </app-detalle-estudio>
+        <div class="col-md-4">
+            <h3>Agregar nuevo estudio</h3>
+            <form (ngSubmit)="crearEstudio()">
+                <div class="form-group">
+                  <label for="tipoestudio">Tipo de estudios</label>
+                  <select class="form-control" id="tipoestudioid" name="tipoestudioid" [(ngModel)]="estudio.tipoestudioid" required>
+                    <option>Tipo de estudio</option>
+                    <option *ngFor="let tipoestudio of listaTipoEstudios" [ngValue]="tipoestudio.tipoestudioid">
+                        {{tipoestudio.tipoestudionombre}}                        
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="estudionombre">Nombre del estudio</label>
+                  <input type="text" class="form-control" id="estudionombre" name="estudionombre" [(ngModel)]="estudio.estudionombre" required>
+                </div>
+                <div class="form-group">
+                  <label for="estudiodescripcion">Descripción del estudio</label>
+                  <textarea class="form-control" id="estudiodescripcion" name="estudiodescripcion" rows="3" [(ngModel)]="estudio.estudiodescripcion" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="estudionombrecorto">Nombre corto del estudios</label>
+                  <input type="text" class="form-control" id="estudionombrecorto" name="estudionombrecorto" [(ngModel)]="estudio.estudionombrecorto" required>
+                </div>
+                <div class="form-group">
+                  <label for="estudiocosto">Costo del estudios</label>
+                  <input type="number" class="form-control" id="estudiocosto" name="estudiocosto" [(ngModel)]="estudio.estudiocosto" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Agregar estudio</button>
+                <button type="reset" class="btn btn-warning btn-lg">Limpiar</button>
+              </form>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
+        <div class="col-md-8">
+            <div class="row" *ngIf="estudioSeleccionado && estudioSeleccionado.estudioid>0" >
+                <div class="col-md-12">
+                    <h3>Actualizar estudio</h3>
+                    <app-detalle-estudio 
+                        [estudio]="estudioSeleccionado"
+                        (updEstudiosEmitter)="updateEstudio($event)"
+                        (closeEmitter)="closeDetalle()">
+                    </app-detalle-estudio>
+                </div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Lista de estudios</h3>
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { Estudios } from 'src/app/entity/Estudios';
+import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 import { EstudiosService } from 'src/app/services/estudios.service';
+import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,17 +19,31 @@ export class EstudiosComponent implements AfterViewInit, OnInit {
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  estudio: Estudios=new Estudios();
   estudioSeleccionado!: Estudios;
+  listaTipoEstudios: Tipoestudios[]=[];
 
   constructor(private router: Router, 
     private activateRoute: ActivatedRoute, 
     private estudiosService: EstudiosService,
+    private tipoestudiosService: TipoestudiosService,
     private http: HttpClient
     ){}
   
   ngOnInit(): void {
+    this.tipoestudiosService.getAll().subscribe({
+      next: lista => {
+        this.listaTipoEstudios = lista;
+      },
+      error: err=> {
+        console.log("Error >> "+err);
+        Swal.fire('Tipos Estudio','No se logro recuperar la lista de tipos de estudio', 'error');
+      }
+    });
+
     this.dtOptions = {
       pagingType: "full_numbers",
+      lengthMenu: [5,10,20,50],
       ajax: (dataTablesParameters: any, callback) => {
         console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
         this.estudiosService.getAll(dataTablesParameters).subscribe(response => {
@@ -78,6 +94,20 @@ export class EstudiosComponent implements AfterViewInit, OnInit {
 
   showDetalleEstudio(estudio: any): void {
     this.estudioSeleccionado = estudio;
+  }
+
+  crearEstudio():void{
+    console.log("Se agrega "+JSON.stringify(this.estudio));
+    this.estudiosService.save(this.estudio).subscribe({
+      next: response=>{
+        Swal.fire('Alta Estudio','Se agrego el nuevo estudio de forma exitosa', 'success');
+        this.rerender();
+      },
+      error: err=>{
+        console.log("Error >> "+err);
+        Swal.fire('Alta Estudio','No se logro dar de alta el nuevo estudio', 'error');
+      }
+    })
   }
 
   updateEstudio(estudio: Estudios){
