@@ -14,3 +14,18 @@ export class Inventario
 	public inventariofechamodificacion!: Date;
 	public tipoproducto: Tipoproducto=new Tipoproducto();
 }
+
+export interface InventarioTipoProducto{
+	inventarioid: number;
+	compraid: number;
+	tipoproductoid: number;
+	proveedornombre: string;
+	tipoproductonombre: string;
+	inventarioactivo: boolean;
+	inventariocostoporunidad: number;
+	inventariocantidadoriginal: number;
+	inventariocantidadactual: number;
+	inventarioimagen: number[];
+	inventariofechacreacion: Date;
+	inventariofechamodificacion: Date;
+}

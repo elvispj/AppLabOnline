@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import { Inventario } from 'src/app/entity/Inventario';
+import { Inventario, InventarioTipoProducto } from 'src/app/entity/Inventario';
 import { InventarioService } from 'src/app/services/inventario.service';
 import Swal from 'sweetalert2';
 
@@ -15,12 +15,12 @@ export class InventarioComponent implements AfterViewInit, OnInit {
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  listaInventario: Inventario[]=[];
+  listaInventario: InventarioTipoProducto[]=[];
 
   constructor(private inventarioService: InventarioService){}
 
   ngOnInit(): void {
-    this.inventarioService.getAll('').subscribe({
+    /*this.inventarioService.getAllTipoProducto('').subscribe({
       next: lista => {
         this.listaInventario=lista;
         this.rerender();
@@ -29,14 +29,14 @@ export class InventarioComponent implements AfterViewInit, OnInit {
         console.log("Error >> "+err);
         Swal.fire('Inventario','No se logro recuperar la informacion', 'error');
       }
-    });
+    });*/
 
     this.dtOptions = {
       pagingType: "full_numbers",
       lengthMenu: [5,10,20,50],
       ajax: (dataTablesParameters: any, callback) => {
         console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
-        this.inventarioService.getAll(dataTablesParameters).subscribe(response => {
+        this.inventarioService.getAllTipoProducto(dataTablesParameters).subscribe(response => {
           let totalRecords = response.length;
           let filteredRecords = response.length;
           callback({
@@ -48,8 +48,8 @@ export class InventarioComponent implements AfterViewInit, OnInit {
       },
       columns: [
         {title:"Id", data: 'inventarioid'},
-        {title:"Compra", data: 'compraid'},
-        {title:"Nombre", data: 'tipoproductoid'},
+        {title:"Proveedor", data: 'proveedornombre'},
+        {title:"Tipo Producto", data: 'tipoproductonombre'},
         {title:"Unidad", data: 'inventariounidad'},
         {title:"Cantidad", data: 'inventariocantidadoriginal'},
         {title:"Restante", data: 'inventariocantidadactual'},

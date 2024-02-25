@@ -1,0 +1,41 @@
+<hr>
+<div class="card border-primary mb-3 w-75 mx-auto" >
+    <div class="card-header text-center">Informacion del doctor</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Actualizar Informacion</h5>
+        <form>
+            <div class="form-group">
+                <label for="doctorid">ID</label>
+                <input type="text" class="form-control" id="doctorid" name="doctorid" [(ngModel)]="doctor.doctorid" disabled>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label" for="doctoractivo">Estatus {{doctor.doctoractivo ? "Activo" : "Inactivo"}}&nbsp;&nbsp;</label>
+                <input type="checkbox" class="form-check-input" id="doctoractivo" name="doctoractivo" (click)="updEstatus($event)" [(ngModel)]="doctor.doctoractivo">
+            </div>
+            <div class="form-group">
+                <label for="doctornombre">Nombre</label>
+                <input type="text" class="form-control" id="doctornombre" name="doctornombre" [(ngModel)]="doctor.doctornombre">
+            </div>
+            <div class="form-group">
+                <label for="doctorapellidopaterno">Apellido Paterno</label>
+                <input type="text" class="form-control" id="doctorapellidopaterno" name="doctorapellidopaterno" [(ngModel)]="doctor.doctorapellidopaterno">
+            </div>
+            <div class="form-group">
+                <label for="doctorapellidomaterno">Apellido Materno</label>
+                <input type="text" class="form-control" id="doctorapellidomaterno" name="doctorapellidomaterno" [(ngModel)]="doctor.doctorapellidomaterno">
+            </div>
+            <div class="form-group">
+                <label for="doctorcedula">Cedula</label>
+                <input type="text" class="form-control" id="doctorcedula" name="doctorcedula" [(ngModel)]="doctor.doctorcedula">
+            </div>
+            <div class="form-group">
+                <label for="doctortitulo">Titulo</label>
+                <input type="text" class="form-control" id="doctortitulo" name="doctortitulo" [(ngModel)]="doctor.doctortitulo">
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary" (click)="updateDoctor()">Actualizar</button>
+        <button type="button" class="btn btn-danger" (click)="Cerrar()">Cerrar</button>
+    </div>
+</div>

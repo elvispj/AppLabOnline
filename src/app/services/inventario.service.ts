@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Inventario } from '../entity/Inventario';
+import { Inventario, InventarioTipoProducto } from '../entity/Inventario';
 import { Constantes } from '../utils/Constantes';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,6 +16,12 @@ export class InventarioService {
     let serviceName='all';
     console.log("Request list "+this.URL+"/"+serviceName);
     return this.http.get<Inventario[]>(`${this.URL}/${serviceName}`);
+  }
+
+  getAllTipoProducto(dataTablesParameters:string): Observable<InventarioTipoProducto[]>{
+    let serviceName='allTipoProducto';
+    console.log("Request list "+this.URL+"/"+serviceName);
+    return this.http.get<InventarioTipoProducto[]>(`${this.URL}/${serviceName}`);
   }
 
   save(inventario: Inventario): Observable<Inventario>{
