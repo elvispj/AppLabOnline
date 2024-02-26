@@ -17,9 +17,31 @@
                 <h3>Datos del paciente</h3>
                 <form (ngSubmit)="altaOrdenEstudio()">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="ordennombre" class="form-label">Nombre Paciente</label>
                             <input type="text" class="form-control" id="ordennombre" name="ordennombre" [(ngModel)]="ordenes.ordennombre">
+                            <button type="button" class="btn btn-info" (click)="buscarPaciente()">Buscar</button>
+                            <button type="button" class="btn btn-warning" (click)="limpiarBusqueda()">limpiar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Edad</th>
+                                        <th>---</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let cli of listaBusquedaCliente">
+                                    <tr>
+                                        <td>{{cli.clienteid}}</td>
+                                        <td>{{cli.clientenombre}}</td>
+                                        <td>{{cli.clienteedad}}</td>
+                                        <td><button type="button" class="btn btn-secondary" (click)="cargarInfoCliente(cli)">Seleccionar</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="row">
@@ -159,12 +181,9 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="ordenformapago" class="form-label">Forma de pago</label>
-                                            <select class="form-select" id="ordenformapago" name="ordenformapago" [(ngModel)]="ordenes.ordenformapago">
-                                                <option value="">Seleccionar</option>
-                                                <option value="efectivo">Efectivo</option>
-                                                <option value="tarjeta">Tarjeta</option>
-                                                <option value="transferencia">Transferencia</option>
+                                            <label for="formapagoid" class="form-label">Forma de pago</label>
+                                            <select class="form-select" id="formapagoid" name="formapagoid" [(ngModel)]="ordenes.formapagoid">
+                                                <option *ngFor="let formapago of listFormasPagos" [value]="formapago.formapagoid">{{formapago.formapagonombre}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
@@ -184,10 +203,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
+                                            <label for="ordenimportemaquila" class="form-label">Importe Maquila</label>
+                                            <input type="number" class="form-control" id="ordenimportemaquila" name="ordenimportemaquila" [(ngModel)]="ordenes.ordenimportemaquila">
+                                        </div>
+                                        <div class="col-md-6">
                                             <label for="ordenimporteiva" class="form-label">Importe IVA</label>
                                             <input type="number" class="form-control" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="ordenes.ordenimporteiva" disabled>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <label for="ordenimportetotal" class="form-label">Importe total</label>
                                             <input type="number" class="form-control" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="ordenes.ordenimportetotal" disabled>
                                         </div>

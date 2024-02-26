@@ -1,3 +1,4 @@
+import { Clientes } from "./Clientes";
 import { Estudios } from "./Estudios";
 import { Ordendetalle } from "./Ordendetalle";
 
@@ -26,6 +27,8 @@ export class Ordenes
 	public ordenimportetotal: number=0;
 	public ordencomoubico: string='';
 	public ordendatosclinicos: string='';
-	public ordenformapago:string='';
+	public formapagoid:string='';
+	public ordenimportemaquila:number=0;
 	public ordenesdetalle: Ordendetalle[]=[];
+	public cliente: Clientes=new Clientes();
 }

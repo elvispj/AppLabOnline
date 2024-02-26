@@ -12,6 +12,8 @@ import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Ordendetalle } from 'src/app/entity/Ordendetalle';
 import { DataTableDirective } from 'angular-datatables';
+import { Clientes } from 'src/app/entity/Clientes';
+import { ClientesService } from 'src/app/services/clientes.service';
 
 @Component({
   selector: 'app-ordenes',
@@ -30,14 +32,23 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
   listaComoUbico: string[]=["Solo","Clinica","Volantes","Facebook","Perifoneo"];
   listaOrigen: string[]=["Laboratorio","Clinica","Referido"];
   listaOrdenes: Ordenes[]=[];
+  listaBusquedaCliente: Clientes[]=[];
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  listFormasPagos: any[]=[
+    {formapagoid:"EFECTIVO", formapagonombre:"Pago en efectivo"},
+    {formapagoid:"TARJETA_CREDITO", formapagonombre:"Pago con tarjeta credito"},
+    {formapagoid:"TARJETA_DEBITO", formapagonombre:"Pago con tarjeta debito"},
+    {formapagoid:"TRANSFERENCIA", formapagonombre:"Transferencia bancaria"}
+  ];
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
     private estudiosService: EstudiosService,
     private tipoestudiosService: TipoestudiosService,
-    private doctoresService: DoctoresService){}
+    private doctoresService: DoctoresService,
+    private clientesService: ClientesService){}
 
 
   ngOnInit(): void {
@@ -130,11 +141,36 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
       Swal.fire('Alta de Orden',`No se logro dar de alta la orden porque no se selecciono ningun estudio.`, 'error')
       return;
     }else{
+      if(this.ordenes.cliente.clienteid>0){
+        console.log("Utiliza el json cliente");
+        this.ordenes.clienteid=this.ordenes.cliente.clienteid;
+      }else{
+        console.log("Genera un nuevo json cliente");
+        let cliente:Clientes=new Clientes();
+        
+        cliente.clientetipo='PACIENTE';
+        cliente.clientenombre=this.ordenes.ordennombre;
+        cliente.clienteapellidopaterno=this.ordenes.ordennombre;
+        cliente.clienteapellidomaterno=this.ordenes.ordennombre;
+        cliente.clienteedad=this.ordenes.ordenedad;
+        cliente.clientesexo=this.ordenes.ordensexo;
+        cliente.clientetelefono=this.ordenes.ordentelefono;
+        cliente.clientedireccion=this.ordenes.ordendireccion;
+        cliente.clientedatosclinicos=this.ordenes.ordendatosclinicos;
+
+        this.ordenes.cliente=cliente;
+      }
+      console.log("Guardara "+JSON.stringify(this.ordenes));
       this.ordenesService.saveOrden(this.ordenes).subscribe({
         next: res => {
-          console.log(res)
+          console.log(res);
+          Swal.fire('Alta Doctor', 'Se agrego la orden de forma exitosa', 'success');
+          this.ordenes=new Ordenes();
         },
-        error: err => console.error(err)
+        error: err => {
+          console.error(err);
+          Swal.fire('Alta Orden',`No se logro guardar la orden`, 'error');
+        }
       });
     }
   }
@@ -169,6 +205,41 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
 
     $("#ordendetallecostofinal_"+det.estudioid).val(this.ordenes.ordenesdetalle[index].ordendetallecostofinal);
     this.updateCostoFinalOrden();
+  }
+
+  buscarPaciente():void{
+    this.clientesService.search(this.ordenes.ordennombre).subscribe({
+      next: res=>{
+        console.log("Arrojo "+res.length+" resultados");
+        if(res.length>0){
+          this.listaBusquedaCliente = res;
+        }else{
+          Swal.fire('Busqueda Paciente','No se encontraron coincidencias', 'info');
+        }
+      },
+      error: err=>{
+        console.error(err);
+        Swal.fire('Busqueda Paciente','Se genero un error al procesar la solicitud', 'error');
+      }
+    })
+  }
+
+  cargarInfoCliente(clienteSeleccionado:Clientes):void{
+    console.log(JSON.stringify(this.ordenes));
+    this.ordenes.cliente=clienteSeleccionado;
+    this.ordenes.ordennombre=clienteSeleccionado.clientenombre
+                        +' '+clienteSeleccionado.clienteapellidopaterno
+                        +' '+clienteSeleccionado.clienteapellidomaterno;
+    this.ordenes.ordenedad=clienteSeleccionado.clienteedad;
+    this.ordenes.ordensexo=clienteSeleccionado.clientesexo;
+    this.ordenes.ordendatosclinicos=clienteSeleccionado.clientedatosclinicos;
+    this.ordenes.ordendireccion=clienteSeleccionado.clientedireccion;
+    this.ordenes.ordentelefono=clienteSeleccionado.clientetelefono;
+    this.listaBusquedaCliente=[];
+  }
+
+  limpiarBusqueda():void{
+    this.listaBusquedaCliente=[];
   }
 }
  
