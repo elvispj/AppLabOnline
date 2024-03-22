@@ -22,6 +22,7 @@ export class ViewEstudiosComponent {
       ordendetalleactivo: true,
       ordendetallecosto: estudio.estudiocosto,
       ordendetalledescuento: 0.0,
+      ordendetalleimportedescuento: 0.0,
       ordendetallecostofinal: 0.0,
       ordendetallefechacreacion: new Date(),
       ordendetallefechamodificacion: new Date(),

@@ -24,6 +24,7 @@ export class Ordenes
 	public ordenimporteiva: number=0;
 	public ordendescuento: number=0;
 	public ordenimportedescuento: number=0;
+	public ordenimporteotrocobro: number=0;
 	public ordenimportetotal: number=0;
 	public ordencomoubico: string='';
 	public ordendatosclinicos: string='';

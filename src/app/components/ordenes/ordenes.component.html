@@ -204,7 +204,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label for="ordenimportemaquila" class="form-label">Importe Maquila</label>
-                                            <input type="number" class="form-control" id="ordenimportemaquila" name="ordenimportemaquila" [(ngModel)]="ordenes.ordenimportemaquila">
+                                            <input type="number" class="form-control" id="ordenimportemaquila" name="ordenimportemaquila" 
+                                            (change)="updateCostoFinalOrden()" [(ngModel)]="ordenes.ordenimportemaquila">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="ordenimporteiva" class="form-label">Importe IVA</label>
@@ -212,7 +213,12 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label for="ordenimporteotrocobro" class="form-label">Otro Cobro</label>
+                                            <input type="number" class="form-control" id="ordenimporteotrocobro" name="ordenimporteotrocobro" 
+                                            (change)="updateCostoFinalOrden()" [(ngModel)]="ordenes.ordenimporteotrocobro">
+                                        </div>
+                                        <div class="col-md-6">
                                             <label for="ordenimportetotal" class="form-label">Importe total</label>
                                             <input type="number" class="form-control" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="ordenes.ordenimportetotal" disabled>
                                         </div>

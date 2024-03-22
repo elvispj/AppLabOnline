@@ -8,6 +8,7 @@ export class Ordendetalle
 	public ordendetalleactivo: boolean=true;
 	public ordendetallecosto: number=0;
 	public ordendetalledescuento: number=0;
+	public ordendetalleimportedescuento: number=0;
 	public ordendetallecostofinal: number=0;
 	public ordendetallefechacreacion: Date=new Date();
 	public ordendetallefechamodificacion: Date=new Date();

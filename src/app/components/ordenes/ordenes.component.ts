@@ -121,18 +121,28 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
   updateCostoFinalOrden():void{
     let promedioDescuentos=0.0;
     let totalDescuentos=0.0;
+    let importetotal=0.0;
     this.ordenes.ordenimporte=0.0;
     this.ordenes.ordenimportetotal=0.0;
     this.ordenes.ordenesdetalle.forEach(obj=>{
       totalDescuentos=totalDescuentos+(Number(obj.ordendetalledescuento)/100);
+      console.log("----------- obj.estudio.estudionombre > "+obj.estudio.estudionombre);
+      console.log("obj.ordendetalledescuento > "+obj.ordendetalledescuento);
+      console.log("obj.ordendetallecosto > "+obj.ordendetallecosto);
       obj.ordendetallecostofinal=obj.ordendetallecosto - ((Number(obj.ordendetalledescuento)/100)*Number(obj.ordendetallecosto));
+      console.log("obj.ordendetallecostofinal > "+obj.ordendetallecostofinal);
       this.ordenes.ordenimporte=Number(this.ordenes.ordenimporte)+Number(obj.ordendetallecosto);
-      this.ordenes.ordenimportetotal=Number(this.ordenes.ordenimportetotal)+Number(obj.ordendetallecostofinal);
+      importetotal=Number(importetotal)+Number(obj.ordendetallecostofinal);
+//      this.ordenes.ordenimportetotal=Number(this.ordenes.ordenimportetotal)+Number(obj.ordendetallecostofinal);
+      console.log("------------------------------------------------------------------");
     });
     promedioDescuentos=totalDescuentos/this.ordenes.ordenesdetalle.length;
+    this.ordenes.ordenimportetotal=importetotal;
     this.ordenes.ordendescuento=Number(isNaN(promedioDescuentos) ? promedioDescuentos : promedioDescuentos.toFixed(2));
     this.ordenes.ordenimportedescuento=this.ordenes.ordenimporte-this.ordenes.ordenimportetotal;
-    this.ordenes.ordenimporteiva = Number(((this.ordenes.ordenimportetotal/1.16)*0.16).toFixed(2));
+    this.ordenes.ordenimportetotal=Number(this.ordenes.ordenimportetotal)+Number(this.ordenes.ordenimporteotrocobro);
+    this.ordenes.ordenimporteiva=Number(((this.ordenes.ordenimportetotal/1.16)*0.16).toFixed(2));
+    this.ordenes.ordenimportetotal=Number(this.ordenes.ordenimportetotal)-Number(this.ordenes.ordenimportemaquila);
   }
 
   altaOrdenEstudio(){
@@ -198,12 +208,19 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
 
   updateCostoFinalEstudio(event:any, det:Ordendetalle){
     let importeDescuento = Number(det.ordendetallecosto) * (Number(event.target.value)/100);
-    
+    console.log("***************************************************************************");
+    console.log(JSON.stringify(det));
+    console.log("det.ordendetallecosto> "+det.ordendetallecosto);
+    console.log("event.target.value> "+event.target.value);
+    console.log("importeDescuento> "+importeDescuento);
     const index = this.ordenes.ordenesdetalle.findIndex((sarchEstudio) => sarchEstudio.estudioid===det.estudioid);
-    this.ordenes.ordenesdetalle[index].ordendetalledescuento=importeDescuento;
+    this.ordenes.ordenesdetalle[index].ordendetalledescuento=event.target.value;
+    this.ordenes.ordenesdetalle[index].ordendetalleimportedescuento=importeDescuento;
     this.ordenes.ordenesdetalle[index].ordendetallecostofinal=Number(this.ordenes.ordenesdetalle[index].ordendetallecosto) - importeDescuento;
 
     $("#ordendetallecostofinal_"+det.estudioid).val(this.ordenes.ordenesdetalle[index].ordendetallecostofinal);
+    console.log(JSON.stringify(this.ordenes.ordenesdetalle[index]));
+    console.log("***************************************************************************");
     this.updateCostoFinalOrden();
   }
 
