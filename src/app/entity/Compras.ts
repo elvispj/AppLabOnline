@@ -1,3 +1,5 @@
+import { Inventario } from "./Inventario";
+
 export class Compras
 {
 	public compraid!: number;
@@ -10,4 +12,5 @@ export class Compras
 	public comprafechacreacion!: Date;
 	public comprafechamodificacion!: Date;
 	public bitacoraid!: number;
+	public listaInventario!: Inventario[];
 }

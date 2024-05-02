@@ -2,8 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { Compras } from 'src/app/entity/Compras';
+import { Inventario } from 'src/app/entity/Inventario';
+import { Proveedores } from 'src/app/entity/Proveedores';
 import { Tipoproducto } from 'src/app/entity/Tipoproducto';
 import { ComprasService } from 'src/app/services/compras.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { TipoproductosService } from 'src/app/services/tipoproductos.service';
 import Swal from 'sweetalert2';
 
@@ -17,11 +20,16 @@ export class ComprasComponent {
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  listaCompras: Compras[]=[]
+  listaCompras: Compras[]=[];
   listaProductos: Tipoproducto[]=[];
+  listaProveedores: Proveedores[]=[];
+  listaInventario: Inventario[]=[];
+  showAgregarCompra: boolean = false;
+  inventario: Inventario=new Inventario();
 
   constructor(private comprasService: ComprasService,
-    private tipoproductoService: TipoproductosService){}
+    private tipoproductoService: TipoproductosService,
+    private proveedoresService: ProveedoresService){}
 
   ngOnInit(): void {
     this.tipoproductoService.getAll('').subscribe({
@@ -31,6 +39,16 @@ export class ComprasComponent {
       error: err=>{
         console.log("Error >> "+err);
         Swal.fire('Tipo Productos','No se logro recuperar la informacion', 'error');
+      }
+    });
+
+    this.proveedoresService.getAll().subscribe({
+      next: lista => {
+        this.listaProveedores=lista;
+      },
+      error: err=>{
+        console.log("Error >> "+err);
+        Swal.fire('Proveedores','No se logro recuperar la informacion', 'error');
       }
     });
 
@@ -89,6 +107,14 @@ export class ComprasComponent {
 
   guardarCompra():void{
     console.log("Se guardara ");
+  }
+
+  showFormAlta():void{
+    this.showAgregarCompra=true;
+  }
+
+  cancelaAlta():void{
+    this.showAgregarCompra=false;
   }
 
 }

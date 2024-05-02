@@ -1,42 +1,111 @@
 <app-nav></app-nav>
 <br>
 <div class="container">
-    <div class="row">
-        <div class="col-md-4">
+    
+    <div class="row" *ngIf="showAgregarCompra">
+        <div class="col-md-12">
             <h3>Alta de Compra</h3>
-            <form (ngSubmit)="guardarCompra()">
-                <div class="form-group">
-                    <label for="proveedorid">Proveedor</label>
-                    <select class="form-control" id="proveedorid" name="proveedorid" required>
-                        <option value="-1">Selecciona un proveedor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="compranumeroarticulos">Nº Articulos</label>
-                    <input type="text" class="form-control" id="compranumeroarticulos" name="compranumeroarticulos" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimporteneto">Importe Neto</label>
-                    <input type="text" class="form-control" id="compraimporteneto" name="compraimporteneto" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimporteiva">IVA</label>
-                    <input type="text" class="form-control" id="compraimporteiva" name="compraimporteiva" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimportetotal">Compra Total</label>
-                    <input type="text" class="form-control" id="compraimportetotal" name="compraimportetotal" required>
-                </div>
-                <button class="btn btn-success btn-lg" type="submit">Guardar</button>
-            </form>
-        </div>
-        <div class="col-md-8">
-            <h3>Lista Compras</h3>
             <div class="row">
-                <div class="col-md-12">
-                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
+                <div class="col-md-4">
+                    <form (ngSubmit)="guardarCompra()">
+                        <div class="form-group">
+                            <label for="proveedorid">Proveedor</label>
+                            <select class="form-control" id="proveedorid" name="proveedorid" 
+                                [(ngModel)]="inventario.tipoproductoid" required>
+                                <option value="-1">Selecciona un proveedor</option>
+                                <option *ngFor="let proveedor of listaProveedores" [ngValue]="proveedor.proveedorid">
+                                    {{proveedor.proveedornombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="compranumeroarticulos">Nº Articulos</label>
+                            <input type="text" class="form-control" id="compranumeroarticulos" name="compranumeroarticulos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inventariocostoporunidad">Importe Neto</label>
+                            <input type="text" class="form-control" id="inventariocostoporunidad" 
+                            name="inventariocostoporunidad" [(ngModel)]="inventario.inventariocostoporunidad" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="compraimporteiva">IVA</label>
+                            <input type="text" class="form-control" id="compraimporteiva" name="compraimporteiva" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="compraimportetotal">Compra Total</label>
+                            <input type="text" class="form-control" id="compraimportetotal" name="compraimportetotal" required>
+                        </div>
+                        <br>
+                        <button class="btn btn-success btn-lg" type="submit">Guardar</button>
+                        <button type="button" class="btn btn-danger btn-lg" (click)="cancelaAlta()">Cerrar</button>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <form >
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipoproductoid">Tipo Producto</label>
+                                    <select name="tipoproductoid" id="tipoproductoid" class="form-control" >
+                                        <option value="-1">Selecciona un tipo de producto</option>
+                                        <option *ngFor="let tipoproducto of listaProductos" [ngValue]="tipoproducto.tipoproductoid">
+                                            {{tipoproducto.tipoproductonombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Nº Unidades</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Costo unitario</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <button class="btn btn-info">Agregar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Nº Productos</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Total</th>
+                                        <th>---</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let producto of listaInventario">
+                                    <tr>
+                                        <td>{{producto}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="my-5">Lista Compras</h2>
+            <table datatable [dtOptions]="dtOptions" 
+            [dtTrigger]="dtTrigger" class="row-border hover"></table>
+            <button class="btn btn-primary" (click)="showFormAlta()">Agregar Compra</button>
         </div>
     </div>
 </div>
