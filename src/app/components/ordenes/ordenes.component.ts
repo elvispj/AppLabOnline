@@ -174,7 +174,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
       this.ordenesService.saveOrden(this.ordenes).subscribe({
         next: res => {
           console.log(res);
-          Swal.fire('Alta Doctor', 'Se agrego la orden de forma exitosa', 'success');
+          Swal.fire('Alta Orden', 'Se agrego la orden de forma exitosa', 'success');
           this.ordenes=new Ordenes();
         },
         error: err => {
@@ -253,6 +253,46 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
     this.ordenes.ordendireccion=clienteSeleccionado.clientedireccion;
     this.ordenes.ordentelefono=clienteSeleccionado.clientetelefono;
     this.listaBusquedaCliente=[];
+  }
+
+  GuardaOrden(){
+
+    if(this.ordenes.ordenesdetalle==undefined || this.ordenes.ordenesdetalle==null || this.ordenes.ordenesdetalle.length<1){
+      Swal.fire('Alta de Orden',`No se logro dar de alta la orden porque no se selecciono ningun estudio.`, 'error')
+      return;
+    }else{
+      if(this.ordenes.cliente.clienteid>0){
+        console.log("Utiliza el json cliente");
+        this.ordenes.clienteid=this.ordenes.cliente.clienteid;
+      }else{
+        console.log("Genera un nuevo json cliente");
+        let cliente:Clientes=new Clientes();
+        
+        cliente.clientetipo='PACIENTE';
+        cliente.clientenombre=this.ordenes.ordennombre;
+        cliente.clienteapellidopaterno=this.ordenes.ordennombre;
+        cliente.clienteapellidomaterno=this.ordenes.ordennombre;
+        cliente.clienteedad=this.ordenes.ordenedad;
+        cliente.clientesexo=this.ordenes.ordensexo;
+        cliente.clientetelefono=this.ordenes.ordentelefono;
+        cliente.clientedireccion=this.ordenes.ordendireccion;
+        cliente.clientedatosclinicos=this.ordenes.ordendatosclinicos;
+
+        this.ordenes.cliente=cliente;
+      }
+      console.log("Guardara "+JSON.stringify(this.ordenes));
+      this.ordenesService.saveOrdenn(this.ordenes).subscribe({
+        next: res => {
+          console.log(res);
+          Swal.fire('Alta Orden', 'Se agrego la orden de forma exitosa', 'success');
+          this.ordenes=new Ordenes();
+        },
+        error: err => {
+          console.error(err);
+          Swal.fire('Alta Orden',`No se logro guardar la orden`, 'error');
+        }
+      });
+    }
   }
 
   limpiarBusqueda():void{

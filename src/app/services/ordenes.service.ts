@@ -32,6 +32,12 @@ export class OrdenesService {
     return this.http.post<Ordenes>(`${this.URL}/${serviceName}`, ordenes, {headers : this.httpheaders});
   }
 
+  saveOrdenn(ordenes:Ordenes) : Observable<Ordenes>{
+    let serviceName='saveOrden';
+    console.log("Request  "+this.URL+"/"+serviceName);
+    return this.http.post<Ordenes>(`${this.URL}/${serviceName}`, ordenes, {headers : this.httpheaders});
+  }
+
   getURLOrdenes():string{
     return this.URL+"/list";
   }
