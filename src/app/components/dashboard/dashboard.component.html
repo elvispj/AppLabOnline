@@ -1,2 +1,13 @@
 <app-nav></app-nav>
 <p>dashboard works!</p>
+
+<section class="list_options">
+    <div *ngFor="let opcion of listOpciones">
+        <div class="card text-center" style="width: 18rem;">
+            <p class="icon_t"><i class="fa-solid fa-rectangle-list"></i></p>
+            <div class="card-body text-center">
+            <p class="card-text"><a href="/{{opcion}}">{{opcion}}</a></p>
+            </div>
+        </div>
+    </div>
+</section>

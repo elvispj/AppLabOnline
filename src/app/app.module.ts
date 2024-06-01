@@ -21,13 +21,13 @@ import { AdminDoctoresComponent } from './components/admin-doctores/admin-doctor
 import { DetalleDoctorComponent } from './components/detalle-doctor/detalle-doctor.component';
 
 const routes: Routes =[
-  { path: '', component:DashboardComponent, canActivate: [authGuard] },
+  { path: '', component:DashboardComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'estudios', component: EstudiosComponent, canActivate: [authGuard] },
-  { path: 'inventario', component: InventarioComponent, canActivate: [authGuard] },
-  { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
-  { path: 'compras', component: ComprasComponent, canActivate: [authGuard] },
-  { path: 'admindoctores', component: AdminDoctoresComponent, canActivate: [authGuard] }
+  { path: 'estudios', component: EstudiosComponent },
+  { path: 'inventario', component: InventarioComponent },
+  { path: 'ordenes', component: OrdenesComponent },
+  { path: 'compras', component: ComprasComponent },
+  { path: 'admindoctores', component: AdminDoctoresComponent }
 ];
 
 @NgModule({
