@@ -1,0 +1,9 @@
+.line{
+    border:none;
+    border-bottom:1px solid black;
+    color: red;
+    width:100%;
+  }
+  .line_textarea{
+    width:100%;
+  }
