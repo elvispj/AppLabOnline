@@ -1,138 +1,177 @@
-<h3>Detalle de la orden</h3>
-<form (ngSubmit)="PagarOrden()">
+<div class="card" style="width: auto;">
+  <div class="card-body">
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-              <label for="ordennombre">Nombre:</label>
-              <input class="line" type="text" id="ordennombre" name="ordennombre" [(ngModel)]="orden.ordennombre">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-              <label for="ordendireccion">Dirección:</label>
-              <input class="line" type="text" id="ordendireccion" name="ordendireccion" [(ngModel)]="orden.ordendireccion">
-            </div>
+        <div class="col-md-12 text-center">
+          <h3 class="card-title">Detalle de la orden</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenedad">Edad:</label>
-              <input class="line" type="number" id="ordenedad" name="ordenedad" [(ngModel)]="orden.ordenedad">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordensexo">Sexo:</label>
-              <input class="line" type="text" id="ordensexo" name="ordensexo" [(ngModel)]="orden.ordensexo">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordentelefono">Teléfono:</label>
-              <input class="line" type="text" id="ordentelefono" name="ordentelefono" [(ngModel)]="orden.ordentelefono">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenformaentrega">Forma de Entrega:</label>
-              <input class="line" type="text" id="ordenformaentrega" name="ordenformaentrega" [(ngModel)]="orden.ordenformaentrega">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="doctorid">ID de Doctor:</label>
-              <input class="line" type="number" id="doctorid" name="doctorid" [(ngModel)]="orden.doctorid">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenorigen">Origen de la Orden:</label>
-              <input class="line" type="text" id="ordenorigen" name="ordenorigen" [(ngModel)]="orden.ordenorigen">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-              <label for="ordencomentarios">Comentarios de la Orden:</label><br>
-              <textarea class="line_textarea" id="ordencomentarios" name="ordencomentarios" [(ngModel)]="orden.ordencomentarios"></textarea>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="ordendatosclinicos">Orden Datos Clinicos:</label>
-                <textarea class="line_textarea" type="text" id="ordendatosclinicos" name="ordendatosclinicos" [(ngModel)]="orden.ordendatosclinicos"></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="ordencomoubico">Orden Compuesto Ubico:</label>
-                <input class="line" type="text" id="ordencomoubico" name="ordencomoubico" [(ngModel)]="orden.ordencomoubico">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenfechacreacion">Fecha de Creación:</label>
-              <input class="line" type="date" id="ordenfechacreacion" name="ordenfechacreacion" [(ngModel)]="orden.ordenfechacreacion">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="formapagoid">Forma Pago ID:</label>
-                <input class="line" type="text" id="formapagoid" name="formapagoid" [(ngModel)]="orden.formapagoid">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenimporte">Importe de la Orden:</label>
-              <input class="line" type="number" id="ordenimporte" name="ordenimporte" [(ngModel)]="orden.ordenimporte">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordendescuento">Descuento:</label>
-              <input class="line" type="number" id="ordendescuento" name="ordendescuento" [(ngModel)]="orden.ordendescuento">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-              <label for="ordenimportedescuento">Importe con Descuento:</label>
-              <input class="line" type="number" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="orden.ordenimportedescuento">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="ordenimporteiva">Importe IVA:</label>
-              <input class="line" type="number" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="orden.ordenimporteiva">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="ordenimporteotrocobro">Importe Otro Cobro:</label>
-              <input class="line" type="number" id="ordenimporteotrocobro" name="ordenimporteotrocobro" [(ngModel)]="orden.ordenimporteotrocobro">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="ordenimportetotal">Importe Total:</label>
-              <input class="line" type="number" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="orden.ordenimportetotal">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-            <label for="ordenimportemaquila">Orden Importe Maquila:</label>
-            <input class="line" type="number" id="ordenimportemaquila" name="ordenimportemaquila" [(ngModel)]="orden.ordenimportemaquila">
+    <form (ngSubmit)="PagarOrden()">
+      <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="ordennombre">Nombre:</label>
+                <input class="line" type="text" id="ordennombre" name="ordennombre" [(ngModel)]="orden.ordennombre" disabled>
+              </div>
           </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="ordendireccion">Dirección:</label>
+                <input class="line" type="text" id="ordendireccion" name="ordendireccion" [(ngModel)]="orden.ordendireccion" disabled>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenedad">Edad:</label>
+                <input class="line" type="number" id="ordenedad" name="ordenedad" [(ngModel)]="orden.ordenedad" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordensexo">Sexo:</label>
+                <input class="line" type="text" id="ordensexo" name="ordensexo" [(ngModel)]="orden.ordensexo" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordentelefono">Teléfono:</label>
+                <input class="line" type="text" id="ordentelefono" name="ordentelefono" [(ngModel)]="orden.ordentelefono" disabled>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenformaentrega">Forma de Entrega:</label>
+                <input class="line" type="text" id="ordenformaentrega" name="ordenformaentrega" [(ngModel)]="orden.ordenformaentrega" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="doctorid">ID de Doctor:</label>
+                <input class="line" type="number" id="doctorid" name="doctorid" [(ngModel)]="orden.doctorid" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenorigen">Origen de la Orden:</label>
+                <input class="line" type="text" id="ordenorigen" name="ordenorigen" [(ngModel)]="orden.ordenorigen" disabled>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="ordencomentarios">Comentarios de la Orden:</label><br>
+                <textarea class="line_textarea" id="ordencomentarios" name="ordencomentarios" [(ngModel)]="orden.ordencomentarios" disabled></textarea>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="ordendatosclinicos">Orden Datos Clinicos:</label>
+                  <textarea class="line_textarea" type="text" id="ordendatosclinicos" name="ordendatosclinicos" [(ngModel)]="orden.ordendatosclinicos" disabled></textarea>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="ordencomoubico">Orden Compuesto Ubico:</label>
+                  <input class="line" type="text" id="ordencomoubico" name="ordencomoubico" [(ngModel)]="orden.ordencomoubico" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenfechacreacion">Fecha de Creación:</label>
+                <input class="line" type="date" id="ordenfechacreacion" name="ordenfechacreacion" [(ngModel)]="orden.ordenfechacreacion" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="formapagoid">Forma Pago ID:</label>
+                  <input class="line" type="text" id="formapagoid" name="formapagoid" [(ngModel)]="orden.formapagoid" disabled>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenimporte">Importe de la Orden:</label>
+                <input class="line" type="number" id="ordenimporte" name="ordenimporte" [(ngModel)]="orden.ordenimporte" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordendescuento">Descuento:</label>
+                <input class="line" type="number" id="ordendescuento" name="ordendescuento" [(ngModel)]="orden.ordendescuento" disabled>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="ordenimportedescuento">Importe con Descuento:</label>
+                <input class="line" type="number" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="orden.ordenimportedescuento" disabled>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="ordenimporteiva">Importe IVA:</label>
+                <input class="line" type="number" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="orden.ordenimporteiva" disabled>
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="ordenimporteotrocobro">Importe Otro Cobro:</label>
+                <input class="line" type="number" id="ordenimporteotrocobro" name="ordenimporteotrocobro" [(ngModel)]="orden.ordenimporteotrocobro" disabled>
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="ordenimportetotal">Importe Total:</label>
+                <input class="line" type="number" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="orden.ordenimportetotal" disabled>
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+              <label for="ordenimportemaquila">Orden Importe Maquila:</label>
+              <input class="line" type="number" id="ordenimportemaquila" name="ordenimportemaquila" [(ngModel)]="orden.ordenimportemaquila" disabled>
+            </div>
+          </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h3>Lista de estudios</h3>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Estudio</th>
+                <th>Costo</th>
+                <th>Descuento</th>
+                <th>Maquila</th>
+                <th>Costo Final</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let detalle of orden.ordenesdetalle">
+              <tr>
+                <td>{{detalle.estudio.estudionombre}}</td>
+                <td>{{detalle.ordendetallecosto}}</td>
+                <td>{{detalle.ordendetalledescuento}}</td>
+                <td>{{detalle.ordendetalleimportedescuento}}</td>
+                <td>{{detalle.ordendetallecostofinal}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </div>
-    <input class="btn btn-success" type="submit" value="Pagar Orden">
-  </form>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <input class="btn btn-success" type="submit" value="Pagar Orden">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
