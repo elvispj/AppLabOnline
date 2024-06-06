@@ -19,6 +19,7 @@ import { DetalleEstudioComponent } from './components/detalle-estudio/detalle-es
 import { ComprasComponent } from './components/compras/compras.component';
 import { AdminDoctoresComponent } from './components/admin-doctores/admin-doctores.component';
 import { DetalleDoctorComponent } from './components/detalle-doctor/detalle-doctor.component';
+import { ViewOrdenComponent } from './components/view-orden/view-orden.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -43,7 +44,8 @@ const routes: Routes =[
     DetalleEstudioComponent,
     ComprasComponent,
     AdminDoctoresComponent,
-    DetalleDoctorComponent
+    DetalleDoctorComponent,
+    ViewOrdenComponent
   ],
   imports: [
     BrowserModule,

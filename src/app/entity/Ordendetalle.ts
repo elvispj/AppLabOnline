@@ -13,5 +13,6 @@ export class Ordendetalle
 	public ordendetallefechacreacion: Date=new Date();
 	public ordendetallefechamodificacion: Date=new Date();
 	public bitacoraid: number=-1;
+	public estudionombre: string='';
 	public estudio: Estudios = new Estudios();
 }

@@ -1,3 +1,4 @@
+<br>
 <div class="card" style="width: auto;">
   <div class="card-body">
     <div class="row">
@@ -13,26 +14,26 @@
                 <input class="line" type="text" id="ordennombre" name="ordennombre" [(ngModel)]="orden.ordennombre" disabled>
               </div>
           </div>
-          <div class="col-md-6">
-              <div class="form-group">
-                <label for="ordendireccion">Dirección:</label>
-                <input class="line" type="text" id="ordendireccion" name="ordendireccion" [(ngModel)]="orden.ordendireccion" disabled>
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
               <div class="form-group">
                 <label for="ordenedad">Edad:</label>
                 <input class="line" type="number" id="ordenedad" name="ordenedad" [(ngModel)]="orden.ordenedad" disabled>
               </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
               <div class="form-group">
                 <label for="ordensexo">Sexo:</label>
                 <input class="line" type="text" id="ordensexo" name="ordensexo" [(ngModel)]="orden.ordensexo" disabled>
               </div>
           </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+              <label for="ordendireccion">Dirección:</label>
+              <input class="line" type="text" id="ordendireccion" name="ordendireccion" [(ngModel)]="orden.ordendireccion" disabled>
+            </div>
+        </div>
           <div class="col-md-4">
               <div class="form-group">
                 <label for="ordentelefono">Teléfono:</label>
@@ -49,8 +50,8 @@
           </div>
           <div class="col-md-4">
               <div class="form-group">
-                <label for="doctorid">ID de Doctor:</label>
-                <input class="line" type="number" id="doctorid" name="doctorid" [(ngModel)]="orden.doctorid" disabled>
+                <label for="doctornombre">Doctor:</label>
+                <input class="line" type="text" id="doctornombre" name="doctornombre" [(ngModel)]="orden.doctor.doctornombre" disabled>
               </div>
           </div>
           <div class="col-md-4">
@@ -84,7 +85,7 @@
           <div class="col-md-4">
               <div class="form-group">
                 <label for="ordenfechacreacion">Fecha de Creación:</label>
-                <input class="line" type="date" id="ordenfechacreacion" name="ordenfechacreacion" [(ngModel)]="orden.ordenfechacreacion" disabled>
+                <input class="line" type="text" id="ordenfechacreacion" name="ordenfechacreacion" [(ngModel)]="orden.ordenfechacreacion" disabled>
               </div>
           </div>
           <div class="col-md-4">
@@ -129,15 +130,15 @@
           </div>
           <div class="col-md-3">
               <div class="form-group">
-                <label for="ordenimportetotal">Importe Total:</label>
-                <input class="line" type="number" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="orden.ordenimportetotal" disabled>
-              </div>
-          </div>
-          <div class="col-md-3">
-              <div class="form-group">
               <label for="ordenimportemaquila">Orden Importe Maquila:</label>
               <input class="line" type="number" id="ordenimportemaquila" name="ordenimportemaquila" [(ngModel)]="orden.ordenimportemaquila" disabled>
             </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="ordenimportetotal">Importe Total:</label>
+                <input class="line" type="number" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="orden.ordenimportetotal" disabled>
+              </div>
           </div>
       </div>
       <hr>
@@ -156,7 +157,7 @@
             </thead>
             <tbody *ngFor="let detalle of orden.ordenesdetalle">
               <tr>
-                <td>{{detalle.estudio.estudionombre}}</td>
+                <td>{{detalle.estudionombre}}</td>
                 <td>{{detalle.ordendetallecosto}}</td>
                 <td>{{detalle.ordendetalledescuento}}</td>
                 <td>{{detalle.ordendetalleimportedescuento}}</td>

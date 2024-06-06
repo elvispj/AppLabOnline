@@ -1,4 +1,5 @@
 import { Clientes } from "./Clientes";
+import { Doctores } from "./Doctores";
 import { Estudios } from "./Estudios";
 import { Ordendetalle } from "./Ordendetalle";
 
@@ -30,6 +31,7 @@ export class Ordenes
 	public ordendatosclinicos: string='';
 	public formapagoid:string='';
 	public ordenimportemaquila:number=0;
+	public doctor: Doctores=new Doctores();
 	public ordenesdetalle: Ordendetalle[]=[];
 	public cliente: Clientes=new Clientes();
 }

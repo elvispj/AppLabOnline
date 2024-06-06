@@ -27,6 +27,7 @@ export class ViewEstudiosComponent {
       ordendetallefechacreacion: new Date(),
       ordendetallefechamodificacion: new Date(),
       bitacoraid: -1,
+      estudionombre: estudio.estudionombre,
       estudio: estudio
     };
     if(evt.target.checked){

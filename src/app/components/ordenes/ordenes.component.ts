@@ -89,8 +89,12 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
   }
 
   showDetalleOrden(orden:any){
-    this.ordenSeleccionada=orden;
-    this.vista="SHOW_ORDEN";
+    this.ordenesService.getOrden(orden.ordenid).subscribe(
+      resp=>{
+        this.ordenSeleccionada=resp;
+        this.vista="SHOW_ORDEN";
+    });
+    // this.ordenSeleccionada=orden;
   }
 
   addEstudio(addOrdendetalle: Ordendetalle): void{
