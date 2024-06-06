@@ -8,7 +8,7 @@ import { Tipoestudios } from 'src/app/entity/Tipoestudios';
 import { TipoestudiosService } from 'src/app/services/tipoestudios.service';
 import { Doctores } from 'src/app/entity/Doctores';
 import { DoctoresService } from 'src/app/services/doctores.service';
-import { Subject } from 'rxjs';
+import { Subject, catchError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Ordendetalle } from 'src/app/entity/Ordendetalle';
 import { DataTableDirective } from 'angular-datatables';
@@ -25,6 +25,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
   dtElement!: DataTableDirective;
   active = 1;
   ordenes: Ordenes = new Ordenes();
+  ordenSeleccionada!: Ordenes;
   estudios: Estudios[] = [];
   tiposestudios: Tipoestudios[] = [];
   listaDoctores: Doctores[] = [];
@@ -43,6 +44,8 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
     {formapagoid:"TRANSFERENCIA", formapagonombre:"Transferencia bancaria"}
   ];
 
+  vista:string='';
+
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
     private estudiosService: EstudiosService,
@@ -52,29 +55,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
-    this.dtOptions = {
-      pagingType: "full_numbers",
-      lengthMenu: [5,10,20,50],
-      ajax: (dataTablesParameters: any, callback) => {
-        console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
-        this.ordenesService.getOrdenes().subscribe(response => {
-          this.listaOrdenes = response;
-          let totalRecords = response.length;
-          let filteredRecords = response.length;
-          callback({
-            recordsTotal: totalRecords,
-            recordsFiltered: filteredRecords,
-            data: response
-          });
-        });
-      },
-      columns: [
-        {title:"Id", data: 'ordenid'},
-        {title:"Paciente", data: 'ordennombre'},
-        {title:"Importe Final", data: 'ordenimportetotal'},
-        {title:"Fecha", data: 'ordenfechacreacion'}
-      ]
-    };
+    this.doDataTable();
     
     this.estudiosService.getAll('').subscribe(
       res=>this.estudios=res
@@ -105,6 +86,11 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
+  }
+
+  showDetalleOrden(orden:any){
+    this.ordenSeleccionada=orden;
+    this.vista="SHOW_ORDEN";
   }
 
   addEstudio(addOrdendetalle: Ordendetalle): void{
@@ -293,6 +279,79 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
         }
       });
     }
+  }
+
+  doDataTable() {
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      lengthMenu: [10,20,50],
+      ajax: (dataTablesParameters: any, callback) => {
+        this.ordenesService.getOrdenes().subscribe(response => {
+          this.listaOrdenes = response;
+          let totalRecords = response.length;
+          let filteredRecords = response.length;
+          callback({
+            recordsTotal: totalRecords,
+            recordsFiltered: filteredRecords,
+            data: response
+          });
+        });
+      },
+      columns: [
+        {title:"Id", data: 'ordenid'},
+        {title:"Paciente", data: 'ordennombre'},
+        {title:"Importe Final", data: 'ordenimportetotal'},
+        {title:"Fecha", data: 'ordenfechacreacion'},
+        {title:"Acciones",
+          render:(data,type,row)=>{
+            if (row.ordenactiva=='true') {                   
+              return `<a name="Inactivar"class='statusT btn btn-warning btn-small'  style='color: white; font-size: 11px;' title='Inactivar Tarjeta'>
+                      <i class='fas fa-lock' style='font-size:12px'></i></a>`;//fas fa-credit-card
+            } else {
+              return `<a name="Activar" class='statusT btn btn-success btn-small' style='color: white; font-size: 11px; ' title='Activar Tarjeta'>
+                      <i class='fas fa-lock-open' style='font-size:12px'></i></a>`             
+            }
+          }        
+        }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        $('td', row).off('click');
+        $('td', row).on('click', () => {
+          self.showDetalleOrden(data);
+        });
+        return row;
+      },
+      // drawCallback:() =>{
+      //   $('.statusT').on('click', (event: any) => {          
+      //     // Obtener el objeto de fila asociado al elemento en el que se hizo clic
+      //     const rowData = $('.table') //selecciona la tabla con la clase 'table'.
+      //                     .DataTable()//recuperamos la instancia del data table de la tabla
+      //                     .row($(event.currentTarget).parents('tr'))//selecciona la fila (tr)  al elemento clicado
+      //                     .data(); //devuelve los datos de la fila seleccionada
+      //     const buttonName = $(event.currentTarget).attr('name');
+      //     this.rowData(rowData,buttonName);
+      //   });
+      // },
+      "language": {
+        search: 'Buscar Orden',
+        "zeroRecords": "Sin registros",
+        "info": "P&aacute;gina _PAGE_ de _PAGES_",
+        "infoEmpty": "No existen registrtos en base de datos",
+        "infoFiltered": "(filtrado de un total de _MAX_)",
+        "paginate": {
+          "previous": "Anterior",
+          "next": "Siguiente",
+          "last": "&Uacute;ltima p&aacute;gina",
+          "first": "Primera p&aacute;gina"
+        }
+      }
+    };
+  }
+
+  showView(vista:string){
+    this.vista=vista;
+    this.ordenSeleccionada=new Ordenes();
   }
 
   limpiarBusqueda():void{

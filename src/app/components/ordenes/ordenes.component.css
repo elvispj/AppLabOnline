@@ -6,3 +6,18 @@
     margin-top: 50px;
     justify-content: space-around;
   }
+
+p.icon_list, p.icon_alta{
+    font-size: 10rem;
+    margin-left: 20px;
+    color: #030c8c;
+}
+
+.list_options {
+    display: grid;
+    column-gap: 14px;
+    row-gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+    margin-top: 50px;
+    justify-content: space-around;
+}
