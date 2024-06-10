@@ -20,6 +20,7 @@ import { ComprasComponent } from './components/compras/compras.component';
 import { AdminDoctoresComponent } from './components/admin-doctores/admin-doctores.component';
 import { DetalleDoctorComponent } from './components/detalle-doctor/detalle-doctor.component';
 import { ViewOrdenComponent } from './components/view-orden/view-orden.component';
+import { PagosComponent } from './components/pagos/pagos.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -28,7 +29,8 @@ const routes: Routes =[
   { path: 'inventario', component: InventarioComponent, canActivate: [authGuard] },
   { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
   { path: 'compras', component: ComprasComponent, canActivate: [authGuard] },
-  { path: 'admindoctores', component: AdminDoctoresComponent, canActivate: [authGuard] }
+  { path: 'admindoctores', component: AdminDoctoresComponent, canActivate: [authGuard] },
+  { path: 'pagos', component: PagosComponent, canActivate: [authGuard] }
 ];
 
 @NgModule({
@@ -45,7 +47,8 @@ const routes: Routes =[
     ComprasComponent,
     AdminDoctoresComponent,
     DetalleDoctorComponent,
-    ViewOrdenComponent
+    ViewOrdenComponent,
+    PagosComponent
   ],
   imports: [
     BrowserModule,

@@ -44,7 +44,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
     {formapagoid:"TRANSFERENCIA", formapagonombre:"Transferencia bancaria"}
   ];
 
-  vista:string='';
+  vista:string='LISTA';
 
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
@@ -275,7 +275,9 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
         next: res => {
           console.log(res);
           Swal.fire('Alta Orden', 'Se agrego la orden de forma exitosa', 'success');
+          this.ordenSeleccionada=res;
           this.ordenes=new Ordenes();
+          this.vista="SHOW_ORDEN";
         },
         error: err => {
           console.error(err);
@@ -285,10 +287,17 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
     }
   }
 
+  pagarOrden(event:any){
+    this.router.navigate(['/pagos'],{ queryParams: { data: JSON.stringify(event) }});
+  }
+
   doDataTable() {
     this.dtOptions = {
       pagingType: "full_numbers",
       lengthMenu: [10,20,50],
+      order: [
+        [3, 'desc']
+      ],
       ajax: (dataTablesParameters: any, callback) => {
         this.ordenesService.getOrdenes().subscribe(response => {
           this.listaOrdenes = response;
@@ -304,7 +313,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
       columns: [
         {title:"Id", data: 'ordenid'},
         {title:"Paciente", data: 'ordennombre'},
-        {title:"Importe Final", data: 'ordenimportetotal'},
+        {title:"Costo", data: 'ordenimportetotal'},
         {title:"Fecha", data: 'ordenfechacreacion'},
         {title:"Acciones",
           render:(data,type,row)=>{
