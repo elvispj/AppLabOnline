@@ -72,22 +72,28 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="pagoimporte">Importe</label>
-                        <input type="text" class="form-control" id="pagoimporte" name="pagoimporte" [(ngModel)]="pago.pagoimporte">
+                        <input type="text" class="form-control" id="pagoimporte" name="pagoimporte" [(ngModel)]="pago.pagoimporte" disabled>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="pagoimporte">Descuento</label>
+                        <input type="text" class="form-control" id="pagoimporte" name="pagoimporte" value="{{pago.pagoimporte-pago.pagoimportetotal}}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="pagoiva">IVA</label>
-                        <input type="text" class="form-control" id="pagoiva" name="pagoiva" [(ngModel)]="pago.pagoiva">
+                        <input type="text" class="form-control" id="pagoiva" name="pagoiva" [(ngModel)]="pago.pagoiva" disabled>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="pagoimportetotal">Pago Total</label>
-                        <input type="text" class="form-control" id="pagoimportetotal" name="pagoimportetotal" [(ngModel)]="pago.pagoimportetotal">
+                        <input type="text" class="form-control" id="pagoimportetotal" name="pagoimportetotal" [(ngModel)]="pago.pagoimportetotal" disabled>
                     </div>
                 </div>
             </div>
@@ -95,19 +101,22 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-4 text-center">
             <h3>Agregar Pago</h3>
             <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="pagodetalleimporte">Importe</label>
-                        <input type="text" class="form-control" id="pagodetalleimporte" name="pagodetalleimporte" [(ngModel)]="intpagodetallenuevo.pagodetalleimporte">
+                <div class="col-md-12">
+                    <label for="pagodetalleimporte">Importe</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="pagodetalleimporte" name="pagodetalleimporte" [(ngModel)]="intpagodetalle.pagodetalleimporte">
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="formapagoid">Forma Pago</label>
-                        <select class="form-control" id="formapagoid" name="formapagoid" [(ngModel)]="intpagodetallenuevo.formapagoid">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="formapagoid">Forma Pago</label>
+                        <select class="form-control" id="formapagoid" name="formapagoid" [(ngModel)]="intpagodetalle.formapagoid">
                             <option value="">Seleccionar</option>
                             <option *ngFor="let formapago of listaFormasPago" [ngValue]="formapago.formapagoid">
                                 {{formapago.formapagonombre}}
@@ -115,14 +124,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6 text-start">
-                    <button class="btn btn-primary" (click)="AgregarPagoDetalle()">Agregar Pago</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary m-3" (click)="AgregarPagoDetalle()">Agregar Pago</button>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <span class=" text-center"><h3>Detalle del pago</h3></span>
             <table class="table table-hover">
                 <thead>
@@ -131,21 +140,30 @@
                         <th>Importe</th>
                         <th>Estatus</th>
                         <th>Fecha</th>
-                        <th></th>
+                        <th>---</th>
                     </tr>
                 </thead>
                 <tbody *ngFor="let det of listaIntpagodetalle">
                     <tr>
                         <td>{{det.formapagoid}}</td>
                         <td>{{det.pagodetalleimporte}}</td>
-                        <td>{{det.pagodetalleimporte}}</td>
-                        <td>{{det.pagodetallefechacreacion}}</td>
-                        <td></td>
+                        <td>{{det.pagodetalleid>0 ? "Aplicado" : "Nuevo"}}</td>
+                        <td>{{det.pagodetallefechacreacion | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td><button class="btn btn-danger" (click)="eliminarDetalle(det.pagodetallefechacreacion)"><i class="fa-regular fa-trash-can"></i></button></td>
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger">Cancelar</button>
+            <div class="shadow-lg rounded bg-body p-3 mb-5 mt-5 text-dark fw-bold text-center">$ {{getTotal()}}</div>
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button class="btn btn-success btn-lg m-3">Guardar</button>
+            <button class="btn btn-danger btn-lg m-3">Cancelar</button>
+        </div>
+    </div>
+    <hr>
 </div>
+<br>
+<br>

@@ -23,6 +23,7 @@ export class ViewOrdenComponent implements OnInit {
   actualizaCostos(event:any, detalle:any){
     let descuento=event.target.value;
     let importeDescuento=0;
+    let ordenimportedescuento=0;
     let importetotal=0;
     let importeiva=0;
     if(descuento==undefined || descuento==null 
@@ -31,7 +32,7 @@ export class ViewOrdenComponent implements OnInit {
         event.target.value=0;
         return;
     }
-    if(!(/^[0-9]$/.test(descuento))){
+    if(!(/^[0-9]*$/.test(descuento))){
       Swal.fire('Actualizacion','Solo se reciben numeros enteros', 'info');
       event.target.value=0;
       return;
@@ -52,11 +53,12 @@ export class ViewOrdenComponent implements OnInit {
     this.orden.ordenesdetalle[index].ordendetallecostofinal=Number(this.orden.ordenesdetalle[index].ordendetallecosto) - importeDescuento;
     this.orden.ordenesdetalle.forEach(det=>{
       importetotal+=Number(det.ordendetallecostofinal);
+      ordenimportedescuento+=Number(det.ordendetalleimportedescuento);
     });
     importeiva=Number((importetotal/1.16)*0.16);
     console.log("importeDescuento="+importeDescuento);
     console.log("importetotal="+importetotal);
-    this.orden.ordenimportedescuento=Number(importeDescuento);
+    this.orden.ordenimportedescuento=Number(ordenimportedescuento);
     this.orden.ordenimporteiva=Number(importeiva.toFixed(2));
     this.orden.ordenimportetotal=Number(importetotal);
   }
