@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Constantes } from '../utils/Constantes';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Formaspago } from '../entity/formaspago';
+import { Formaspago } from '../entity/Formaspago';
 
 @Injectable({
   providedIn: 'root'
