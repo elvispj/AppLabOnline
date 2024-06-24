@@ -88,19 +88,25 @@
           </div>
       </div>
       <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
               <div class="form-group">
                 <label for="ordenimporte">Importe de la Orden:</label>
                 <input class="line" type="number" id="ordenimporte" name="ordenimporte" [(ngModel)]="orden.ordenimporte" disabled>
               </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="ordenimportedescuento">Descuento</label>
+                <input class="line" type="number" id="ordenimportedescuento" name="ordenimportedescuento" [(ngModel)]="orden.ordenimportedescuento" disabled>
+              </div>
+          </div>
+          <div class="col-md-3">
               <div class="form-group">
                 <label for="ordenimporteiva">Importe IVA:</label>
                 <input class="line" type="number" id="ordenimporteiva" name="ordenimporteiva" [(ngModel)]="orden.ordenimporteiva" disabled>
               </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
               <div class="form-group">
                 <label for="ordenimportetotal">Importe Total:</label>
                 <input class="line" type="number" id="ordenimportetotal" name="ordenimportetotal" [(ngModel)]="orden.ordenimportetotal" disabled>

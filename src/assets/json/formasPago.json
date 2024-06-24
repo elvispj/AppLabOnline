@@ -1,0 +1,26 @@
+[
+    {
+        "formapagoid": "TARJETA",
+        "formapagoactivo": true,
+        "formapagonombre": "Pago con tarjeta",
+        "formapagodescripcion": "Pago con tarjeta de crédito Visa o Mastercard",
+        "formapagofechacreacion": "2022-01-01T12:00:00.000Z",
+        "formapagofechamodificacion": "2022-01-01T12:00:00.000Z"
+      },
+      {
+        "formapagoid": "EFECTIVO",
+        "formapagoactivo": true,
+        "formapagonombre": "Pago en efectivo",
+        "formapagodescripcion": "Pago con tarjeta de crédito Visa o Mastercard",
+        "formapagofechacreacion": "2022-01-01T12:00:00.000Z",
+        "formapagofechamodificacion": "2022-01-01T12:00:00.000Z"
+      },
+      {
+        "formapagoid": "TRANSFERENCIA",
+        "formapagoactivo": true,
+        "formapagonombre": "Pago con transferencia bancaria",
+        "formapagodescripcion": "Pago con tarjeta de crédito Visa o Mastercard",
+        "formapagofechacreacion": "2022-01-01T12:00:00.000Z",
+        "formapagofechamodificacion": "2022-01-01T12:00:00.000Z"
+      }
+]

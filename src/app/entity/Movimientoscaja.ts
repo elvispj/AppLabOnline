@@ -1,6 +1,6 @@
 import { Tiposmovimiento } from "./Tiposmovimiento";
 import { Usuarios } from "./Usuarios";
-import { Formaspago } from "./formaspago";
+import { Formaspago } from "./Formaspago";
 
 export class Movimientoscaja
 {
