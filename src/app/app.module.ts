@@ -21,6 +21,11 @@ import { AdminDoctoresComponent } from './components/admin-doctores/admin-doctor
 import { DetalleDoctorComponent } from './components/detalle-doctor/detalle-doctor.component';
 import { ViewOrdenComponent } from './components/view-orden/view-orden.component';
 import { PagosComponent } from './components/pagos/pagos.component';
+import { MedicaladminComponent } from './components/medicaladmin/medicaladmin.component';
+import { MaPacientesComponent } from './components/medicaladmin/ma-pacientes/ma-pacientes.component';
+import { MaPerfilComponent } from './components/medicaladmin/ma-perfil/ma-perfil.component';
+import { MaCitasComponent } from './components/medicaladmin/ma-citas/ma-citas.component';
+import { MaMensajesComponent } from './components/medicaladmin/ma-mensajes/ma-mensajes.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -30,7 +35,14 @@ const routes: Routes =[
   { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
   { path: 'compras', component: ComprasComponent, canActivate: [authGuard] },
   { path: 'admindoctores', component: AdminDoctoresComponent, canActivate: [authGuard] },
-  { path: 'pagos', component: PagosComponent, canActivate: [authGuard] }
+  { path: 'pagos', component: PagosComponent, canActivate: [authGuard] },
+  { path: 'medicaladmin', component: MedicaladminComponent, canActivate: [authGuard] , 
+    children: [
+      {path: 'pacientes', component: MaPacientesComponent, canActivate: [authGuard]},
+      {path: 'perfil', component: MaPerfilComponent, canActivate: [authGuard]},
+      {path: 'mensajes', component: MaMensajesComponent, canActivate: [authGuard]},
+      {path: 'citas', component: MaCitasComponent, canActivate: [authGuard]}
+    ]}
 ];
 
 @NgModule({
@@ -48,7 +60,12 @@ const routes: Routes =[
     AdminDoctoresComponent,
     DetalleDoctorComponent,
     ViewOrdenComponent,
-    PagosComponent
+    PagosComponent,
+    MedicaladminComponent,
+    MaPacientesComponent,
+    MaPerfilComponent,
+    MaCitasComponent,
+    MaMensajesComponent
   ],
   imports: [
     BrowserModule,

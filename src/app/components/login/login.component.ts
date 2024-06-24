@@ -22,14 +22,15 @@ export class LoginComponent {
   login(form: NgForm){
     console.log('Form >> '+form.value)
 
-    this.loginService.login(this.creds).subscribe(
-      response => {
+    this.loginService.login(this.creds).subscribe({
+      next: response => {
+        console.log("Estor regreso >>"+JSON.stringify(response));
         this.router.navigate(['/']);
       },
-      err =>{
+      error: err =>{
         console.log("Error en login "+err),
         Swal.fire('Login failed',` El usuario o contraseña es incorrecto`, 'error')
       }
-    )
+    })
   }
 }

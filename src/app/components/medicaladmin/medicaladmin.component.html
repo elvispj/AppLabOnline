@@ -1,0 +1,60 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="sidebar">
+                <div class="logo items">
+                    <span class="text-center icono_p">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </span>
+                    <span class="mainHead para">
+                        <h5>Medical</h5>
+                        <h4>Admin</h4>
+                    </span>
+                </div>
+        
+                <li class="items">
+                    <i class="fa-solid fa-house"></i>
+                    <a class="para" href="/medicaladmin">Home</a>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-user"></i>
+                    <a class="para" href="/medicaladmin/pacientes" >Pacientes</a>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <a class="para" href="/medicaladmin/citas">Citas</a>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-envelope"></i>
+                    <a class="para" href="/medicaladmin/mensajes">Messages</a>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-gear"></i>
+                    <a class="para" href="/medicaladmin/perfil">Perfil</a>
+                </li>
+        
+                <li class="items logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <button class="btn btn-default para" (click)="logout()">Logout</button>
+                </li>
+            </div>
+        
+            <div class="toggler">
+                <i class="fa-solid fa-bars" id="toggle-bars"></i>
+                <i class="fa-solid fa-xmark" id="toggle-cross"></i>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

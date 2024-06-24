@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { Credentials } from '../entity/Credentials';
 import { Constantes } from '../utils/Constantes';
 import { Router } from '@angular/router';
+import { Usuarios } from '../entity/Usuarios';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,23 @@ export class LoginService {
     return this.http.post<any>(`${this.URL}/${serviceName}`, creds, {
       observe: 'response'
     }).pipe(map((response: HttpResponse<any>) => {
+        console.log("Response>> "+JSON.stringify(response));
+        let usuario:Usuarios={
+          usuarioid: response.body.id,
+          perfilid: 0,
+          colaboradorid: 0,
+          usuarioactivo: false,
+          usuariocorreo: response.body.username,
+          usuariopwd: '',
+          usuarionombre: '',
+          usuarioapellidopaterno: '',
+          usuarioapellidomaterno: '',
+          usuariofechacreacion: new Date(),
+          usuariofechamodificacion: new Date(),
+          usuarioultimoacceso: new Date(),
+          usuariokey: '',
+          usuarioimage: []
+        };
         const body = response.body;
         const headers = response.headers;
 
@@ -32,8 +50,9 @@ export class LoginService {
           const token = bearerToken.replace('Bearer', '');
 
           sessionStorage.setItem("token", token);
+          sessionStorage.setItem("usuario", JSON.stringify(usuario));
         }
-        return body;
+        return usuario;
       }))
   }
 
@@ -43,6 +62,7 @@ export class LoginService {
 
   logout():void{
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("usuario");
     this.router.navigate(['/login']);
   }
 
