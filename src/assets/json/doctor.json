@@ -1,0 +1,12 @@
+{
+    "doctorid": 1,
+    "doctoractivo": true,
+    "doctornombre": "John",
+    "doctorapellidopaterno": "Doe",
+    "doctorapellidomaterno": "Smith",
+    "doctorcedula": "123456789",
+    "doctortitulo": "Dr.",
+    "doctorfechacreacion": "2022-01-01T12:00:00.000Z",
+    "doctorfechamodificacion": "2022-01-01T12:00:00.000Z",
+    "bitacoraid": 1
+}
