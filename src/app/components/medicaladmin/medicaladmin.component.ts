@@ -9,22 +9,18 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class MedicaladminComponent implements OnInit {
 
+  titleView:any='Medical Admin';
+
   constructor(private elementRef:ElementRef,
     private loginService:LoginService, 
     private router: Router){}
 
   ngOnInit(): void {
-    const toggler = this.elementRef.nativeElement.querySelector('.toggler')
-    const sidebar = this.elementRef.nativeElement.querySelector('.sidebar')
+    const hamBurger = this.elementRef.nativeElement.querySelector(".toggle-btn");
 
-    const showFull = () => {
-      toggler.addEventListener('click', ()=> {
-        toggler.classList.toggle('active')
-        sidebar.classList.toggle('active')
-      });
-    }
-
-    showFull();
+    hamBurger.addEventListener("click", () => {
+      this.elementRef.nativeElement.querySelector("#sidebar").classList.toggle("expand");
+    });
   }
 
   logout(){

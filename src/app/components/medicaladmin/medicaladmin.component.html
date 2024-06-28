@@ -1,59 +1,89 @@
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <div class="sidebar">
-                <div class="logo items">
-                    <span class="text-center icono_p">
-                        <i class="fa-solid fa-user-doctor"></i>
-                    </span>
-                    <span class="mainHead para">
-                        <h5>Medical</h5>
-                        <h4>Admin</h4>
-                    </span>
-                </div>
-        
-                <li class="items">
-                    <i class="fa-solid fa-house"></i>
-                    <a class="para" href="/medicaladmin">Home</a>
-                </li>
-                <li class="items">
-                    <i class="fa-solid fa-user"></i>
-                    <a class="para" href="/medicaladmin/pacientes" >Pacientes</a>
-                </li>
-                <li class="items">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <a class="para" href="/medicaladmin/citas">Citas</a>
-                </li>
-                <li class="items">
-                    <i class="fa-solid fa-envelope"></i>
-                    <a class="para" href="/medicaladmin/mensajes">Messages</a>
-                </li>
-                <li class="items">
-                    <i class="fa-solid fa-gear"></i>
-                    <a class="para" href="/medicaladmin/perfil">Perfil</a>
-                </li>
-        
-                <li class="items logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <button class="btn btn-default para" (click)="logout()">Logout</button>
-                </li>
-            </div>
-        
-            <div class="toggler">
-                <i class="fa-solid fa-bars" id="toggle-bars"></i>
-                <i class="fa-solid fa-xmark" id="toggle-cross"></i>
+<div class="wrapper">
+    <aside id="sidebar">
+        <div class="d-flex">
+            <button class="toggle-btn" type="button">
+                <i class="fa-solid fa-user-doctor"></i>
+            </button>
+            <div class="sidebar-logo">
+                <a href="/medicaladmin">Medical Admin</a>
             </div>
         </div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-12">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <router-outlet></router-outlet>
-                </div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-item">
+                <a href="/medicaladmin/pacientes" class="sidebar-link">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Pacientes</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/medicaladmin/mensajes" class="sidebar-link">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Mensajes</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/medicaladmin/citas" class="sidebar-link">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Citas</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/medicaladmin/perfil" class="sidebar-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Perfil</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#" class="sidebar-link" (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+        <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                <i class="lni lni-protection"></i>
+                <span>Auth</span>
+            </a>
+            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">Login</a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">Register</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+                <i class="lni lni-layout"></i>
+                <span>Multi Level</span>
+            </a>
+            <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
+                        Two Links
+                    </a>
+                    <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">Link 1</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">Link 2</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li> -->
+    </aside>
+    <div class="main p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <router-outlet></router-outlet>
             </div>
         </div>
     </div>
