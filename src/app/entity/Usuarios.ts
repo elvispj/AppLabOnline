@@ -14,4 +14,5 @@ export class Usuarios
     public usuarioultimoacceso!: Date;
     public usuariokey!: string;
     public usuarioimage!: number[];
+    public role!:string;
 }

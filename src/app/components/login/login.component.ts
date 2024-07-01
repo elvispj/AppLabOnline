@@ -20,12 +20,16 @@ export class LoginComponent {
     private router: Router){ }
 
   login(form: NgForm){
-    console.log('Form >> '+form.value)
-
     this.loginService.login(this.creds).subscribe({
       next: response => {
-        console.log("Estor regreso >>"+JSON.stringify(response));
-        this.router.navigate(['/']);
+        console.log("Esto regreso >>"+JSON.stringify(response));
+        if(response.role==='USER' || response.role==='0' || response.perfilid===0){
+          console.log("va amediadmin");
+          this.router.navigate(['/medicaladmin']);
+        }else{
+          console.log("va dashboard");
+          this.router.navigate(['/']);
+        }
       },
       error: err =>{
         console.log("Error en login "+err),
