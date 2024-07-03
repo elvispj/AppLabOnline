@@ -1,3 +1,5 @@
+import { Movimientoscaja } from "./Movimientoscaja";
+
 export class Pagodetalle
 {
 	public pagodetalleid!: number;
@@ -7,6 +9,7 @@ export class Pagodetalle
     public pagodetalleimporte!: number;
     public pagodetallefechacreacion!: Date;
     public pagodetallefechamodificacion!: Date;
+	public movimientoscaja!: Movimientoscaja | undefined;
 }
 
 export interface Int_PagoDetalle{

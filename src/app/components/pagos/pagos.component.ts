@@ -2,12 +2,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Ordenes } from 'src/app/entity/Ordenes';
-import { Int_PagoDetalle } from 'src/app/entity/Pagodetalle';
+import { Int_PagoDetalle, Pagodetalle } from 'src/app/entity/Pagodetalle';
 import { Pagos } from 'src/app/entity/Pagos';
 import { Formaspago } from 'src/app/entity/Formaspago';
 import { FormaspagoService } from 'src/app/services/formaspago.service';
 import Swal from 'sweetalert2';
 import { DatePipe, formatDate } from "@angular/common";
+import { Movimientoscaja } from 'src/app/entity/Movimientoscaja';
+import { Tiposmovimiento } from 'src/app/entity/Tiposmovimiento';
+import { Usuarios } from 'src/app/entity/Usuarios';
+import { PagosService } from 'src/app/services/pagos.service';
 
 @Component({
   selector: 'app-pagos',
@@ -16,6 +20,7 @@ import { DatePipe, formatDate } from "@angular/common";
 })
 export class PagosComponent implements OnInit {
   pipe = new DatePipe('es-MX');
+  usuario: Usuarios = JSON.parse(sessionStorage.getItem("usuario")!);
   orden!: Ordenes;
   pago: Pagos=new Pagos();
   listaFormasPago: Formaspago[]=[];
@@ -34,7 +39,8 @@ export class PagosComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   constructor(private router: ActivatedRoute,
-    private formaspagoService: FormaspagoService
+    private formaspagoService: FormaspagoService,
+    private pagosService: PagosService
   ){}
 
   ngOnInit(): void {
@@ -52,6 +58,60 @@ export class PagosComponent implements OnInit {
     });
     
     this.doDataTable();
+  }
+
+  guardarPago(){
+    if(this.listaIntpagodetalle.length>0){
+      console.log("Inicia guardar pago");
+      let listaPagodetalle:Pagodetalle[]=[];
+      let totalDetallePago:number=0.0;
+      this.listaIntpagodetalle.forEach((pagodet)=>{
+        let movimientoscaja:Movimientoscaja={
+          movimientoid: 0,
+          tipomovimientoid: 'ESTU',
+          formapagoid: pagodet.formapagoid,
+          usuarioid: this.usuario.usuarioid,
+          corteid: 0,
+          movimientocargo: 0,
+          movimientoabono: pagodet.pagodetalleimporte,
+          movimientosaldo: 0,
+          movimientocomentarios: 'Se agrega pago por orden de estudio ID-'+this.orden.ordenid,
+          movimientofecha: new Date(),
+          bitacoraid: 0,
+          formapago: new Formaspago(),
+          tiposmovimiento: new Tiposmovimiento(),
+          usuario: new Usuarios()
+        };
+        let pagodetalle:Pagodetalle={
+          pagodetalleid: 0,
+          pagoid: 0,
+          movimientocajaid: 0,
+          pagodetalleactivo: false,
+          pagodetalleimporte: pagodet.pagodetalleimporte,
+          pagodetallefechacreacion: new Date(),
+          pagodetallefechamodificacion: new Date(),
+          movimientoscaja: movimientoscaja
+        };
+        totalDetallePago+=Number(pagodetalle.pagodetalleimporte);
+        listaPagodetalle.push(pagodetalle);
+      });
+      if(totalDetallePago>this.pago.pagoimportetotal){
+        Swal.fire('Guardar Pago','El importe total del detalle del pago es mayor al total de la orden de estudio', 'error');
+        return;
+      }
+      this.pago.pagodetalle=listaPagodetalle;
+      this.pagosService.save(this.pago).subscribe({
+        next: resp=>{
+          Swal.fire('Guardar Pago','Se guardo exitosamente el pago', 'success');
+        },
+        error: err=>{
+          Swal.fire('Guardar Pago','No se guardardo el pago', 'error');
+        }
+      })
+    } else {
+      console.log("No se agregaron detalles del pago");
+      Swal.fire('Guardar Pago','No se agregaron detalles del pago', 'error');
+    }
   }
 
   AgregarPagoDetalle(){
@@ -87,6 +147,7 @@ export class PagosComponent implements OnInit {
       Swal.fire('Aviso','Se ha superado el importe del pago', 'warning');
       return;
     }
+    this.intpagodetalle.tipomovimientoid='ESTU';
     this.listaIntpagodetalle.push(this.intpagodetalle);
     this.intpagodetalle={
       pagodetalleid: 0,

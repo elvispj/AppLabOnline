@@ -15,7 +15,7 @@ export class Movimientoscaja
     public movimientocomentarios!: string;
     public movimientofecha!: Date;
     public bitacoraid!: number;
-    public tiposmovimiento!: Tiposmovimiento;
-    public usuario!: Usuarios;
-    public formapago!: Formaspago;
+    public tiposmovimiento!: Tiposmovimiento | undefined;
+    public usuario!: Usuarios | undefined;
+    public formapago!: Formaspago | undefined;
 }
