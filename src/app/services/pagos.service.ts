@@ -18,6 +18,12 @@ export class PagosService {
     return this.http.get<Pagos[]>(`${this.URL}/${serviceName}`);
   }
 
+  getPagoByOrdenId(ordenid:number): Observable<Pagos>{
+    let serviceName='search/orden';
+    console.log("Request list "+this.URL+"/"+serviceName);
+    return this.http.get<Pagos>(`${this.URL}/${serviceName}/${ordenid}`);
+  }
+
   save(pagos: Pagos): Observable<Pagos>{
     let serviceName='save';
     console.log("Request list "+this.URL+"/"+serviceName);

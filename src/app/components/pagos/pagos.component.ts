@@ -23,6 +23,7 @@ export class PagosComponent implements OnInit {
   usuario: Usuarios = JSON.parse(sessionStorage.getItem("usuario")!);
   orden!: Ordenes;
   pago: Pagos=new Pagos();
+  omitirProcesoPago:boolean=false;
   listaFormasPago: Formaspago[]=[];
   listaIntpagodetalle: Int_PagoDetalle[]=[];
   intpagodetalle: Int_PagoDetalle={
@@ -56,6 +57,27 @@ export class PagosComponent implements OnInit {
       this.pago.pagoimportetotal=this.orden.ordenimportetotal;
       console.log(JSON.stringify(this.pago));
     });
+
+    this.pagosService.getPagoByOrdenId(this.orden.ordenid).subscribe({
+      next: resp=>{
+        this.pago=resp;
+        console.log("Se recupero >>"+JSON.stringify(this.pago));
+        this.omitirProcesoPago=(this.pago.pagoestatusid==='PAG' || this.pago.pagoestatusid==='CAN') ? true : false;
+        this.pago.pagodetalle.forEach((detalle)=>{
+          let intpagodetalle:Int_PagoDetalle ={
+            pagodetalleid: detalle.pagodetalleid,
+            pagoid: detalle.pagoid,
+            pagodetalleimporte: detalle.pagodetalleimporte,
+            formapagoid: detalle.movimientoscaja?.formapagoid || '',
+            formapagonombre: '',
+            tipomovimientoid: detalle.movimientoscaja?.tipomovimientoid||'',
+            usuarioid: detalle.movimientoscaja?.usuarioid || 0,
+            pagodetallefechacreacion: detalle.pagodetallefechacreacion
+          };
+          this.listaIntpagodetalle.push(intpagodetalle);
+        });
+      }
+    })
     
     this.doDataTable();
   }
@@ -99,6 +121,7 @@ export class PagosComponent implements OnInit {
         Swal.fire('Guardar Pago','El importe total del detalle del pago es mayor al total de la orden de estudio', 'error');
         return;
       }
+
       this.pago.pagodetalle=listaPagodetalle;
       this.pagosService.save(this.pago).subscribe({
         next: resp=>{

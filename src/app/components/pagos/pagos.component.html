@@ -100,7 +100,12 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" *ngIf="omitirProcesoPago">
+        <div class="col-md-12 text-center">
+            <div class="shadow-lg rounded bg-body p-3 mb-5 mt-5 text-dark fw-bold text-center">PAGADO<br>{{pago.pagofechamodificacion}}</div>
+        </div>
+    </div>
+    <div class="row" *ngIf="omitirProcesoPago">
         <div class="col-md-4 text-center">
             <h3>Agregar Pago</h3>
             <div class="row">
@@ -127,7 +132,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-primary m-3" (click)="AgregarPagoDetalle()">Agregar Pago</button>
+                    <button class="btn btn-primary m-3" (click)="AgregarPagoDetalle()" [disabled]="omitirProcesoPago">Agregar Pago</button>
                 </div>
             </div>
         </div>
@@ -149,7 +154,7 @@
                         <td>{{det.pagodetalleimporte}}</td>
                         <td>{{det.pagodetalleid>0 ? "Aplicado" : "Nuevo"}}</td>
                         <td>{{det.pagodetallefechacreacion | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-                        <td><button class="btn btn-danger" (click)="eliminarDetalle(det.pagodetallefechacreacion)"><i class="fa-regular fa-trash-can"></i></button></td>
+                        <td><button class="btn btn-danger" (click)="eliminarDetalle(det.pagodetallefechacreacion)" [disabled]="omitirProcesoPago"><i class="fa-regular fa-trash-can"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -157,9 +162,9 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" *ngIf="!omitirProcesoPago">
         <div class="col-md-12 text-center">
-            <button class="btn btn-success btn-lg m-3" (click)="guardarPago()">Guardar</button>
+            <button class="btn btn-success btn-lg m-3" (click)="guardarPago()">Guardar {{pago.pagoestatusid}}</button>
             <button class="btn btn-danger btn-lg m-3">Cancelar</button>
         </div>
     </div>
