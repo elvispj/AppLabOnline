@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ordenes } from 'src/app/entity/Ordenes';
+import { Pagos } from 'src/app/entity/Pagos';
 import { OrdenesService } from 'src/app/services/ordenes.service';
+import { PagosService } from 'src/app/services/pagos.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,10 +13,23 @@ import Swal from 'sweetalert2';
 export class ViewOrdenComponent implements OnInit {
   @Input() orden!: Ordenes;
   @Output() pagaOrden: EventEmitter<any> = new EventEmitter();
+  pago!:Pagos;
 
-  constructor(private ordenService:OrdenesService){}
+  constructor(private ordenService:OrdenesService,
+    private pagosService: PagosService
+  ){}
 
   ngOnInit(): void {
+    this.pagosService.getPagoByOrdenId(this.orden.ordenid).subscribe({
+      next: resp=>{
+        if(resp){
+          this.pago = resp;
+        }
+      },
+      error: err=>{
+        console.log("Se genero un error al buscar el pago "+err);
+      }
+    });
     /*this.ordenService.getOrden(1).subscribe(res=>{
       this.orden=res
     });*/

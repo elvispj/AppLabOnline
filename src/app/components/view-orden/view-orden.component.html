@@ -145,7 +145,7 @@
               <tr>
                 <td>{{detalle.estudionombre}}</td>
                 <td>{{detalle.ordendetallecosto}}</td>
-                <td><input type="text" id="ordendetalledescuento" value="{{detalle.ordendetalledescuento}}" (change)="actualizaCostos($event, detalle)"></td>
+                <td><input type="text" id="ordendetalledescuento" value="{{detalle.ordendetalledescuento}}" (change)="actualizaCostos($event, detalle)" [disabled]="pago"></td>
                 <td><input type="text" id="ordendetalleimportedescuento" value="{{detalle.ordendetalleimportedescuento}}" disabled></td>
                 <td><input type="text" id="ordendetallecostofinal" value="{{detalle.ordendetallecostofinal}}" disabled></td>
               </tr>
@@ -154,7 +154,13 @@
         </div>
       </div>
       <hr>
-      <div class="row">
+      <div class="row" *ngIf="pago && pago.pagoestatusid==='PAG'">
+        <div class="col-md-12 text-center">
+          <h3>Orden Pagada</h3>
+          <h4>{{pago.pagofechamodificacion}}</h4>
+        </div>
+      </div>
+      <div class="row" *ngIf="!pago || pago.pagoestatusid==='PEN'">
         <div class="col-md-12 text-center">
           <input class="btn btn-success" type="submit" value="Pagar Orden">
         </div>
