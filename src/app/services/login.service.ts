@@ -39,23 +39,24 @@ export class LoginService {
   }
 
   doResponse(response:any){
-    let usuario:Usuarios={
-      usuarioid: response.body.id,
-      perfilid: response.body.role,
-      colaboradorid: 0,
-      usuarioactivo: false,
-      usuariocorreo: response.body.username,
-      usuariopwd: '',
-      usuarionombre: '',
-      usuarioapellidopaterno: '',
-      usuarioapellidomaterno: '',
-      usuariofechacreacion: new Date(),
-      usuariofechamodificacion: new Date(),
-      usuarioultimoacceso: new Date(),
-      usuariokey: '',
-      usuarioimage: [],
-      role: response.body.role
-    };
+    let usuario = response.body;
+    // let usuario:Usuarios={
+    //   usuarioid: response.body.id,
+    //   perfilid: response.body.perfilid,
+    //   colaboradorid: 0,
+    //   usuarioactivo: false,
+    //   usuariocorreo: response.body.username,
+    //   usuariopwd: '',
+    //   usuarionombre: '',
+    //   usuarioapellidopaterno: '',
+    //   usuarioapellidomaterno: '',
+    //   usuariofechacreacion: new Date(),
+    //   usuariofechamodificacion: new Date(),
+    //   usuarioultimoacceso: new Date(),
+    //   usuariokey: '',
+    //   usuarioimage: [],
+    //   role: response.body.role
+    // };
     const body = response.body;
     const headers = response.headers;
 

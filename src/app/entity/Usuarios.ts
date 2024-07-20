@@ -1,3 +1,5 @@
+import { Perfil } from "./Perfil";
+
 export class Usuarios
 {
     public usuarioid!: number;
@@ -14,5 +16,5 @@ export class Usuarios
     public usuarioultimoacceso!: Date;
     public usuariokey!: string;
     public usuarioimage!: number[];
-    public role!:string;
+    public perfil!:Perfil;
 }

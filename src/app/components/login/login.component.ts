@@ -22,13 +22,22 @@ export class LoginComponent {
   login(form: NgForm){
     this.loginService.login(this.creds).subscribe({
       next: response => {
-        console.log("Esto regreso >>"+JSON.stringify(response));
-        if(response.role==='USER' || response.role==='0' || response.perfilid===0){
-          console.log("va amediadmin");
-          this.router.navigate(['/medicaladmin']);
-        }else{
-          console.log("va dashboard");
-          this.router.navigate(['/']);
+        if(response){
+          console.log("Esto regreso >>"+JSON.stringify(response));
+          switch(response.perfilid){
+            case 0: case 1:
+              console.log("va dashboard");
+              this.router.navigate(['/']);
+            break;
+            case 2:
+              console.log("va a medicaladmin");
+              this.router.navigate(['/medicaladmin']);
+            break;
+            default:
+              Swal.fire('Login failed',`Vista no soportada`, 'error');
+          }
+        } else {
+          Swal.fire('Login failed',`El usuario o contraseña es incorrecto.`, 'error');
         }
       },
       error: err =>{
