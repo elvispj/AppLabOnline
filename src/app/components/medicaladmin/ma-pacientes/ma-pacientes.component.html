@@ -4,37 +4,40 @@
     </h1>
 </div>
 <br>
-<div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-success">Agregar Paciente</button>
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
+<div *ngIf="ShowView===''">
+    <div class="row">
+        <div class="col-md-12 text-end">
+            <button class="btn btn-success" (click)="agregarPaciente()">Agregar Paciente</button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="table_pacientes" datatable [dtOptions]="dtOptions" class="row-border hover"></table>
+        </div>
     </div>
 </div>
-<!-- <div class="row p-3">
-    <div class="col-md-4">
-        <div class="card shadow m-3 text-center">
-            <div class="card-body">
-            <h5 class="card-title">Total de pacientes</h5>
-            <p class="card-text text-card-ma">115</p>
-            </div>
+<div *ngIf="ShowView==='DETALLE'">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h3>Detalle del paciente</h3>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow m-3">
-            <div class="card-body">
-            <h5 class="card-title">Lista de Pacientes</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Button</a>
-            </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button class="btn btn-success" (click)="showView('')">Regresar</button>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow m-3">
-            <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Button</a>
-            </div>
+</div>
+<div *ngIf="ShowView==='AGREGAR'">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h3>Agregar Paciente</h3>
         </div>
     </div>
-</div> -->
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button class="btn btn-success" (click)="showView('')">Regresar</button>
+        </div>
+    </div>
+</div>

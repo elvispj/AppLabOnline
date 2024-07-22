@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { Doctores } from 'src/app/entity/Doctores';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   templateUrl: './admin-doctores.component.html',
   styleUrls: ['./admin-doctores.component.css']
 })
-export class AdminDoctoresComponent implements AfterViewInit, OnInit{
+export class AdminDoctoresComponent implements OnInit, AfterViewInit, OnDestroy{
   @ViewChild(DataTableDirective, {static: false})
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
