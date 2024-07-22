@@ -26,6 +26,8 @@ import { MaPacientesComponent } from './components/medicaladmin/ma-pacientes/ma-
 import { MaPerfilComponent } from './components/medicaladmin/ma-perfil/ma-perfil.component';
 import { MaCitasComponent } from './components/medicaladmin/ma-citas/ma-citas.component';
 import { MaMensajesComponent } from './components/medicaladmin/ma-mensajes/ma-mensajes.component';
+import { MaMenuComponent } from './components/medicaladmin/ma-menu/ma-menu.component';
+import { MaDashboardComponent } from './components/medicaladmin/ma-dashboard/ma-dashboard.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -38,6 +40,8 @@ const routes: Routes =[
   { path: 'pagos', component: PagosComponent, canActivate: [authGuard] },
   { path: 'medicaladmin', component: MedicaladminComponent, canActivate: [authGuard] , 
     children: [
+      {path: '', component: MaDashboardComponent, canActivate: [authGuard]},
+      {path: 'dashboard', component: MaDashboardComponent, canActivate: [authGuard]},
       {path: 'pacientes', component: MaPacientesComponent, canActivate: [authGuard]},
       {path: 'perfil', component: MaPerfilComponent, canActivate: [authGuard]},
       {path: 'mensajes', component: MaMensajesComponent, canActivate: [authGuard]},
@@ -65,7 +69,9 @@ const routes: Routes =[
     MaPacientesComponent,
     MaPerfilComponent,
     MaCitasComponent,
-    MaMensajesComponent
+    MaMensajesComponent,
+    MaMenuComponent,
+    MaDashboardComponent
   ],
   imports: [
     BrowserModule,

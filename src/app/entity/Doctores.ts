@@ -1,3 +1,5 @@
+import { Especialidades } from "./Especialidades";
+
 export class Doctores
 {
 	public doctorid!: number;
@@ -10,4 +12,7 @@ export class Doctores
 	public doctorfechacreacion!: Date;
 	public doctorfechamodificacion!: Date;
 	public bitacoraid!: number;
+	public usuarioid!: number;
+	public usuariopref!: string;
+	public especialidades!: Especialidades[];
 }

@@ -9,8 +9,6 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class MedicaladminComponent implements OnInit {
 
-  titleView:any='Medical Admin';
-
   constructor(private elementRef:ElementRef,
     private loginService:LoginService, 
     private router: Router){}

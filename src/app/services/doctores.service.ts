@@ -26,6 +26,12 @@ export class DoctoresService {
     return this.http.get<Doctores>(`${this.URL}/${serviceName}/${id}`);
   }
 
+  getDoctorByUsuarioid(id:number): Observable<Doctores>{
+    let serviceName='searchByUsuarioid';
+    console.log("Request search "+this.URL+"/"+serviceName+"/"+id);
+    return this.http.get<Doctores>(`${this.URL}/${serviceName}/${id}`);
+  }
+
   searchDoctor(parametro:string): Observable<Doctores[]>{
     let serviceName='searchByLike';
     console.log("Request search "+this.URL+"/"+serviceName+"/"+parametro);

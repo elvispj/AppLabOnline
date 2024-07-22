@@ -1,0 +1,11 @@
+.image{
+    width: 100%;
+    height: 35%;
+    display: flex;
+    /* justify-content: center; */
+    color:white;
+    /* background-position: center; */
+    background-size: cover;
+    background-image: linear-gradient(to left, transparent, rgba(0, 85, 243, 0.9)), url(/assets/img/consultorioMedico.png);
+    object-fit: cover;
+}

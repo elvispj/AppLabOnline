@@ -1,0 +1,57 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- <div class="image"></div> -->
+        <div class="card bg-primary text-white image">
+            <div class="card-body">
+                <div class="left-side">
+                    <h2>{{texto_saludo}},</h2>
+                    <h1> {{doctorinfo.usuariopref}} {{doctorinfo.doctornombre}} {{doctorinfo.doctorapellidopaterno}} {{doctorinfo.doctorapellidomaterno}}</h1>
+                    <p><span *ngFor="let especialidad of listaEsp">{{especialidad.especialidadnombre}}, </span></p>
+                    <p>Usted cuenta con <span style="background-color: #4CAF50; color: white; padding: 0.5rem 1rem; border-radius: 5px;">6 citas</span> el dia de hoy.</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row p-3">
+            <div class="col-md-6">
+                <div class="card" style="width: auto">
+                    <div class="card-body">
+                    <h5 class="card-title">Pacientes</h5>
+                    <p class="card-text">Permite dar de alta a pacientes para dar iniciar un tratamiento o dar seguimiento a algun padecimiento.</p>
+                    <a href="/medicaladmin/pacientes" class="btn btn-primary">Agrear Paciente</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card" style="width: auto">
+                    <div class="card-body">
+                    <h5 class="card-title">Gestión de citas</h5>
+                    <p class="card-text">Permite a los pacientes programar citas en línea y verifica la disponibilidad.</p>
+                    <a href="/medicaladmin/citas" class="btn btn-primary">Agregar Citas</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row p-3">
+            <div class="col-md-6">
+                <div class="card" style="width: auto">
+                    <div class="card-body">
+                    <h5 class="card-title">Historial médico electrónico</h5>
+                    <p class="card-text">Almacena de forma segura y accesible los historiales médicos de los pacientes, incluidos diagnósticos, tratamientos anteriores, alergias y otros datos relevantes.</p>
+                    <a href="/medicaladmin/pacientes" class="btn btn-primary">Ir a Historial</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card" style="width: auto">
+                    <div class="card-body">
+                    <h5 class="card-title">Laboratorios</h5>
+                    <p class="card-text">Genera ordenes de estudios clinicos</p>
+                    <a href="/medicaladmin/pacientes" class="btn btn-primary">Ir a Laboratorios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
