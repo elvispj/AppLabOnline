@@ -14,6 +14,8 @@ import { Ordendetalle } from 'src/app/entity/Ordendetalle';
 import { DataTableDirective } from 'angular-datatables';
 import { Clientes } from 'src/app/entity/Clientes';
 import { ClientesService } from 'src/app/services/clientes.service';
+import { Pagos } from 'src/app/entity/Pagos';
+import { PagosService } from 'src/app/services/pagos.service';
 
 @Component({
   selector: 'app-ordenes',
@@ -34,6 +36,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
   listaOrigen: string[]=["Laboratorio","Clinica","Referido"];
   listaOrdenes: Ordenes[]=[];
   listaBusquedaCliente: Clientes[]=[];
+  pago!:Pagos;
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -51,7 +54,8 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
     private estudiosService: EstudiosService,
     private tipoestudiosService: TipoestudiosService,
     private doctoresService: DoctoresService,
-    private clientesService: ClientesService){}
+    private clientesService: ClientesService,
+    private pagoService: PagosService){}
 
 
   ngOnInit(): void {
@@ -271,7 +275,7 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
         this.ordenes.cliente=cliente;
       }
       console.log("Guardara "+JSON.stringify(this.ordenes));
-      this.ordenesService.saveOrdenn(this.ordenes).subscribe({
+      this.ordenesService.saveOrden(this.ordenes).subscribe({
         next: res => {
           console.log(res);
           Swal.fire('Alta Orden', 'Se agrego la orden de forma exitosa', 'success');
@@ -317,35 +321,41 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
         {title:"Fecha", data: 'ordenfechacreacion'},
         {title:"Acciones",
           render:(data,type,row)=>{
-            if (row.ordenactiva=='true') {                   
-              return `<a name="Inactivar"class='statusT btn btn-warning btn-small'  style='color: white; font-size: 11px;' title='Inactivar Tarjeta'>
-                      <i class='fas fa-lock' style='font-size:12px'></i></a>`;//fas fa-credit-card
-            } else {
-              return `<a name="Activar" class='statusT btn btn-success btn-small' style='color: white; font-size: 11px; ' title='Activar Tarjeta'>
-                      <i class='fas fa-lock-open' style='font-size:12px'></i></a>`             
-            }
+            return `<button class='btn btn-primary m-3 text-white bt-show' ng-show='Detalle'><i class="fa-regular fa-eye"></i></button>`
+            +`<button class='btn btn-success m-3 text-white bt-res' title='Resultados'><i class="fa-regular fa-clipboard"></i></button>`
+            +`<button class='btn btn-danger m-3 text-white bt-del' title='Cancelar'><i class="fa-regular fa-trash-can"></i></button>`;
+            // if (row.ordenactiva=='true') {
+            //   return `<a name="Inactivar"class='statusT btn btn-warning btn-small'  style='color: white; font-size: 11px;' title='Inactivar Tarjeta'>
+            //           <i class='fas fa-lock' style='font-size:12px'></i></a>`;//fas fa-credit-card
+            // } else {
+            //   return `<a name="Activar" class='statusT btn btn-success btn-small' style='color: white; font-size: 11px; ' title='Activar Tarjeta'>
+            //           <i class='fas fa-lock-open' style='font-size:12px'></i></a>`             
+            // }
           }        
         }
       ],
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const self = this;
-        $('td', row).off('click');
-        $('td', row).on('click', () => {
-          self.showDetalleOrden(data);
-        });
-        return row;
-      },
-      // drawCallback:() =>{
-      //   $('.statusT').on('click', (event: any) => {          
-      //     // Obtener el objeto de fila asociado al elemento en el que se hizo clic
-      //     const rowData = $('.table') //selecciona la tabla con la clase 'table'.
-      //                     .DataTable()//recuperamos la instancia del data table de la tabla
-      //                     .row($(event.currentTarget).parents('tr'))//selecciona la fila (tr)  al elemento clicado
-      //                     .data(); //devuelve los datos de la fila seleccionada
-      //     const buttonName = $(event.currentTarget).attr('name');
-      //     this.rowData(rowData,buttonName);
+      // rowCallback: (row: Node, data: any[] | Object, index: number) => {
+      //   const self = this;
+      //   $('td', row).off('click');
+      //   $('td', row).on('click', () => {
+      //     self.showDetalleOrden(data);
       //   });
+      //   return row;
       // },
+      drawCallback:() =>{
+        $('.bt-show').on('click', (event: any) => {
+          const rowData = $('#table_ordenes').DataTable().row($(event.currentTarget).parents('tr')).data();
+          this.showDetalleOrden(rowData);
+        });
+        $('.bt-res').on('click', (event: any) => {
+          const rowData = $('#table_ordenes').DataTable().row($(event.currentTarget).parents('tr')).data();
+          alert("Resultados");
+        });
+        $('.bt-del').on('click', (event: any) => {
+          const rowData = $('#table_ordenes').DataTable().row($(event.currentTarget).parents('tr')).data();
+          this.deleteOrden(rowData);
+        });
+      },
       "language": {
         search: 'Buscar Orden',
         "zeroRecords": "Sin registros",
@@ -360,6 +370,80 @@ export class OrdenesComponent implements AfterViewInit, OnInit {
         }
       }
     };
+  }
+
+  deleteOrden(orden: any) {
+    Swal.fire({
+      title: "Desea cancelar la orden?",
+      text: "Presione confirmar para cancelar la orden, si no precione descartar.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Descartar"
+    }).then((result) => {
+      this.pago=new Pagos();
+      if (result.isConfirmed) {
+        this.pagoService.getPagoByOrdenId(orden.ordenid).subscribe({
+          next: resp=>{
+            if(resp){
+              this.pago=resp;
+            }
+          },
+          error: err=>{
+            Swal.fire({
+              title: "Error",
+              text: "Se genero un error al consultar el pago",
+              icon: "error"
+            });
+          }
+        });
+        console.log("Inicia cancelacion");
+        setTimeout(() => {
+          console.log("Inicia timeout");
+          // console.log(JSON.stringify(this.pago));
+          // if(this.pago.pagoid>0) console.log("primera");
+          // if(this.pago.pagoestatusid!="NVO") console.log("NVO");
+          // if(this.pago.pagoestatusid!="CAN") console.log("CAN");
+          if(this.pago.pagoid>0 && this.pago.pagoestatusid!="NVO" && this.pago.pagoestatusid!="CAN"){
+            Swal.fire({
+              title: "Error",
+              text: "La orden ya cuenta con un pago iniciado ID-"+this.pago.pagoid,
+              icon: "error"
+            });
+            return;
+          }
+          orden.ordenactiva=false;
+          this.ordenesService.saveOrden(orden).subscribe({
+            next: resp=>{
+              if(resp){
+                Swal.fire({
+                  title: "Eliminado",
+                  text: "La orden fue cancelada",
+                  icon: "success"
+                });
+              }else{
+                Swal.fire({
+                  title: "Error",
+                  text: "No fue posible cancelar la orden",
+                  icon: "error"
+                });
+              }
+              this.rerender();
+            },
+            error: err=>{
+              Swal.fire({
+                title: "Error",
+                text: "Se genero un error al procesar la cancelacion",
+                icon: "error"
+              });
+            }
+          });
+        }, 750);
+        console.log("termino timeout");
+      }
+    });
   }
 
   showView(vista:string){
