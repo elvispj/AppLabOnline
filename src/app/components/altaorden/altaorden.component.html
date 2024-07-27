@@ -1,0 +1,175 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <h1>Alta de orden de estudio </h1>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-end">
+                <button type="button" class="btn btn-danger" (click)="showView('LISTA')">
+                    <i class="fa-regular fa-circle-xmark icon_close"></i>
+                    Cerrar
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Datos del paciente</h3>
+            </div>
+        </div>
+        <form (ngSubmit)="GuardaOrden()">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="ordennombre" class="form-label">Nombre Paciente</label>
+                    <input type="text" class="form-control" id="ordennombre" name="ordennombre" [(ngModel)]="ordenes.ordennombre">
+                    <button type="button" class="btn btn-info" (click)="buscarPaciente()">Buscar</button>
+                    <button type="button" class="btn btn-warning" (click)="limpiarBusqueda()">limpiar</button>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Edad</th>
+                                <th>---</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let cli of listaBusquedaCliente">
+                            <tr>
+                                <td>{{cli.clienteid}}</td>
+                                <td>{{cli.clientenombre}}</td>
+                                <td>{{cli.clienteedad}}</td>
+                                <td><button type="button" class="btn btn-secondary" (click)="cargarInfoCliente(cli)">Seleccionar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="ordenedad" class="form-label">Edad</label>
+                    <input type="number" class="form-control" id="ordenedad" name="ordenedad" [(ngModel)]="ordenes.ordenedad">
+                </div>
+                <div class="col-md-4">
+                    <label for="ordensexo" class="form-label">Sexo</label>
+                    <select class="form-select" name="ordensexo" id="ordensexo" [(ngModel)]="ordenes.ordensexo">
+                        <option value="">Seleccionar</option>
+                        <option value="M">Mujer</option>
+                        <option value="H">Hombre</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="ordentelefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="ordentelefono" name="ordentelefono" [(ngModel)]="ordenes.ordentelefono">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <label for="ordendatosclinicos" class="form-label">Datos clinicos</label>
+                    <textarea class="form-control" id="ordendatosclinicos" name="ordendatosclinicos" [(ngModel)]="ordenes.ordendatosclinicos" rows="3"></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label for="doctorid" class="form-label">Doctor</label>
+                    <select class="form-select" name="doctorid" id="doctorid" [(ngModel)]="ordenes.doctorid">
+                        <option value="">Seleccionar</option>
+                        <option *ngFor="let doctor of listaDoctores" [ngValue]="doctor.doctorid">
+                            {{doctor.doctornombre}} {{doctor.doctorapellidopaterno}} {{doctor.doctorapellidomaterno}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="ordendireccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="ordendireccion" name="ordendireccion" [(ngModel)]="ordenes.ordendireccion">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="ordenformaentrega" class="form-label">Forma de entrega</label>
+                    <select class="form-select" id="ordenformaentrega" name="ordenformaentrega"  [(ngModel)]="ordenes.ordenformaentrega">
+                        <option *ngFor="let formaentrega of listaFormasEntrega" [ngValue]="formaentrega">{{formaentrega}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="ordencomoubico" class="form-label">Como nos ubico</label>
+                    <select class="form-select" id="ordencomoubico" name="ordencomoubico"  [(ngModel)]="ordenes.ordencomoubico">
+                        <option *ngFor="let comoubico of listaComoUbico" [ngValue]="comoubico">{{comoubico}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="ordenorigen" class="form-label">Origen</label>
+                    <select class="form-select" id="ordenorigen" name="ordenorigen"  [(ngModel)]="ordenes.ordenorigen">
+                        <option *ngFor="let origen of listaOrigen" [ngValue]="origen">{{origen}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="ordencomentarios" class="form-label">Comentarios</label>
+                    <textarea class="form-control" id="ordencomentarios" name="ordencomentarios" [(ngModel)]="ordenes.ordencomentarios" rows="3"></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="row" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="accordion" id="accordionEstudios">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Lista estudios
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionEstudios">
+                                <div class="accordion-body"> 
+                                    <section class="results"> 
+                                        <app-view-estudios *ngFor="let tipoestudio of tiposestudios" 
+                                        [tipoestudio]="tipoestudio" 
+                                        [listaEstudios]="estudios"
+                                        (addEstudiosEmitter)="addEstudio($event)"
+                                        (delEstudiosEmitter)="delEstudio($event)"
+                                        ></app-view-estudios>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Estudios Seleccionados</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Costo</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let det of ordenes.ordenesdetalle">
+                            <tr>
+                                <td>{{det.estudio.estudionombre}}</td>
+                                <td>{{det.ordendetallecosto}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <!-- ***************************************************** -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="GuardaOrden()">
+                        Procesar
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="showView('LISTA')">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+<!-- </div> -->

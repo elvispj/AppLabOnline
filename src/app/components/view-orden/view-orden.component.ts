@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Ordenes } from 'src/app/entity/Ordenes';
 import { Pagos } from 'src/app/entity/Pagos';
 import { OrdenesService } from 'src/app/services/ordenes.service';
@@ -12,10 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class ViewOrdenComponent implements OnInit {
   @Input() orden!: Ordenes;
-  @Output() pagaOrden: EventEmitter<any> = new EventEmitter();
+  // @Output() pagaOrden: EventEmitter<any> = new EventEmitter();
   pago!:Pagos;
 
-  constructor(private ordenService:OrdenesService,
+  constructor(private router: Router, 
+    private ordenService:OrdenesService,
     private pagosService: PagosService
   ){}
 
@@ -80,6 +82,6 @@ export class ViewOrdenComponent implements OnInit {
 
   PagarOrden(){
     console.log("Se procesa pago de orden");
-    this.pagaOrden.emit(this.orden);
+    this.router.navigate(['/pagos'],{ queryParams: { data: JSON.stringify(this.orden) }});
   }
 }

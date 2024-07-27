@@ -22,7 +22,7 @@ export class OrdenesService {
 
   getOrden(id:number): Observable<Ordenes>{
     let serviceName='search';
-    console.log("Request  "+this.URL+"/"+serviceName);
+    console.log("Request  "+this.URL+"/"+serviceName+"/"+id);
     return this.http.get<Ordenes>(`${this.URL}/${serviceName}/${id}`);
   }
 

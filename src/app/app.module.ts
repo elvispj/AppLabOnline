@@ -28,13 +28,19 @@ import { MaCitasComponent } from './components/medicaladmin/ma-citas/ma-citas.co
 import { MaMensajesComponent } from './components/medicaladmin/ma-mensajes/ma-mensajes.component';
 import { MaMenuComponent } from './components/medicaladmin/ma-menu/ma-menu.component';
 import { MaDashboardComponent } from './components/medicaladmin/ma-dashboard/ma-dashboard.component';
+import { AltaordenComponent } from './components/altaorden/altaorden.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
   { path: 'login', component: LoginComponent },
   { path: 'estudios', component: EstudiosComponent, canActivate: [authGuard] },
   { path: 'inventario', component: InventarioComponent, canActivate: [authGuard] },
-  { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard] },
+  { path: 'ordenes', component: OrdenesComponent, canActivate: [authGuard],
+    children: [
+      { path: '', component: OrdenesComponent, canActivate: [authGuard] },
+      { path: 'altaorden', component: AltaordenComponent, canActivate: [authGuard] }
+    ]
+  },
   { path: 'compras', component: ComprasComponent, canActivate: [authGuard] },
   { path: 'admindoctores', component: AdminDoctoresComponent, canActivate: [authGuard] },
   { path: 'pagos', component: PagosComponent, canActivate: [authGuard] },
@@ -71,7 +77,8 @@ const routes: Routes =[
     MaCitasComponent,
     MaMensajesComponent,
     MaMenuComponent,
-    MaDashboardComponent
+    MaDashboardComponent,
+    AltaordenComponent
   ],
   imports: [
     BrowserModule,
