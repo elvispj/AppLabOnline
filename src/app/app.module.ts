@@ -29,6 +29,8 @@ import { MaMensajesComponent } from './components/medicaladmin/ma-mensajes/ma-me
 import { MaMenuComponent } from './components/medicaladmin/ma-menu/ma-menu.component';
 import { MaDashboardComponent } from './components/medicaladmin/ma-dashboard/ma-dashboard.component';
 import { AltaordenComponent } from './components/altaorden/altaorden.component';
+import { MaAltapacienteComponent } from './components/medicaladmin/ma-altapaciente/ma-altapaciente.component';
+import { MaViewpacienteComponent } from './components/medicaladmin/ma-viewpaciente/ma-viewpaciente.component';
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -78,7 +80,9 @@ const routes: Routes =[
     MaMensajesComponent,
     MaMenuComponent,
     MaDashboardComponent,
-    AltaordenComponent
+    AltaordenComponent,
+    MaAltapacienteComponent,
+    MaViewpacienteComponent
   ],
   imports: [
     BrowserModule,

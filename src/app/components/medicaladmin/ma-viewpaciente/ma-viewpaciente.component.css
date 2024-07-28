@@ -1,0 +1,17 @@
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #fff;
+    background-color: rgb(0, 0, 255);
+    border-radius: 3rem;
+    width: 5rem;
+    height: 5rem;
+}
+
+.container_box{
+    display: flex !important;
+    align-items: center !important;
+}

@@ -32,12 +32,10 @@ export class LoginComponent {
             case 0: case 1:
               console.log("va dashboard");
               this.recuperaInfoColaborador(usuario_resp);
-              this.router.navigate(['/']);
             break;
             case 2:
               console.log("va a medicaladmin");
               this.recuperaInfoDr(usuario_resp);
-              this.router.navigate(['/medicaladmin']);
             break;
             default:
               Swal.fire('Login failed',`Vista no soportada`, 'error');
@@ -58,14 +56,20 @@ export class LoginComponent {
       next: doctorinfo=>{
         if(doctorinfo){
           sessionStorage.setItem("doctor_info", JSON.stringify(doctorinfo));
+          this.router.navigate(['/medicaladmin']);
         } else {
           Swal.fire('Login failed',`No se logro recupera la informacion del dr`, 'error');
+          this.loginService.logout();
         }
+      },
+      error: err=>{
+        Swal.fire('Login failed',`Se genero un error al recupera la informacion del dr`, 'error');
+        this.loginService.logout();
       }
     });
   }
   
   recuperaInfoColaborador(response: any) {
-    // throw new Error('Method not implemented.');
+    this.router.navigate(['/']);
   }
 }

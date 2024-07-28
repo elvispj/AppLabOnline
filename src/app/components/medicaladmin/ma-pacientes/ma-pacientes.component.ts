@@ -49,7 +49,7 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
   showDetallePaciente(paciente:any){
     this.pacienteShow=paciente;
     this.ShowView="DETALLE";
-    alert("Mostrar "+this.pacienteShow.pacientenombre);
+    // alert("Mostrar "+this.pacienteShow.pacientenombre);
   }
 
   agregarPaciente(){
@@ -89,45 +89,25 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
         {title:"Fecha", data: 'pacientefechacreacion'},
         {title: "Acciones", 
           render:(data,type,row)=>{
-            return '<button type="button" id="bt-d" class="btn btn-outline-danger m-1"><i class="fa-solid fa-trash"></i></button>'
-            +'<button type="button" id="bt-e" class="btn btn-outline-success m-1"><i class="fa-regular fa-pen-to-square"></i></button>'
-            +'<button type="button" id="bt-s" class="btn btn-outline-info m-1"><i class="fa-regular fa-eye"></i></button>';
+            return '<button type="button" class="btn btn-outline-info m-1 bt-s"><i class="fa-regular fa-eye"></i></button>'
+            +'<button type="button" class="btn btn-outline-success m-1 bt-e"><i class="fa-regular fa-pen-to-square"></i></button>'
+            +'<button type="button" class="btn btn-outline-danger m-1 bt-d"><i class="fa-solid fa-trash"></i></button>';
           }
         }
       ],
       drawCallback:() =>{
-        $('#bt-d').on('click', (event:any) => {
-          alert("Se eliminara");
-        });
-        $('#bt-e').on('click', (event:any) => {
-          //selecciona la tabla con la clase 'table'.
-          //recuperamos la instancia del data table de la tabla
-          //selecciona la fila (tr)  al elemento clicado
-          //devuelve los datos de la fila seleccionada
+        $('.bt-s').on('click', (event:any) => {
           const paciente = $('#table_pacientes').DataTable().row($(event.currentTarget).parents('tr')).data();
           this.showDetallePaciente(paciente);
         });
-        $('#bt-s').on('click', (event:any) => {
-          alert("Se mostrara");
+        $('.bt-e').on('click', (event:any) => {
+          const paciente = $('#table_pacientes').DataTable().row($(event.currentTarget).parents('tr')).data();
+          this.showDetallePaciente(paciente);
         });
-        // $('.statusT').on('click', (event: any) => {          
-        //   // Obtener el objeto de fila asociado al elemento en el que se hizo clic
-        //   const rowData = $('.table') //selecciona la tabla con la clase 'table'.
-        //                   .DataTable()//recuperamos la instancia del data table de la tabla
-        //                   .row($(event.currentTarget).parents('tr'))//selecciona la fila (tr)  al elemento clicado
-        //                   .data(); //devuelve los datos de la fila seleccionada
-        //   const buttonName = $(event.currentTarget).attr('name');
-        //   this.rowData(rowData,buttonName);
-        // });
+        $('.bt-d').on('click', (event:any) => {
+          alert("Se eliminara");
+        });
       }
-      // rowCallback: (row: Node, data: any[] | Object, index: number) => {
-      //   const self = this;
-      //   $('td', row).off('click');
-      //   $('td', row).on('click', () => {
-      //     self.showDetallePaciente(data);
-      //   });
-      //   return row;
-      // }
     };
   }
 }

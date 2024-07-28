@@ -1,0 +1,121 @@
+<div class="shadow-lg p-5 mb-5 bg-body rounded">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="container_box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-user" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="m-2">{{paciente.pacientenombre}} 
+                        {{paciente.pacienteapellidopaterno}} 
+                        {{paciente.pacienteapellidomaterno}}</h5>
+                    <p class="m-2">Nombre Paciente</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="container_box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-venus" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="m-2">{{paciente.pacientesexo}}</h5>
+                    <p class="m-2">Sexo</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="container_box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-square-up-right" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="m-2">{{paciente.pacienteedad}}</h5>
+                    <p class="m-2">Edad</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="container_box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-droplet" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="m-2">{{paciente.pacientetiposangre}}</h5>
+                    <p class="m-2">Tipo de Sangre</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="container_box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-user-doctor" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="m-2">{{doctor.usuariopref}}{{doctor.doctornombre}} 
+                        {{doctor.doctorapellidopaterno}} 
+                        {{doctor.doctorapellidomaterno}}</h5>
+                    <p class="m-2">Doctor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow-lg">
+            <canvas id="chartPresSan">{{chartPresSan}}</canvas>
+            <div class="card-body">
+              <h5 class="card-title">Ultimos estudios</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-lg">
+            <canvas id="charGlucosa">{{charGlucosa}}</canvas>
+            <div class="card-body">
+              <h5 class="card-title">Ultimos estudios</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-lg">
+            <canvas id="charRitmoCar">{{charRitmoCar}}</canvas>
+            <div class="card-body">
+              <h5 class="card-title">Ultimos estudios</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-lg">
+            <canvas id="charColesterol">{{charColesterol}}</canvas>
+            <div class="card-body">
+              <h5 class="card-title">Ultimos estudios</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+</div>

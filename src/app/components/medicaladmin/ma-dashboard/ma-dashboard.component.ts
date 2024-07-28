@@ -14,15 +14,7 @@ export class MaDashboardComponent implements OnInit {
   listaEsp!:Especialidades[];
 
   ngOnInit(): void {
-    if(!Constantes.GetDoctorInfo()){
-      setTimeout(() => {
-        console.log("Delayed for 5 second.");
-        this.doctorinfo = (Constantes.GetDoctorInfo()!);
-      }, 2000);
-    }else{
-      this.doctorinfo = (Constantes.GetDoctorInfo()!);
-      console.log("No hace delay");
-    }
+    this.doctorinfo = (Constantes.GetDoctorInfo()!);
     this.listaEsp=this.doctorinfo.especialidades;
     console.log(""+JSON.stringify(this.listaEsp));
     let hora = new Date().getHours();

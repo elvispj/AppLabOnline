@@ -24,6 +24,9 @@
         </div>
     </div>
     <div class="row">
+        <app-ma-viewpaciente [paciente]="pacienteShow" [doctor]="doctorinfo"></app-ma-viewpaciente>
+    </div>
+    <div class="row">
         <div class="col-md-12 text-center">
             <button class="btn btn-success" (click)="showView('')">Regresar</button>
         </div>
@@ -36,8 +39,12 @@
         </div>
     </div>
     <div class="row">
+        <app-ma-altapaciente></app-ma-altapaciente>
+    </div>
+    <div class="row">
         <div class="col-md-12 text-center">
             <button class="btn btn-success" (click)="showView('')">Regresar</button>
         </div>
     </div>
+    <br>
 </div>
