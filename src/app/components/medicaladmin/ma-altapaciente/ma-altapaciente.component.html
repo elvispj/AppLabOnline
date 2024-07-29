@@ -1,75 +1,77 @@
-<form>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacientenombre">Nombre:</label>
-              <input type="text" class="form-control" id="pacientenombre" name="pacientenombre">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacienteapellidopaterno">Apellido Paterno:</label>
-              <input type="text" class="form-control" id="pacienteapellidopaterno" name="pacienteapellidopaterno">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacienteapellidomaterno">Apellido Materno:</label>
-              <input type="text" class="form-control" id="pacienteapellidomaterno" name="pacienteapellidomaterno">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacienteedad">Edad:</label>
-              <input type="number" class="form-control" id="pacienteedad" name="pacienteedad">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacientesexo">Sexo:</label>
-              <select class="form-control" id="pacientesexo" name="pacientesexo">
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-              </select>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacientetiposangre">Tipo de Sangre:</label>
-              <select class="form-control" id="pacientetiposangre" name="pacientetiposangre">
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-              </select>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacienteemail">Email:</label>
-              <input type="email" class="form-control" id="pacienteemail" name="pacienteemail">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="pacientetelefono">Teléfono:</label>
-              <input type="text" class="form-control" id="pacientetelefono" name="pacientetelefono">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-              <label for="pacientedireccion">Dirección:</label>
-              <input type="text" class="form-control" id="pacientedireccion" name="pacientedireccion">
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </form>
+<form (ngSubmit)="altaPaciente()">
+  <div class="row">
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacientenombre">Nombre:</label>
+            <input type="text" class="form-control" id="pacientenombre" name="pacientenombre" [(ngModel)]="paciente.pacientenombre">
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacienteapellidopaterno">Apellido Paterno:</label>
+            <input type="text" class="form-control" id="pacienteapellidopaterno" name="pacienteapellidopaterno" [(ngModel)]="paciente.pacienteapellidopaterno">
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacienteapellidomaterno">Apellido Materno:</label>
+            <input type="text" class="form-control" id="pacienteapellidomaterno" name="pacienteapellidomaterno" [(ngModel)]="paciente.pacienteapellidomaterno">
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacientefechanacimiento">Fecha Nacieminto:</label>
+            <input type="date" class="form-control" id="pacientefechanacimiento" name="pacientefechanacimiento" [(ngModel)]="paciente.pacientefechanacimiento">
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacientesexo">Sexo:</label>
+            <select class="form-control" id="pacientesexo" name="pacientesexo" [(ngModel)]="paciente.pacientesexo">
+              <option value="">Seleccionar</option>
+              <option value="H">Hombre</option>
+              <option value="M">Mujer</option>
+            </select>
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacientetiposangre">Tipo de Sangre:</label>
+            <select class="form-control" id="pacientetiposangre" name="pacientetiposangre" [(ngModel)]="paciente.pacientetiposangre">
+              <option value="">Seleccionar</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacienteemail">Email:</label>
+            <input type="email" class="form-control" id="pacienteemail" name="pacienteemail" [(ngModel)]="paciente.pacienteemail">
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="pacientetelefono">Teléfono:</label>
+            <input type="text" class="form-control" id="pacientetelefono" name="pacientetelefono" [(ngModel)]="paciente.pacientetelefono">
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+          <div class="form-group">
+            <label for="pacientedireccion">Dirección:</label>
+            <input type="text" class="form-control" id="pacientedireccion" name="pacientedireccion" [(ngModel)]="paciente.pacientedireccion">
+          </div>
+      </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

@@ -7,6 +7,7 @@ export class Pacientes
     public pacienteapellidopaterno!: string;
     public pacienteapellidomaterno!: string;
     public pacientesexo!: string;
+    public pacientefechanacimiento!: Date;
     public pacienteedad!: number;
 	public pacientetiposangre!: string;
 	public pacienteemail!: string;
