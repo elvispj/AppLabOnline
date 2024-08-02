@@ -10,28 +10,44 @@ import Swal from 'sweetalert2';
   styleUrls: ['./ma-altapaciente.component.css']
 })
 export class MaAltapacienteComponent implements OnInit {
-  @Input() doctor!: Doctores;
-  paciente:Pacientes=new Pacientes();
+  @Input() 
+  doctor!: Doctores;
+  @Input()
+  paciente!:Pacientes;
 
   constructor(private pacienteService: PacientesService){}
 
   ngOnInit(): void {
+    console.log("Recibido "+JSON.stringify(this.paciente));
   }
 
   altaPaciente(){
+    let mensaje=this.paciente.pacienteid>0 
+      ? {
+        "titulo": "Actualizacion Paciente", 
+        "exitoso":"Actualizacion de paciente exitosa", 
+        "noexitoso":"No se logro actualizar la informacion del paciente", 
+        "error": "Se genero un error al actualizar la informacion del paciente" 
+        }
+        : {
+          "titulo": "Alta Paciente", 
+          "exitoso":"Alta de paciente exitosa", 
+          "noexitoso":"No se logro dar de alta al paciente", 
+          "error": "Se genero un error al dar de alta al paciente" 
+        }; 
     this.paciente.doctorid=this.doctor.doctorid;
     this.paciente.pacienteedad=this.calculaEdad(this.paciente.pacientefechanacimiento);
     console.log("Alta de paciente "+JSON.stringify(this.paciente));
     this.pacienteService.savePaciente(this.paciente).subscribe({
       next:resp=>{
         if(resp){
-          Swal.fire('Alta Paciente',`Alta de paciente exitosa`, 'success');
+          Swal.fire(mensaje.titulo,mensaje.exitoso, 'success');
         }else{
-          Swal.fire('Alta Paciente',`No se logro dar de alta al paciente`, 'error');
+          Swal.fire(mensaje.titulo,mensaje.noexitoso, 'warning');
         }
       },
       error: err=>{
-        Swal.fire('Alta Paciente',`Se genero un error al dar de alta al paciente`, 'error');
+        Swal.fire(mensaje.titulo,mensaje.exitoso, 'error');
       }
     });
   }

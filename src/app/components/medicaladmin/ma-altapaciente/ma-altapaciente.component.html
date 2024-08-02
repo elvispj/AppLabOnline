@@ -1,4 +1,26 @@
 <form (ngSubmit)="altaPaciente()">
+  <ng-container *ngIf="paciente.pacienteid>0">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pacienteid">ID:</label>
+            <input type="text" class="form-control" id="pacienteid" name="pacienteid" [(ngModel)]="paciente.pacienteid" disabled>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pacienteactivo">Estatus:</label>
+            <input type="text" class="form-control" id="pacienteactivo" name="pacienteactivo" [(ngModel)]="paciente.pacienteactivo" disabled>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pacientefechacreacion">Fecha Alta:</label>
+            <input type="text" class="form-control" id="pacientefechacreacion" name="pacientefechacreacion" [(ngModel)]="paciente.pacientefechacreacion" disabled>
+          </div>
+        </div>
+      </div>
+  </ng-container> 
   <div class="row">
       <div class="col-md-3">
           <div class="form-group">
@@ -71,7 +93,12 @@
             <label for="pacientedireccion">Dirección:</label>
             <input type="text" class="form-control" id="pacientedireccion" name="pacientedireccion" [(ngModel)]="paciente.pacientedireccion">
           </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 text-center">
+          <button type="submit" class="btn btn-primary">{{paciente.pacienteid>0 ? "Actualizar" : "Guardar"}}</button>
       </div>
   </div>
-  <button type="submit" class="btn btn-primary">Guardar</button>
 </form>

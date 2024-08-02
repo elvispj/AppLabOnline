@@ -4,7 +4,7 @@
     </h1>
 </div>
 <br>
-<div *ngIf="ShowView===''">
+<div *ngIf="ShowView==='LISTA'">
     <div class="row">
         <div class="col-md-12 text-end">
             <button class="btn btn-success" (click)="agregarPaciente()">Agregar Paciente</button>
@@ -26,9 +26,10 @@
     <div class="row">
         <app-ma-viewpaciente [paciente]="pacienteShow" [doctor]="doctorinfo"></app-ma-viewpaciente>
     </div>
+    <br>
     <div class="row">
         <div class="col-md-12 text-center">
-            <button class="btn btn-success" (click)="showView('')">Regresar</button>
+            <button class="btn btn-success" (click)="showView('LISTA')">Regresar</button>
         </div>
     </div>
 </div>
@@ -39,11 +40,12 @@
         </div>
     </div>
     <div class="row">
-        <app-ma-altapaciente [doctor]="doctorinfo"></app-ma-altapaciente>
+        <app-ma-altapaciente [paciente]="pacienteShow" [doctor]="doctorinfo"></app-ma-altapaciente>
     </div>
+    <br>
     <div class="row">
         <div class="col-md-12 text-center">
-            <button class="btn btn-success" (click)="showView('')">Regresar</button>
+            <button class="btn btn-success" (click)="showView('LISTA')">Regresar</button>
         </div>
     </div>
     <br>

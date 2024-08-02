@@ -6,20 +6,20 @@ import { Pacientes } from 'src/app/entity/Pacientes';
 import { DoctoresService } from 'src/app/services/doctores.service';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { Constantes } from 'src/app/utils/Constantes';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ma-pacientes',
   templateUrl: './ma-pacientes.component.html',
   styleUrls: ['./ma-pacientes.component.css']
 })
-export class MaPacientesComponent implements OnInit, AfterViewInit{
+export class MaPacientesComponent implements OnInit{
   @ViewChild(DataTableDirective, {static: false})
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
   doctorinfo:Doctores=new Doctores();
-  pacienteShow!:Pacientes;
-  ShowView:string="";
+  pacienteShow:Pacientes=new Pacientes();
+  ShowView:string="LISTA";
 
   constructor(private pacienteService:PacientesService){}
 
@@ -28,28 +28,22 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
     this.doDataTable();
   }
 
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(this.dtOptions);
-  }
-
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
-
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next(this.dtOptions);
-    });
+  reload(): void {
+    if(this.dtElement.dtInstance){
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.draw();
+      });
+    }
   }
 
   showDetallePaciente(paciente:any){
     this.pacienteShow=paciente;
     this.ShowView="DETALLE";
-    // alert("Mostrar "+this.pacienteShow.pacientenombre);
+  }
+
+  showEditarPaciente(paciente:any){
+    this.pacienteShow=paciente;
+    this.ShowView="AGREGAR";
   }
 
   agregarPaciente(){
@@ -57,6 +51,7 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
   }
 
   showView(view:any){
+    this.pacienteShow=new Pacientes();
     this.ShowView=view;
   }
 
@@ -86,7 +81,11 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
         },
         {title:"Sexo", data: 'pacientesexo'},
         {title:"Edad", data: 'pacienteedad'},
-        {title:"Fecha", data: 'pacientefechacreacion'},
+        {title:"Fecha", 
+          render:(data,type,row)=>{
+            return moment(row.pacientefechacreacion).format('YYYY-MM-DD HH:mm:ss');
+          }
+        },
         {title: "Acciones", 
           render:(data,type,row)=>{
             return '<button type="button" class="btn btn-outline-info m-1 bt-s"><i class="fa-regular fa-eye"></i></button>'
@@ -102,7 +101,7 @@ export class MaPacientesComponent implements OnInit, AfterViewInit{
         });
         $('.bt-e').on('click', (event:any) => {
           const paciente = $('#table_pacientes').DataTable().row($(event.currentTarget).parents('tr')).data();
-          this.showDetallePaciente(paciente);
+          this.showEditarPaciente(paciente);
         });
         $('.bt-d').on('click', (event:any) => {
           alert("Se eliminara");
