@@ -31,6 +31,14 @@ import { MaDashboardComponent } from './components/medicaladmin/ma-dashboard/ma-
 import { AltaordenComponent } from './components/altaorden/altaorden.component';
 import { MaAltapacienteComponent } from './components/medicaladmin/ma-altapaciente/ma-altapaciente.component';
 import { MaViewpacienteComponent } from './components/medicaladmin/ma-viewpaciente/ma-viewpaciente.component';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 const routes: Routes =[
   { path: '', component:DashboardComponent, canActivate: [authGuard]  },
@@ -90,7 +98,13 @@ const routes: Routes =[
     RouterModule.forRoot(routes),
     FormsModule,
     DataTablesModule,
-    NgbModule
+    NgbModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
