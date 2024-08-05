@@ -24,6 +24,11 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { Doctorcitas } from 'src/app/entity/Doctorcitas';
+import { DoctorcitasService } from 'src/app/services/doctorcitas.service';
+import { Doctores } from 'src/app/entity/Doctores';
+import { Constantes } from 'src/app/utils/Constantes';
+import Swal from 'sweetalert2';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -46,23 +51,20 @@ const colors: Record<string, EventColor> = {
   styleUrls: ['./ma-citas.component.css']
 })
 export class MaCitasComponent implements OnInit {
-  ngOnInit(): void {
-      
-  }
+  doctorinfo:Doctores=new Doctores();
+  dtOptions: DataTables.Settings = {};
   locale: string = "es";
+  listaCitas: Doctorcitas[]=[];
+
   @ViewChild('modalContent', { static: true }) 
   modalContent!: TemplateRef<any>;
-
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
-
-
   modalData!: {
     action: string;
     event: CalendarEvent;
+    cita: Doctorcitas;
   };
 
   actions: CalendarEventAction[] = [
@@ -83,52 +85,32 @@ export class MaCitasComponent implements OnInit {
     },
   ];
 
+  events: CalendarEvent[] = [];
+
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      // color: { ...colors.red },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      // color: '#e3bc08',
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      // color: '#1e90ff',
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      // color: '#e3bc08',
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  constructor(private modal: NgbModal,
+    private doctorCitasService: DoctorcitasService
+  ) {}
+
+  ngOnInit(): void {
+    this.doctorinfo = (Constantes.GetDoctorInfo()!);
+    this.doDataTable();
+    // this.doctorCitasService.getCitasByDoctorid(this.doctorinfo.doctorid).subscribe({
+    //   next: resp=>{
+    //     if(resp){
+    //       this.listaCitas = resp;
+    //     }else{
+    //       console.log("No se encontraron citas");
+    //     }
+    //   },
+    //   error: err=>{
+    //     Swal.fire('Citas',`Se genero un error al recuperar las citas`, 'error');
+    //   }
+    // });
+  }
 
   activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal) {}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -159,11 +141,35 @@ export class MaCitasComponent implements OnInit {
       }
       return iEvent;
     });
+    let cita:Doctorcitas={
+      citaid: 0,
+      doctorid: this.doctorinfo.doctorid,
+      pacienteid: 0,
+      citaestatusid: 'NVO',
+      citanombre: 'Cita de prueba',
+      citafecha: new Date(),
+      citalugar: 'Coyuca de benitez',
+      citacomentarios: 'Sin comentarios',
+      citafechacreacion: new Date(),
+      citafechamodificacion: new Date()
+    };
     this.handleEvent('Dropped or resized', event);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { action, event };
+    let cita: Doctorcitas={
+      citaid: 0,
+      doctorid: 0,
+      pacienteid: 0,
+      citaestatusid: '',
+      citanombre: '',
+      citafecha: new Date(),
+      citalugar: '',
+      citacomentarios: '',
+      citafechacreacion: new Date(),
+      citafechamodificacion: new Date()
+    };
+    this.modalData = { action, event, cita };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
@@ -184,8 +190,8 @@ export class MaCitasComponent implements OnInit {
     ];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+  deleteEvent(eventToDelete: any) {
+    this.listaCitas = this.listaCitas.filter((citaid) => citaid !== eventToDelete);
   }
 
   setView(view: CalendarView) {
@@ -195,5 +201,116 @@ export class MaCitasComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
+  doTransformEvent(lista:Doctorcitas[]){
+    lista.forEach((cita)=>{
+      let ev:CalendarEvent = {
+        start: new Date(cita.citafecha),
+        end: addHours(new Date(cita.citafecha), 1),
+        title: cita.citanombre,
+        actions: this.actions,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+        draggable: true,
+      };
+      this.events.push(ev);
+    });
+  }
+
+  doDataTable(){
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      lengthMenu: [5,10,20,50],
+      ajax: (dataTablesParameters: any, callback) => {
+        console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
+        this.doctorCitasService.getCitasByDoctorid(this.doctorinfo.doctorid).subscribe(response => {
+          this.doTransformEvent(response);
+          let totalRecords = response.length;
+          let filteredRecords = response.length;
+          callback({
+            recordsTotal: totalRecords,
+            recordsFiltered: filteredRecords,
+            data: response
+          });
+        });
+      },
+      columns: [
+        {title:"Nombre", data: 'citanombre'},
+        {title:"Fecha", data: 'citafecha'},
+        {title:"Lugar", data: 'citalugar'},
+        {title: "Acciones", 
+          render:(data,type,row)=>{
+            return '<button type="button" class="btn btn-outline-info m-1 bt-s"><i class="fa-regular fa-eye"></i></button>'
+            +'<button type="button" class="btn btn-outline-success m-1 bt-e"><i class="fa-regular fa-pen-to-square"></i></button>'
+            +'<button type="button" class="btn btn-outline-danger m-1 bt-d"><i class="fa-solid fa-trash"></i></button>';
+          }
+        }
+      ],
+      drawCallback:() =>{
+        $('.bt-s').on('click', (event:any) => {
+          const paciente = $('#table_citas').DataTable().row($(event.currentTarget).parents('tr')).data();
+          this.showCita(paciente);
+        });
+        $('.bt-e').on('click', (event:any) => {
+          const paciente = $('#table_citas').DataTable().row($(event.currentTarget).parents('tr')).data();
+          this.showEditarCita(paciente);
+        });
+        $('.bt-d').on('click', (event:any) => {
+          alert("Se eliminara");
+        });
+      }
+    };
+  }
+
+  showCita(cita:any){
+    alert("Se mostrara >> "+cita);
+  }
+
+  showEditarCita(cita:any){
+    alert("Se editara >> "+cita);
+  }
 }
 
+
+// events: CalendarEvent[] = [
+//   {
+//     start: subDays(startOfDay(new Date()), 1),
+//     end: addDays(new Date(), 1),
+//     title: 'A 3 day event',
+//     // color: { ...colors.red },
+//     actions: this.actions,
+//     allDay: true,
+//     resizable: {
+//       beforeStart: true,
+//       afterEnd: true,
+//     },
+//     draggable: true,
+//   },
+//   {
+//     start: startOfDay(new Date()),
+//     title: 'An event with no end date',
+//     // color: '#e3bc08',
+//     actions: this.actions,
+//   },
+//   {
+//     start: subDays(endOfMonth(new Date()), 3),
+//     end: addDays(endOfMonth(new Date()), 3),
+//     title: 'A long event that spans 2 months',
+//     // color: '#1e90ff',
+//     allDay: true,
+//   },
+//   {
+//     start: addHours(startOfDay(new Date()), 2),
+//     end: addHours(new Date(), 2),
+//     title: 'A draggable and resizable event',
+//     // color: '#e3bc08',
+//     actions: this.actions,
+//     resizable: {
+//       beforeStart: true,
+//       afterEnd: true,
+//     },
+//     draggable: true,
+//   },
+// ];
