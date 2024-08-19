@@ -1,0 +1,45 @@
+<form (ngSubmit)="addCita()">
+    <div class="card" style="width: auto;">
+        <div class="card-head text-center">
+            <h3>Alta de cita</h3>
+            <img src="/assets/img/fondo_alta_cita.jpeg" class="card-img-top" alt="..." style="max-width: 50%; max-height: 50%">
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="citafecha">Fecha</label>
+                <input type="datetime-local" class="form-control" id="citafecha" name="citafecha" [(ngModel)]="citaNueva.citafecha" placeholder="Fecha">
+            </div>
+            <!-- <div class="form-group">
+                <label for="hora">Hora</label>
+                <input type="time" class="form-control" id="hora" formControlName="hora" placeholder="Hora">
+            </div> -->
+            <div class="form-group">
+                <label for="citanombre">Nombre / Asunto</label>
+                <input type="hidden" class="form-control" id="citanombre" name="citanombre" [(ngModel)]="citaNueva.citanombre" placeholder="Nombre / Asunto">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-default dropdown-toggle text-start" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                    style="width:100%;">
+                        {{pacientenombre}}
+                    </button>
+                    <ul class="dropdown-menu pt-0" aria-labelledby="dropdownMenuButton1">
+                        <input type="text" class="form-control border-0 border-bottom shadow-none mb-2" id="in_search" placeholder="Search..." (input)="buscar($event)">
+                        <li><hr class="dropdown-divider"></li>
+                        <div *ngFor="let paciente of selectPacientes">
+                            <li (click)="selectPaciente(paciente)">{{paciente.pacientenombre}} {{paciente.pacienteapellidopaterno}} {{paciente.pacienteapellidomaterno}}</li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="citacomentarios">Comentarios</label>
+                <input type="text" class="form-control" id="citacomentarios" name="citacomentarios" [(ngModel)]="citaNueva.citacomentarios" placeholder="Comentarios">
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-primary me-2">Guardar</button>
+            <button type="button" class="btn btn-danger ms-2" (click)="closeCard()">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</form>
