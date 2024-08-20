@@ -38,6 +38,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { MaAgregarCitaComponent } from './components/medicaladmin/ma-citas/ma-agregar-cita/ma-agregar-cita.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEs);
 
@@ -108,7 +109,8 @@ const routes: Routes =[
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true

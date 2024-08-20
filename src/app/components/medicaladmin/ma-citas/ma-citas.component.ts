@@ -6,6 +6,7 @@ import {
   TemplateRef,
   AfterViewInit,
   OnDestroy,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   startOfDay,
@@ -54,7 +55,8 @@ const colors: Record<string, EventColor> = {
   selector: 'app-ma-citas',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ma-citas.component.html',
-  styleUrls: ['./ma-citas.component.css']
+  styleUrls: ['./ma-citas.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
   doctorinfo:Doctores=new Doctores();
@@ -64,12 +66,16 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
   listaCitas: Doctorcitas[]=[];
   listaPacientes: Pacientes[]=[];
+  citaSeleccionada!:Doctorcitas;
 
   formatter = new Intl.NumberFormat('es-MX');
   datepipe: DatePipe = new DatePipe('es-MX');
 
   @ViewChild('modalAlta', { static: true }) 
   modalAlta!: TemplateRef<any>;
+
+  @ViewChild('modalView', { static: true }) 
+  modalView!: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
@@ -162,6 +168,7 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.viewDate = date;
     }
+    this.refresh.next();
   }
 
   eventTimesChanged({ event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
@@ -195,22 +202,32 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(">> action "+action);
     console.log(">> seleccionado "+event.id);
     console.log("JSON >> "+JSON.stringify(this.listaCitas));
-    let citas=this.listaCitas.filter((cit)=> Number(cit.citaid)===Number(event.id))[0];
-    console.log(">> "+JSON.stringify(citas));
+    let cita=this.listaCitas.filter((cit)=> Number(cit.citaid)===Number(event.id))[0];
+    console.log(">> "+JSON.stringify(cita));
+    if(cita === undefined){
+      console.error("No se encontro el id de la cita");
+      return;
+    }
     switch(action){
       case "Clicked":
-
+        this.citaSeleccionada=cita;
+        this.modal.open(this.modalAlta);
       break;
       case "Edited":
-
+        this.citaSeleccionada=cita;
+        this.modal.open(this.modalAlta);
       break;
       case "Deleted":
+        this.showEliminarCita(cita);
+      break;
+      case "Dropped or resized":
 
       break;
     }
   }
 
   addEvent(): void {
+    this.citaSeleccionada=new Doctorcitas();
     this.modal.open(this.modalAlta);
   }
 
@@ -232,7 +249,7 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
       let ev:CalendarEvent = {
         id: cita.citaid,
         start: new Date(cita.citafecha),
-        end: addHours(new Date(cita.citafecha), 1),
+        end: addHours(new Date(cita.citafecha), 3),
         color: colors['red'],
         title: cita.citanombre,
         actions: this.actions,
@@ -245,6 +262,7 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
       this.events.push(ev);
     });
     this.listaCitas=lista;
+    this.refresh.next();
   }
 
   altaCita(cita:any){
@@ -267,8 +285,8 @@ export class MaCitasComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showEditarCita(cita:any){
-    this.rerender();
-    alert("Se editara >> "+cita);
+    this.citaSeleccionada=cita;
+    this.modal.open(this.modalAlta);
   }
 
   showEliminarCita(citaAny:any) {

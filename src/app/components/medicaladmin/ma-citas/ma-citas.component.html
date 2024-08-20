@@ -131,18 +131,19 @@
       <br />
       <br />
       <br />
-
-      <ng-template #modalAlta let-close="close">
-        <div class="row">
-          <div class="col-md-12 text-end">
-            <button type="button" class="close" (click)="close()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </div>
-        <app-ma-agregar-cita [doctor]="doctorinfo" [listPacientes]="listaPacientes" 
-          (addCitaEmitter)="altaCita($event); close();" (closeCardEmitter)="close()"></app-ma-agregar-cita>
-      </ng-template>
     </div>
   </div>
 </div>
+
+
+<ng-template #modalAlta let-close="close">
+  <div class="row">
+    <div class="col-md-12 text-end">
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  <app-ma-agregar-cita [doctor]="doctorinfo" [listPacientes]="listaPacientes" [citaSeleccionada]="citaSeleccionada"
+    (addCitaEmitter)="altaCita($event); close();" (closeCardEmitter)="close()"></app-ma-agregar-cita>
+</ng-template>

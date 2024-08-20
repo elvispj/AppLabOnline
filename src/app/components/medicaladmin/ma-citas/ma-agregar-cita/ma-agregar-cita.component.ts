@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class MaAgregarCitaComponent implements OnInit {
 
+  @Input() citaSeleccionada!: Doctorcitas;
   @Input() doctor!: Doctores;
   @Input() listPacientes!: Pacientes[];
   @Output() addCitaEmitter: EventEmitter<any> = new EventEmitter();
@@ -36,6 +37,10 @@ export class MaAgregarCitaComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectPacientes=this.listPacientes;
+    if(this.citaSeleccionada.citaid){
+      console.log("nombre paciente "+this.citaSeleccionada.citanombre);
+      this.pacientenombre=this.citaSeleccionada.citanombre;
+    }
   }
 
   selectPaciente(paciente:any){
@@ -43,7 +48,7 @@ export class MaAgregarCitaComponent implements OnInit {
     this.citaNueva.pacienteid=paciente.pacienteid;
     this.citaNueva.citanombre=paciente.pacientenombre+" "+paciente.pacienteapellidopaterno+" "+paciente.pacienteapellidomaterno;
     this.selectPacientes=this.listPacientes;
-    let in_search = this.elementRef.nativeElement.querySelector("#in_search").value="";
+    this.elementRef.nativeElement.querySelector("#in_search").value="";
   }
 
   buscar(cadena:any){
@@ -55,6 +60,23 @@ export class MaAgregarCitaComponent implements OnInit {
     }else{
       this.selectPacientes=this.listPacientes;
     }
+  }
+
+  modifyCita(){
+    console.log("Actualizara "+JSON.stringify(this.citaSeleccionada));
+    this.doctorCitasService.saveCita(this.citaSeleccionada).subscribe({
+      next: resp=>{
+        if(resp){
+          Swal.fire('Actuaiza Cita',`Se actualizo de forma exitosa la cita`, 'success');
+          this.addCitaEmitter.emit(resp);
+        }else{
+          Swal.fire('Actuaiza Cita',`No se logro actualizar la cita`, 'info');
+        }
+      },
+      error: err=>{
+        Swal.fire('Actuaiza Cita',`Se genero un error al actualizar la cita`, 'error');
+      }
+    });
   }
 
   addCita(){
