@@ -10,34 +10,33 @@
     </div>
 </div>
 <br>
-<form>
+<form (ngSubmit)="updateInfo()">
     <div class="row">
         <div class="col-md-4">
             <label for="doctornombre" class="form-label">Nombre del doctor</label>
-            <input type="text" class="form-control" id="doctornombre" name="doctornombre" required>
+            <input type="text" class="form-control" id="doctornombre" name="doctornombre" [(ngModel)]="doctorinfo.doctornombre" required>
         </div>
         <div class="col-md-4">
             <label for="doctorapellidopaterno" class="form-label">Apellido paterno del doctor</label>
-            <input type="text" class="form-control" id="doctorapellidopaterno" name="doctorapellidopaterno" required>
+            <input type="text" class="form-control" id="doctorapellidopaterno" name="doctorapellidopaterno" [(ngModel)]="doctorinfo.doctorapellidopaterno" required>
         </div>
         <div class="col-md-4">
             <label for="doctorapellidomaterno" class="form-label">Apellido materno del doctor</label>
-            <input type="text" class="form-control" id="doctorapellidomaterno" name="doctorapellidomaterno" required>
+            <input type="text" class="form-control" id="doctorapellidomaterno" name="doctorapellidomaterno" [(ngModel)]="doctorinfo.doctorapellidomaterno" required>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
             <label for="doctorcedula" class="form-label">Cédula del doctor</label>
-            <input type="text" class="form-control" id="doctorcedula" name="doctorcedula" required>
+            <input type="text" class="form-control" id="doctorcedula" name="doctorcedula" [(ngModel)]="doctorinfo.doctorcedula" required>
         </div>
         <div class="col-md-4">
             <label for="doctortitulo" class="form-label">Título del doctor</label>
-            <input type="text" class="form-control" id="doctortitulo" name="doctortitulo" required>
+            <input type="text" class="form-control" id="doctortitulo" name="doctortitulo" [(ngModel)]="doctorinfo.doctortitulo" required>
         </div>
         <div class="col-md-4">
             <label for="doctorfechamodificacion" class="form-label">Fecha de modificación</label>
-            <input type="date" class="form-control" id="doctorfechamodificacion" name="doctorfechamodificacion"
-                disabled>
+            <input type="text" class="form-control" id="doctorfechamodificacion" name="doctorfechamodificacion" [(ngModel)]="doctorinfo.doctorfechamodificacion" disabled>
         </div>
     </div>
     <div class="row">

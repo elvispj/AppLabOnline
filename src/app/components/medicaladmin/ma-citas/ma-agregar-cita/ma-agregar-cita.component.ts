@@ -38,7 +38,6 @@ export class MaAgregarCitaComponent implements OnInit {
   ngOnInit(): void {
     this.selectPacientes=this.listPacientes;
     if(this.citaSeleccionada.citaid){
-      console.log("nombre paciente "+this.citaSeleccionada.citanombre);
       this.pacientenombre=this.citaSeleccionada.citanombre;
     }
   }

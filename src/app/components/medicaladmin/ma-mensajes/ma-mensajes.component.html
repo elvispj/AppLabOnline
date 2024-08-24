@@ -4,3 +4,14 @@
     </h1>
 </div>
 <br>
+<div *ngFor="let mensaje of listaMensajes">
+    <div class="container_mensaje">
+        <h3>[{{mensaje.mensajetipoid}}] {{mensaje.mensajetitulo}}</h3>
+        <h5>{{mensaje.mensajecuerpo}}</h5>
+        <h6>{{mensaje.mensajefechamodificacion}}</h6>
+    </div>
+</div>
+
+<ng-template #ShowMessage let-close="close">
+    
+</ng-template>
