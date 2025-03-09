@@ -3,7 +3,48 @@
     border-bottom:1px solid black;
     color: red;
     width:100%;
+}
+
+.line_textarea{
+  width:100%;
+}
+
+.btn-cuadrado {
+    width: 100px; /* ancho del botón */
+    height: 100px; /* alto del botón */
+    background-color: #acacac; /* color de fondo */
+    border: 2px solid #070707; /* borde */
+    border-radius: 20px; /* radio de esquina */
+    cursor: pointer; /* cursor de mano */
+    display: inline-block; /* para centrar el icono */
+    justify-content: center; /* para centrar el icono horizontalmente */
+    align-items: center; /* para centrar el icono verticalmente */
+    margin: 1rem;
   }
-  .line_textarea{
-    width:100%;
+  
+  .btn-cuadrado i {
+    font-size: 2rem; /* tamaño del icono */
+    color: #fff; /* color del icono */
+  }
+
+  .btn-title{
+    color: #fff;
+    align-items: center;
+    display:grid;
+  }
+
+  .btsuccess{
+    background-color: #4CAF50 !important; /* color de fondo */
+  }
+
+  .btsuccess:hover{
+    background-color: #2d8730 !important; /* color de fondo */
+  }
+
+  .btwarning{
+    background-color: #bec110 !important; /* color de fondo */
+  }
+
+  .btwarning:hover{
+    background-color: #9da00d !important; /* color de fondo */
   }

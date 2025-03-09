@@ -1,6 +1,6 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { ChangePass, Credentials } from '../entity/Credentials';
 import { Constantes } from '../utils/Constantes';
 import { Router } from '@angular/router';
@@ -30,12 +30,29 @@ export class LoginService {
     let serviceName='login';
     console.log("Request login "+this.URL+"/"+serviceName);
     
-    return this.http.post<any>(`${this.URL}/${serviceName}`, creds, {
-      observe: 'response'
-    }).pipe(map((response: HttpResponse<any>) => {
+    return this.http.post<any>(`${this.URL}/${serviceName}`, creds, { observe: 'response' })
+    .pipe(
+      map((response: HttpResponse<any>) => {
         console.log("Response>> "+JSON.stringify(response));
         return this.doResponse(response);
-      }))
+      })
+    )
+  }
+
+  refresh(){
+    let serviceName='refresh';
+
+    return this.http.post<any>(`${this.URL}/${serviceName}`, { observe: 'response' })
+    .pipe(
+      map((response: HttpResponse<any>) => {
+        console.log("Response>> "+JSON.stringify(response));
+        sessionStorage.setItem("token", response.body.token);
+        sessionStorage.setItem("refreshtoken", response.body.refreshtoken);
+      }),
+      catchError((error:HttpErrorResponse)=>{
+        return throwError(()=>error);
+      })
+    )
   }
 
   doResponse(response:any){
@@ -51,6 +68,7 @@ export class LoginService {
       const token = bearerToken.replace('Bearer', '');
 
       sessionStorage.setItem("token", token);
+      sessionStorage.setItem("refreshtoken", body.refreshtoken);
       sessionStorage.setItem("usuario", JSON.stringify(usuario));
     }
     return usuario;
@@ -60,10 +78,12 @@ export class LoginService {
     return sessionStorage.getItem('token');
   }
 
+  getRefreshToken(){
+    return sessionStorage.getItem('refreshtoken');
+  }
+
   logout():void{
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("usuario");
-    sessionStorage.removeItem("doctor_info");
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 

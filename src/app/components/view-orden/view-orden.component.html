@@ -160,9 +160,20 @@
           <h4>{{pago.pagofechamodificacion}}</h4>
         </div>
       </div>
-      <div class="row" *ngIf="!pago || pago.pagoestatusid==='PEN'">
-        <div class="col-md-12 text-center">
-          <input class="btn btn-success" type="submit" value="Pagar Orden">
+      <div class="row" >
+        <div class="col-md-6 text-center">
+          <button class="btn-cuadrado btsuccess" type="button">
+            <i class="fa-regular fa-rectangle-list"></i>
+            <label class="btn-title">Resultados</label>
+          </button>
+        </div>
+        <div class="col-md-6 text-center">
+          <div *ngIf="!pago || pago.pagoestatusid==='PEN'">
+            <button class="btn-cuadrado btwarning" type="submit">
+                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                <label class="btn-title">Pagar</label>
+            </button>
+          </div>
         </div>
       </div>
     </form>

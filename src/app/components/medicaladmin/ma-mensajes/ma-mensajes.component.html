@@ -4,11 +4,29 @@
     </h1>
 </div>
 <br>
-<div *ngFor="let mensaje of listaMensajes">
-    <div class="container_mensaje">
-        <h3>[{{mensaje.mensajetipoid}}] {{mensaje.mensajetitulo}}</h3>
-        <h5>{{mensaje.mensajecuerpo}}</h5>
-        <h6>{{mensaje.mensajefechamodificacion}}</h6>
+<div class="row">
+    <div class="col-md-4">
+        <div class="container_message">
+            <div *ngFor="let mensaje of listaMensajes">
+                <div class="message_row" (click)="doLoadMessage(mensaje);">
+                    <p class="message_title">[{{mensaje.mensajetipo ? mensaje.mensajetipo.mensajetiponombre : mensaje.mensajetipoid}}] {{mensaje.mensajetitulo}}</p>
+                    <p class="message_date">{{mensaje.mensajefechamodificacion}}</p>
+                    <p class="message_body">{{mensaje.mensajecuerpo}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="message_show">
+            <p *ngIf="!mensajeSeleccionado || mensajeSeleccionado.mensajeid<1" class="message_empity">No ha seleccionado un mensaje</p>
+            <div *ngIf="mensajeSeleccionado && mensajeSeleccionado.mensajeid>0">
+                <p class="message_title">[{{mensajeSeleccionado.mensajetipo.mensajetiponombre}}] {{mensajeSeleccionado.mensajetitulo}}</p>
+                <p class="message_date">{{mensajeSeleccionado.mensajefechamodificacion}}</p>
+                <p class="message_body">{{mensajeSeleccionado.mensajecuerpo}}</p>
+                <br>
+                <button class="btn btn-danger" (click)="doCloseMessage();">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>
 

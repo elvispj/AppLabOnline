@@ -3,6 +3,7 @@ import { Constantes } from '../utils/Constantes';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mensajes } from '../entity/Mensajes';
+import { Mensajetipos } from '../entity/Mensajetipos';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,12 @@ export class MensajesService {
   private httpheaders = new HttpHeaders();
 
   constructor(private http: HttpClient) { }
+
+  getMensajeTipos(): Observable<Mensajetipos[]>{
+    let serviceName='listMensajetipos';
+    console.log("Request  "+this.URL+"/"+serviceName);
+    return this.http.get<Mensajetipos[]>(`${this.URL}/${serviceName}/`);
+  }
 
   getMensajes(id:number): Observable<Mensajes>{
     let serviceName='search';

@@ -26,6 +26,8 @@ export class OrdenesComponent implements AfterViewInit, OnInit, OnDestroy {
 
   vista:string='LISTA';
 
+  private tooltipList = new Array<any>();
+
   constructor(private router: Router, 
     private ordenesService: OrdenesService, 
     private pagoService: PagosService){}
@@ -89,10 +91,10 @@ export class OrdenesComponent implements AfterViewInit, OnInit, OnDestroy {
         {title:"Fecha", data: 'ordenfechacreacion'},
         {title:"Acciones",
           render:(data,type,row)=>{
-            return `<button class='btn btn-primary m-3 text-white bt-show' ng-show='Detalle'><i class="fa-regular fa-eye"></i></button>`
-            +`<button class='btn btn-success m-3 text-white bt-res' title='Resultados'><i class="fa-regular fa-clipboard"></i></button>`
-            +`<button class='btn btn-danger m-3 text-white bt-del' title='Cancelar'><i class="fa-regular fa-trash-can"></i></button>`;
-          }        
+            return `<button class='btn btn-primary m-3 text-white bt-show'><i class="fa-regular fa-eye"></i></button>`
+            +`<button class='btn btn-success m-3 text-white bt-res'><i class="fa-regular fa-clipboard"></i></button>`
+            +`<button class='btn btn-danger m-3 text-white bt-del'><i class="fa-regular fa-trash-can"></i></button>`;
+          }
         }
       ],
       drawCallback:() =>{

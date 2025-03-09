@@ -1,3 +1,4 @@
+import { HttpHeaders } from "@angular/common/http";
 import { Doctores } from "../entity/Doctores";
 
 export class Constantes{
@@ -21,5 +22,22 @@ export class Constantes{
             console.log("No existe variable doctor_info");
             return undefined;
         }
+    }
+
+    public static getHeaders(): HttpHeaders {
+        let httpheaders = new HttpHeaders();
+        httpheaders.set('Content-Type', 'application/json; charset=utf-8');
+        httpheaders.set('Accept', 'application/json');
+        console.log("getHeaders >> "+httpheaders.getAll);
+        return httpheaders;
+    }
+
+    public static getHeadersMultipart(): HttpHeaders {
+        let httpheaders = new HttpHeaders();
+        httpheaders.set('Accept', 'multipart/form-data');
+        httpheaders.set('mimeType', 'multipart/form-data');
+        httpheaders.set( 'Content-Type', 'multipart/form-data');
+        console.log("getHeadersMultipart >> "+httpheaders.getAll);
+        return httpheaders;
     }
 }

@@ -1,6 +1,8 @@
+import { Mensajetipos } from "./Mensajetipos";
+
 export class Mensajes
 {
-	public mensajeid!: number;
+	public mensajeid: number=0;
 	public mensajetipoid!: string;
 	public mensajeestatusid!: string;
 	public doctorid!: number;
@@ -10,4 +12,5 @@ export class Mensajes
 	public mensajerespuesta!: string;
 	public mensajefechacreacion!: Date;
 	public mensajefechamodificacion!: Date;
+	public mensajetipo!:Mensajetipos;
 }

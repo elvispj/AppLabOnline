@@ -1,42 +1,56 @@
 <app-nav></app-nav>
 <br>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-            <h3>Alta de Compra</h3>
-            <form (ngSubmit)="guardarCompra()">
-                <div class="form-group">
-                    <label for="proveedorid">Proveedor</label>
-                    <select class="form-control" id="proveedorid" name="proveedorid" required>
-                        <option value="-1">Selecciona un proveedor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="compranumeroarticulos">Nº Articulos</label>
-                    <input type="text" class="form-control" id="compranumeroarticulos" name="compranumeroarticulos" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimporteneto">Importe Neto</label>
-                    <input type="text" class="form-control" id="compraimporteneto" name="compraimporteneto" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimporteiva">IVA</label>
-                    <input type="text" class="form-control" id="compraimporteiva" name="compraimporteiva" required>
-                </div>
-                <div class="form-group">
-                    <label for="compraimportetotal">Compra Total</label>
-                    <input type="text" class="form-control" id="compraimportetotal" name="compraimportetotal" required>
-                </div>
-                <button class="btn btn-success btn-lg" type="submit">Guardar</button>
-            </form>
+        <div class="col-md-12">
+            <h3 class=" text-center">Inventario</h3>
         </div>
-        <div class="col-md-8">
-            <h3>Inventario</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
-                </div>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table datatable id="table_inventario" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"></table>
         </div>
     </div>
 </div>
+
+<ng-template #modalEditar let-close="close">
+    <div class="row">
+      <div class="col-md-12 text-end">
+        <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="card" style="width: auto;">
+        <div class="card-head text-center">
+            <h3>Editar Inventario</h3>
+        </div>
+        <form (ngSubmit)="guardarCambios()">
+            <div class="card-body">
+                <!-- <div class="form-group">
+                    <label for="inventariocostoporunidad">inventariocostoporunidad</label>
+                    <input type="text" class="form-control" id="inventariocostoporunidad" name="inventariocostoporunidad" [(ngModel)]="inventario.inventariocostoporunidad" disabled>
+                </div> -->
+                <div class="form-group">
+                    <label for="inventariocantidadoriginal">Cantidad Original</label>
+                    <input type="text" class="form-control" id="inventariocantidadoriginal" name="inventariocantidadoriginal" [(ngModel)]="inventario.inventariocantidadoriginal" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="inventariocantidadactual">Cantidad Actual</label>
+                    <input type="text" class="form-control" id="inventariocantidadactual" name="inventariocantidadactual" [(ngModel)]="inventario.inventariocantidadactual" required>
+                </div>
+                <div class="form-group">
+                    <label for="inventarioimagen" class="form-label">Imagen</label>
+                    <input class="form-control" type="file" (change)="readURL($event);"/>
+                    <hr>
+                    <img class="img-fluid rounded" id="blah" [src]="imageSrc || '/assets/img/image_not_found.jpeg'" alt="your image" />
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-success btn-lg me-1" type="submit">Guardar</button>
+                <button class="btn btn-danger btn-lg ms-1" type="button" (click)="close()">Descartar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
