@@ -44,10 +44,9 @@ export class LoginService {
 
     return this.http.post<any>(`${this.URL}/${serviceName}`, { observe: 'response' })
     .pipe(
-      map((response: HttpResponse<any>) => {
-        console.log("Response>> "+JSON.stringify(response));
-        sessionStorage.setItem("token", response.body.token);
-        sessionStorage.setItem("refreshtoken", response.body.refreshtoken);
+      map((response: any) => {
+        sessionStorage.setItem("token", response.token);
+        sessionStorage.setItem("refreshtoken", response.refreshtoken);
       }),
       catchError((error:HttpErrorResponse)=>{
         return throwError(()=>error);

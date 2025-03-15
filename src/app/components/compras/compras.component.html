@@ -46,7 +46,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tipoproductoid">Tipo Producto</label>
-                                    <select name="tipoproductoid" id="tipoproductoid" class="form-control" >
+                                    <select name="tipoproductoid" id="tipoproductoid" class="form-control"  [(ngModel)]="inventario.tipoproductoid">
                                         <option value="-1">Selecciona un tipo de producto</option>
                                         <option *ngFor="let tipoproducto of listaProductos" [ngValue]="tipoproducto.tipoproductoid">
                                             {{tipoproducto.tipoproductonombre}}
@@ -57,18 +57,20 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Nº Unidades</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="inventariocantidadoriginal" 
+                                    id="inventariocantidadoriginal" [(ngModel)]="inventario.inventariocantidadoriginal">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Costo unitario</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="inventariocostoporunidad" 
+                                    id="inventariocostoporunidad" [(ngModel)]="inventario.inventariocostoporunidad">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <br>
-                                <button class="btn btn-info">Agregar</button>
+                                <button class="btn btn-info" (click)="addDetalleCompra()">Agregar</button>
                             </div>
                         </div>
                     </form>

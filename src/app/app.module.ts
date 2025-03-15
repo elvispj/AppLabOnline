@@ -39,6 +39,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { MaAgregarCitaComponent } from './components/medicaladmin/ma-citas/ma-agregar-cita/ma-agregar-cita.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DATE_PIPE_DEFAULT_OPTIONS } from "@angular/common";
 
 registerLocaleData(localeEs);
 
@@ -114,6 +115,10 @@ const routes: Routes =[
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+  },
+  {
+    provide: DATE_PIPE_DEFAULT_OPTIONS,
+    useValue: { dateFormat: "longDate" }
   }],
   bootstrap: [AppComponent]
 })

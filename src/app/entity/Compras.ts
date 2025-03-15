@@ -14,3 +14,18 @@ export class Compras
 	public bitacoraid!: number;
 	public listaInventario!: Inventario[];
 }
+
+export interface CompraProveedor{
+	proveedornombre: string;
+    compraid: number;
+    proveedorid: number;
+    compraactivo: boolean;
+    compranumeroarticulos: number;
+    compraimporteneto: number;
+    compraimporteiva: number;
+    compraimportetotal: number;
+    comprafechacreacion: Date;
+    comprafechamodificacion: Date;
+    bitacoraid: number;
+	listaInventario: Inventario[];
+}

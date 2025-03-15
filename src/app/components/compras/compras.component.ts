@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -26,6 +27,7 @@ export class ComprasComponent {
   listaInventario: Inventario[]=[];
   showAgregarCompra: boolean = false;
   inventario: Inventario=new Inventario();
+  datePipe = new DatePipe('es-MX');
 
   constructor(private comprasService: ComprasService,
     private tipoproductoService: TipoproductosService,
@@ -57,7 +59,7 @@ export class ComprasComponent {
       lengthMenu: [5,10,20,50],
       ajax: (dataTablesParameters: any, callback) => {
         console.log("dataTablesParameters >> "+JSON.stringify(dataTablesParameters));
-        this.comprasService.getAll(dataTablesParameters).subscribe(response => {
+        this.comprasService.allCompras(dataTablesParameters).subscribe(response => {
           let totalRecords = response.length;
           let filteredRecords = response.length;
           callback({
@@ -69,12 +71,18 @@ export class ComprasComponent {
       },
       columns: [
         {title:"Id", data: 'compraid'},
-        {title:"Proveedor", data: 'proveedorid'},
-        {title:"Nº articulos", data: 'compranumeroarticulos'},
+        {title:"Proveedor", data: 'proveedornombre'},
+        {title:"Nº articulos", render:(data,type,row)=>{
+            return row.listainventario.length;
+          }
+        },
         {title:"Importe Neto", data: 'compraimporteneto'},
         {title:"IVA", data: 'compraimporteiva'},
         {title:"Importe Total", data: 'compraimportetotal'},
-        {title:"Fecha", data: 'comprafechacreacion'}
+        {title:"Fecha", render:(data,type,row)=>{
+          return this.datePipe.transform(row.comprafechacreacion, 'yyyy/MM/dd');
+        }},
+        //data: 'comprafechacreacion'}
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
@@ -103,6 +111,10 @@ export class ComprasComponent {
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
+  }
+
+  addDetalleCompra(){
+    console.log("Add>> "+JSON.stringify(this.inventario));
   }
 
   guardarCompra():void{
