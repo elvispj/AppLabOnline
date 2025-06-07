@@ -114,7 +114,52 @@ export class ComprasComponent {
   }
 
   addDetalleCompra(){
+    if(this.listaInventario && this.listaInventario.filter((inv)=>inv.tipoproductoid===this.inventario.tipoproductoid)[0]){
+      Swal.fire({
+        title: "Error",
+        text: "Ya existe "+this.inventario.tipoproductoid,
+        icon: "error"
+      });
+      return;
+    }
+    if(this.inventario==null || !this.inventario.tipoproductoid
+      || this.inventario.tipoproductoid==undefined 
+      || this.inventario.tipoproductoid<=0){
+        Swal.fire({
+          title: "Error",
+          text: "Es necesario seleccionar el tipo de producto",
+          icon: "error"
+        });
+        return;
+    }
+    if(this.inventario==null || !this.inventario.inventariocantidadoriginal
+      || this.inventario.inventariocantidadoriginal==undefined 
+      || this.inventario.inventariocantidadoriginal<=0){
+        Swal.fire({
+          title: "Error",
+          text: "Es necesario indicar numero de unidades",
+          icon: "error"
+        });
+        return;
+    }
+    if(this.inventario==null || !this.inventario.inventariocostoporunidad
+      || this.inventario.inventariocostoporunidad==undefined 
+      || this.inventario.inventariocostoporunidad<=0){
+        Swal.fire({
+          title: "Error",
+          text: "Es necesario indicar el costo por unidad",
+          icon: "error"
+        });
+        return;
+    }
     console.log("Add>> "+JSON.stringify(this.inventario));
+    this.listaInventario.push(this.inventario);
+    this.inventario=new Inventario();
+  }
+
+  delProducto(tipoproductoid:any){
+    console.log("Del producto "+tipoproductoid);
+    this.listaInventario = this.listaInventario.filter((inventario) => inventario.tipoproductoid !== tipoproductoid);
   }
 
   guardarCompra():void{
@@ -127,6 +172,16 @@ export class ComprasComponent {
 
   cancelaAlta():void{
     this.showAgregarCompra=false;
+    this.rerender();
+  }
+
+  getNombreProducto(producto:Inventario){
+    let selected=this.listaProductos.filter((prod)=> 
+      prod.tipoproductoid===producto.tipoproductoid)[0];
+    if(selected)
+      return selected.tipoproductonombre;
+    else
+      return "No especificado";
   }
 
 }

@@ -34,38 +34,6 @@ export class OrdenesComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.doDataTable();
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(this.dtOptions);
-  }
-
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
-
-  rerender(): void {
-    this.dtElement.dtInstance.then((dt: DataTables.Api) => {
-      // Destroy the table first
-      dt.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next(this.dtOptions);
-    });
-  }
-
-  showDetalleOrden(orden:any){
-    console.log("ordenid "+orden.ordenid);
-    this.ordenesService.getOrden(orden.ordenid).subscribe(
-      resp=>{
-        console.log("muestra orden "+JSON.stringify(resp));
-        this.ordenSeleccionada=resp;
-        this.vista="SHOW_ORDEN";
-    });
-  }
-
-  doDataTable() {
     this.dtOptions = {
       pagingType: "full_numbers",
       lengthMenu: [5,10,20,50],
@@ -125,6 +93,34 @@ export class OrdenesComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     };
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dt: DataTables.Api) => {
+      // Destroy the table first
+      dt.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next(this.dtOptions);
+    });
+  }
+
+  showDetalleOrden(orden:any){
+    console.log("ordenid "+orden.ordenid);
+    this.ordenesService.getOrden(orden.ordenid).subscribe(
+      resp=>{
+        console.log("muestra orden "+JSON.stringify(resp));
+        this.ordenSeleccionada=resp;
+        this.vista="SHOW_ORDEN";
+    });
   }
 
   deleteOrden(orden: any) {

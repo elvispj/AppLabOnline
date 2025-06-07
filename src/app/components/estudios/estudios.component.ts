@@ -101,6 +101,7 @@ export class EstudiosComponent implements AfterViewInit, OnInit {
     this.estudiosService.save(this.estudio).subscribe({
       next: response=>{
         Swal.fire('Alta Estudio','Se agrego el nuevo estudio de forma exitosa', 'success');
+        this.estudio = new Estudios;
         this.rerender();
       },
       error: err=>{

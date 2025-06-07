@@ -23,7 +23,6 @@ export class AuthInterceptor implements HttpInterceptor {
     if(token!=null && token!="" && token!="null"){
       let new_Request:any;
       if((request.body instanceof FormData)){
-        console.log("Se envian archivos el request");
         new_Request = request.clone(
           {
             headers: request.headers.append('Authorization', `Bearer ${token}`)
@@ -31,7 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
         );
       } else{
         if(request.url.indexOf("/refresh")>=0){
-          console.log("\n\t\t ********** REFRESH TOKEN **********");
           new_Request = request.clone(
             {
               setHeaders: {
@@ -55,7 +53,6 @@ export class AuthInterceptor implements HttpInterceptor {
           );
         }
       }
-      console.log(`Request >> ${JSON.stringify(new_Request)}`);
       return next.handle(new_Request).pipe(
         catchError((error:HttpErrorResponse)=>{
           if(error.status==401 && !this.refresh){
@@ -68,18 +65,15 @@ export class AuthInterceptor implements HttpInterceptor {
                   }
                 });
                 this.refresh=false;
-                console.log("\t*********Manda url original");
                 return next.handle(newReq);
               }),
               catchError((errRefresh:HttpErrorResponse)=>{
-                console.log("FALLO EL REFRESH "+JSON.stringify(errRefresh));
                 this.loginService.logout();
                 Swal.fire('Logout','Es necesario que inicies sesion nuevamente.', 'error');
                 return throwError(()=>errRefresh);
               })
             )
           }else{
-            console.log("FALLO EL REQUEST ORIGINAL URL="+new_Request.url);
             return throwError(()=>error);
           }
         })

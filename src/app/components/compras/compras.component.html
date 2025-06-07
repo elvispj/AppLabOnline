@@ -36,7 +36,7 @@
                             <input type="text" class="form-control" id="compraimportetotal" name="compraimportetotal" required>
                         </div>
                         <br>
-                        <button class="btn btn-success btn-lg" type="submit">Guardar</button>
+                        <button type="submit" class="btn btn-success btn-lg">Guardar</button>
                         <button type="button" class="btn btn-danger btn-lg" (click)="cancelaAlta()">Cerrar</button>
                     </form>
                 </div>
@@ -82,17 +82,17 @@
                                         <th>Producto</th>
                                         <th>Nº Productos</th>
                                         <th>Precio Unitario</th>
-                                        <th>Totall</th>
+                                        <th>Total</th>
                                         <th>---</th>
                                     </tr>
                                 </thead>
                                 <tbody *ngFor="let producto of listaInventario">
                                     <tr>
-                                        <td>{{producto}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{getNombreProducto(producto)}}</td>
+                                        <td>{{producto.inventariocantidadoriginal}}</td>
+                                        <td>{{producto.inventariocostoporunidad}}</td>
+                                        <td>{{producto.inventariocantidadoriginal*producto.inventariocostoporunidad}}</td>
+                                        <td><button type="button" class="btn btn-danger" (click)="delProducto(producto.tipoproductoid)">X</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -102,11 +102,10 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!showAgregarCompra">
         <div class="col-md-12">
             <h2 class="my-5">Lista Compras</h2>
-            <table datatable [dtOptions]="dtOptions" 
-            [dtTrigger]="dtTrigger" class="row-border hover"></table>
+            <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
             <button class="btn btn-primary" (click)="showFormAlta()">Agregar Compra</button>
         </div>
     </div>
